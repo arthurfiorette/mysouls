@@ -40,7 +40,7 @@ Contributions are what make the open source community such an amazing place to b
 
 ## License
 
-Licensed under the **GNU General Public License v3.0**. See [![License][license-shield]][license-url] for more information.
+Licensed under the **GNU General Public License v3.0**. See `License` for more information.
 
 ## Media
 
