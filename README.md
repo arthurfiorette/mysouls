@@ -52,14 +52,14 @@ Any donation, even insignificant, will be received with great pleasure.
 Donate through [this]([donation-url]) link.
 
 <!-- Shields -->
-[forks-shield]: https://img.shields.io/github/forks/Hazork/AdventurePass
-[forks-url]: hhttps://github.com/Hazork/AdventurePass/network/members
-[stars-shield]: https://img.shields.io/github/stars/Hazork/AdventurePass
-[stars-url]: https://github.com/Hazork/AdventurePass/stargazers
-[issues-shield]: https://img.shields.io/github/issues/Hazork/AdventurePass
-[issues-url]: https://github.com/Hazork/AdventurePass/issues
-[license-shield]: https://img.shields.io/github/license/Hazork/AdventurePass
-[license-url]: https://github.com/Hazork/AdventurePass/blob/main/LICENSE
+[forks-shield]: https://img.shields.io/github/forks/Hazork/MySouls?color=yellow&style=flat-square
+[forks-url]: hhttps://github.com/Hazork/MySouls/network/members
+[stars-shield]: https://img.shields.io/github/stars/Hazork/MySouls?color=yellow&style=flat-square
+[stars-url]: https://github.com/Hazork/MySouls/stargazers
+[issues-shield]: https://img.shields.io/github/issues/Hazork/MySouls?color=yellow&style=flat-square
+[issues-url]: https://github.com/Hazork/MySouls/issues
+[license-shield]: https://img.shields.io/github/license/Hazork/MySouls?color=yellow&style=flat-square
+[license-url]: https://github.com/Hazork/MySouls/blob/main/LICENSE
 
 <!-- Urls -->
 [twitter-url]: https://twitter.com/Hazork_
