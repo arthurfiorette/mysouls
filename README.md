@@ -14,6 +14,8 @@
   </p>
 </p>
 
+<br>
+<br>
 
 There are many great README templates available on GitHub, however, I didn't find one that really suit my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need.
 
@@ -38,7 +40,7 @@ Contributions are what make the open source community such an amazing place to b
 
 ## License
 
-Licensed under the **GNU General Public License v3.0**. See `LICENSE` for more information.
+Licensed under the **GNU General Public License v3.0**. See [![License][license-shield]][license-url] for more information.
 
 ## Media
 
