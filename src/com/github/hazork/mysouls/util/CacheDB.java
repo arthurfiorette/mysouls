@@ -8,13 +8,13 @@ public abstract class CacheDB<K, V> {
 	cache = new CacheMap<K, V>(delay, seconds);
     }
 
-    public int getCacheSize() {
-	return cache.size();
-    }
-
     public V from(K key) {
 	if (!cache.containsKey(key)) load(key);
 	return cache.get(key);
+    }
+	
+    public int getCacheSize() {
+	return cache.size();
     }
 
     public abstract boolean open();
