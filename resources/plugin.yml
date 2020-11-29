@@ -1,0 +1,10 @@
+name: MySouls
+description: The best soul pvp plugin for Spigot 1.8
+main: com.github.hazork.mysouls.MySouls
+author: Hazork
+version: 1.0.0
+commands:
+  mysouls:
+    aliases:
+    description: The principal and only command from this plugin.
+    usage: /<command> [arguments]
