@@ -5,14 +5,14 @@ public abstract class CacheDB<K, V> {
     protected final CacheMap<K, V> cache;
 
     public CacheDB(long delay, long seconds) {
-	cache = new CacheMap<K, V>(delay, seconds);
+	cache = new CacheMap<K, V>(delay, seconds, (k, v) -> save(v));
     }
 
     public V from(K key) {
 	if (!cache.containsKey(key)) load(key);
 	return cache.get(key);
     }
-	
+
     public int getCacheSize() {
 	return cache.size();
     }
