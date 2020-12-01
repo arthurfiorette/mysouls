@@ -33,13 +33,17 @@ public class WalletDB extends CacheDB<UUID, SoulWallet> {
     }
 
     @Override
+    protected UUID keyFunction(SoulWallet value) {
+	return value.getOwnerId();
+    }
+
+    @Override
     public boolean open() {
 	try {
 	    if (Objects.isNull(connection)) {
 		Class.forName("org.sqlite.JDBC");
 		connection = DriverManager.getConnection("jdbc:sqlite:" + file.getAbsolutePath());
 		MySouls.log(Level.INFO, "Conexão com a database aberta.");
-
 		PreparedStatement ps = connection.prepareStatement(table);
 		ps.execute();
 		ps.close();
@@ -57,6 +61,7 @@ public class WalletDB extends CacheDB<UUID, SoulWallet> {
 
     @Override
     protected void save(SoulWallet wallet) {
+	System.out.println(wallet.souls.size());
 	try {
 	    String sql = "INSERT OR REPLACE INTO 'wallets' (uuid, wallet) VALUES (?, ?)";
 	    PreparedStatement ps = connection.prepareStatement(sql);
@@ -79,7 +84,7 @@ public class WalletDB extends CacheDB<UUID, SoulWallet> {
 	    SoulWallet wallet = null;
 	    if (rs.next()) wallet = JSoulWallet.from(rs.getString("wallet")).getWallet();
 	    else wallet = new SoulWallet(uuid);
-	    super.cache.put(uuid, wallet);
+	    putCache(wallet);
 	} catch (SQLException exception) {
 	    treatException(exception);
 	}
@@ -103,5 +108,4 @@ public class WalletDB extends CacheDB<UUID, SoulWallet> {
 	MySouls.log(Level.SEVERE, "Ocorreu um erro com a conectividade da WalletDB. (" + sql.getMessage() + ")");
 	sql.printStackTrace();
     }
-
 }

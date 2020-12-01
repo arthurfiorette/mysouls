@@ -2,7 +2,7 @@ package com.github.hazork.mysouls.util;
 
 public abstract class CacheDB<K, V> {
 
-    protected final CacheMap<K, V> cache;
+    private final CacheMap<K, V> cache;
 
     public CacheDB(long delay, long seconds) {
 	cache = new CacheMap<K, V>(delay, seconds, (k, v) -> save(v));
@@ -13,9 +13,11 @@ public abstract class CacheDB<K, V> {
 	return cache.get(key);
     }
 
-    public int getCacheSize() {
-	return cache.size();
+    protected void putCache(V value) {
+	cache.put(keyFunction(value), value);
     }
+
+    protected abstract K keyFunction(V value);
 
     public abstract boolean open();
 

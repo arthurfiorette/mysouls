@@ -1,5 +1,6 @@
 package com.github.hazork.mysouls.souls;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,7 +16,9 @@ import com.github.hazork.mysouls.util.Spigots;
 import com.github.hazork.mysouls.util.Utils;
 import com.google.common.collect.Lists;
 
-public class SoulWallet {
+public class SoulWallet implements Serializable {
+
+    public static final long serialVersionUID = 7714516162167194312L;
 
     final UUID ownerId;
     List<UUID> souls;
@@ -38,14 +41,17 @@ public class SoulWallet {
 	    UUID soul = Utils.poll(souls);
 	    OfflinePlayer player = Bukkit.getOfflinePlayer(soul);
 	    Spigots.callEvent(new SoulWithdrawEvent(soul, this));
-	    return ItemStacks.set(ItemStacks.getHead(player.getName()), "§5§lAlma do jogador: §f" + player.getName(),
-		    "§7Esta alma estava na carteira", "§7do jogador: §f" + getOwner().getName(),
-		    "§7antes de ser retirada.", "", "§cNão pode ser convertida de volta.");
+	    ItemStack is = ItemStacks.set(ItemStacks.getHead(player.getName()),
+		    "§5§lAlma do jogador: §f" + player.getName(), "§7Esta alma estava na carteira",
+		    "§7do jogador: §f" + getOwner().getName(), "§7antes de ser retirada.", "",
+		    "§cNão pode ser convertida de volta.");
+	    is = ItemStacks.createNBT(is, nbt -> nbt.setLong("svuid", serialVersionUID));
+	    return is;
 	} else return null;
     }
 
     public boolean canLoseSoul() {
-	return souls.size() > 1;
+	return souls.size() >= 1;
     }
 
     public int getValue() {

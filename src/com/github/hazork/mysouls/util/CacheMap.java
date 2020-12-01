@@ -1,7 +1,6 @@
 package com.github.hazork.mysouls.util;
 
 import java.time.LocalTime;
-import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
 
@@ -13,7 +12,7 @@ public class CacheMap<K, V> extends ConcurrentHashMap<K, V> implements Runnable 
     private final long delay;
     private final BiConsumer<K, V> callback;
 
-    private HashMap<K, LocalTime> time_map = new HashMap<>();
+    private ConcurrentHashMap<K, LocalTime> time_map = new ConcurrentHashMap<>();
     private Thread thread = new Thread(this, this.getClass().getSimpleName());
 
     public CacheMap(long delay, long seconds) {

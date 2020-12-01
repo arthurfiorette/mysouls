@@ -11,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.hazork.mysouls.commands.commands.InfoCommand;
+import com.github.hazork.mysouls.commands.commands.SoulsCommand;
 import com.github.hazork.mysouls.commands.commands.WithdrawCommand;
 import com.github.hazork.mysouls.util.Spigots;
 
@@ -24,7 +25,7 @@ public class CommandHandler implements CommandExecutor {
     public CommandHandler(String commandName, String defaultArgument) {
 	this.commandName = commandName;
 	this.defaultArgument = defaultArgument;
-	addCommand(new InfoCommand(), new WithdrawCommand());
+	addCommand(new InfoCommand(), new WithdrawCommand(), new SoulsCommand());
     }
 
     public void registerFor(JavaPlugin plugin) {

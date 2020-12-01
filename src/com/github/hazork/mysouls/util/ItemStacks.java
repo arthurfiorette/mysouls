@@ -4,10 +4,13 @@ import java.util.Arrays;
 import java.util.function.Consumer;
 
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+
+import net.minecraft.server.v1_8_R3.NBTTagCompound;
 
 public class ItemStacks {
 
@@ -17,6 +20,17 @@ public class ItemStacks {
 	sm.setOwner(player);
 	skull.setItemMeta(sm);
 	return skull;
+    }
+
+    public static ItemStack createNBT(ItemStack item, Consumer<NBTTagCompound> nbt) {
+	net.minecraft.server.v1_8_R3.ItemStack i = CraftItemStack.asNMSCopy(item);
+	nbt.accept(i.hasTag() ? i.getTag() : new NBTTagCompound());
+	i.setTag(i.getTag());
+	return CraftItemStack.asBukkitCopy(i);
+    }
+
+    public static NBTTagCompound getNBT(ItemStack item) {
+	return CraftItemStack.asNMSCopy(item).getTag();
     }
 
     public static ItemStack create(Material material, int amount, String name, String... lores) {
