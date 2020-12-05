@@ -22,8 +22,8 @@ public class ItemStacks {
 	return skull;
     }
 
-    public static ItemStack createNBT(ItemStack item, Consumer<NBTTagCompound> nbt) {
-	net.minecraft.server.v1_8_R3.ItemStack i = CraftItemStack.asNMSCopy(item);
+    public static ItemStack createNBT(ItemStack template, Consumer<NBTTagCompound> nbt) {
+	net.minecraft.server.v1_8_R3.ItemStack i = CraftItemStack.asNMSCopy(template);
 	nbt.accept(i.hasTag() ? i.getTag() : new NBTTagCompound());
 	i.setTag(i.getTag());
 	return CraftItemStack.asBukkitCopy(i);

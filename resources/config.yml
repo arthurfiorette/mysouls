@@ -1,8 +1,1 @@
-config:
-  initial-souls: 2
-  self-kill-enalbe: true
-  self-kill-value: 5
-a:
-  - 1
-  - 2
-  - 4
+# TODO

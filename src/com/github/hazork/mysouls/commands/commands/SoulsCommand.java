@@ -12,7 +12,7 @@ public class SoulsCommand implements MSCommand {
     public void handle(CommandSender sender, String[] arguments, String label) {
 	Player player = (Player) sender;
 	int value = MySouls.getWalletDB().from(player).getValue();
-	player.sendMessage("Você tem " + value + " almas.");
+	player.sendMessage(String.format("Você tem %d almas.", value));
     }
 
     @Override
