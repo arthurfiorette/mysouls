@@ -1,71 +1,83 @@
 package com.github.hazork.mysouls;
 
-import java.util.Objects;
 import java.util.logging.Level;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.hazork.mysouls.commands.CommandHandler;
-import com.github.hazork.mysouls.data.Config;
+import com.github.hazork.mysouls.guis.GuiDB;
+import com.github.hazork.mysouls.guis.GuiListener;
 import com.github.hazork.mysouls.souls.SoulListener;
-import com.github.hazork.mysouls.souls.WalletDB;
+import com.github.hazork.mysouls.souls.SoulsDB;
+import com.github.hazork.mysouls.utils.Utils;
 
 public class MySouls extends JavaPlugin {
 
+    /**
+     * A constant of the name used as a key to identify things from the plugin or
+     * not.
+     * 
+     * @see {@link Utils.ItemStacks#createNBT(org.bukkit.inventory.ItemStack, String)}
+     */
+    public static final String NAME = "mysouls";
     private static MySouls instance = null;
 
-    private WalletDB wallet = new WalletDB(this);
-    private Config config = new Config(this);
-    private CommandHandler command = new CommandHandler("mysouls", "info");
-    private SoulListener soulListener = new SoulListener(this);
+    private SoulsDB soulsdb;
+    private GuiDB guidb;
+    private CommandHandler command;
+    private SoulListener soulListener;
+    private GuiListener guiListener;
 
     public MySouls() {
-	if (Objects.nonNull(instance)) throw new UnsupportedOperationException(
-		"A instance of" + this.getClass().getSimpleName() + "was already constructed");
+	if (instance != null) throw new RuntimeException("Plugin instance already running");
 	else instance = this;
+	soulsdb = new SoulsDB(this);
+	guidb = new GuiDB();
+	command = new CommandHandler("mysouls", "info");
+	soulListener = new SoulListener(this);
+	guiListener = new GuiListener(this);
     }
 
     @Override
     public void onEnable() {
 	saveDefaultConfig();
-	config.load();
-	wallet.open();
+	soulsdb.open();
+	guidb.close();
 	command.registerFor(this);
 	soulListener.register();
+	guiListener.register();
     }
 
     @Override
     public void onDisable() {
-	config.close();
-	wallet.close();
-    }
-
-    public static String getVersion() {
-	return get().getDescription().getVersion();
-    }
-
-    public static void log(Level level, String msg) {
-	get().getLogger().log(level, msg);
-    }
-
-    public static void disable() {
-	get().getPluginLoader().disablePlugin(get());
+	soulsdb.close();
+	guidb.close();
     }
 
     public static MySouls get() {
 	return instance;
     }
 
-    public WalletDB getWallets() {
-	return this.wallet;
+    public static SoulsDB getDB() {
+	return get().soulsdb;
     }
 
-    public static WalletDB getWalletDB() {
-	return get().wallet;
+    public static GuiDB getGuiDB() {
+	return get().guidb;
     }
 
-    public static Config getConfiguration() {
-	return get().config;
+    public static String getVersion() {
+	return get().getDescription().getVersion();
+    }
+
+    public static void log(Level level, String message) {
+	get().getLogger().log(level, message);
+    }
+
+    public static <T extends Throwable> void treatException(Class<?> clazz, String message, T throwable) {
+	log(Level.SEVERE, String.format("Oops! Ocorreu um erro na classe %s. Veja o aviso: \n%s", clazz.getSimpleName(),
+		message));
+	throwable.printStackTrace();
     }
 
 }
