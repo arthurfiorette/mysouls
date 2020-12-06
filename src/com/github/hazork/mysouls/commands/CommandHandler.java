@@ -10,45 +10,47 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.github.hazork.mysouls.commands.commands.GetCoinCommand;
+import com.github.hazork.mysouls.commands.commands.GetSoulCommand;
 import com.github.hazork.mysouls.commands.commands.InfoCommand;
+import com.github.hazork.mysouls.commands.commands.MenuCommand;
 import com.github.hazork.mysouls.commands.commands.SoulsCommand;
-import com.github.hazork.mysouls.commands.commands.WithdrawCommand;
-import com.github.hazork.mysouls.util.Spigots;
 
 public class CommandHandler implements CommandExecutor {
 
     private final String defaultArgument;
     private final String commandName;
 
-    private Map<String, MSCommand> commandMap = new HashMap<>();
+    private Map<String, MySoulsCommand> commandMap = new HashMap<>();
 
     public CommandHandler(String commandName, String defaultArgument) {
 	this.commandName = commandName;
 	this.defaultArgument = defaultArgument;
-	addCommand(new InfoCommand(), new WithdrawCommand(), new SoulsCommand());
+	addCommand(new InfoCommand(), new GetSoulCommand(), new GetCoinCommand(), new MenuCommand(),
+		new SoulsCommand());
     }
 
     public void registerFor(JavaPlugin plugin) {
 	plugin.getCommand(commandName).setExecutor(this);
     }
 
-    private void addCommand(MSCommand... mscs) {
+    private void addCommand(MySoulsCommand... mscs) {
 	Arrays.stream(mscs).forEach(msc -> commandMap.put(msc.getName(), msc));
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 	String arg0 = args.length == 0 ? defaultArgument : args[0];
-	MSCommand msc = commandMap.get(arg0);
-	if (Objects.nonNull(msc)) {
-	    if (!msc.isOnlyPlayer() || msc.isOnlyPlayer() && Spigots.isPlayer(sender)) {
-		if (!msc.getPermission().isPresent() || sender.hasPermission(msc.getPermission().get())) {
-		    msc.handle(sender, args, label);
-		    return true;
-		}
+	MySoulsCommand msc = commandMap.get(arg0);
+	if (Objects.nonNull(msc) && msc.predicate(sender)) {
+	    if (!msc.getPermission().isPresent() || sender.hasPermission(msc.getPermission().get())) {
+		String[] arguments = args.length == 0 ? new String[0] : Arrays.copyOfRange(args, 1, args.length);
+		msc.handle(sender, arguments, label);
+		return true;
 	    }
 	}
 	sender.sendMessage("§cArgumento inválido, tente novamente.");
 	return true;
     }
+
 }

@@ -5,18 +5,18 @@ import org.bukkit.entity.Player;
 
 import com.github.hazork.mysouls.MySouls;
 import com.github.hazork.mysouls.commands.MySoulsCommand;
+import com.github.hazork.mysouls.guis.implementations.GeneralGui;
 
-public class SoulsCommand implements MySoulsCommand {
+public class MenuCommand implements MySoulsCommand {
 
     @Override
     public void handle(CommandSender sender, String[] args, String label) {
-	int amount = MySouls.getDB().from((Player) sender).getSoulsCount();
-	sender.sendMessage("§aVocê tem §f" + amount + "§a almas.");
+	MySouls.getGuiDB().from((Player) sender).open(GeneralGui.NAME);
     }
 
     @Override
     public String getName() {
-	return "souls";
+	return "menu";
     }
 
     @Override
