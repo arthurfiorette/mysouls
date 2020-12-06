@@ -25,9 +25,10 @@ Contributions are what make the open source community such an amazing place to b
 4. Push to the Branch.
 5. Open a Pull Request.
 
-(
 
-*(Because of my poor English, the names of my commits are in PT-BR, sorry.* 😢 *)*
+*(You can see and add things to TODO.md)*
+<br>
+*(Because of my poor English, the names of my commits are in PT-BR, sorry.😢)*
 
 ## License
 Licensed under the **GNU General Public License v3.0**. See `License` for more information.
