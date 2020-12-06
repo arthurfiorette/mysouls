@@ -1,32 +1,19 @@
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![License][license-shield]][license-url]
-<br>
-<br>
-<p align="center">
-    <img src="https://i.ibb.co/7bDQLTN/PpNnGg.png" alt="Logo">
-  </a>
-  <p align="center">
-    The best soul pvp plugin for Spigot 1.8.x
-    <br />
-    <a href="https://youtube.com"><strong>Download »</strong></a>
-  </p>
-</p>
+[![Forks][forks-shield]][forks-url] [![Stargazers][stars-shield]][stars-url] [![Issues][issues-shield]][issues-url] [![License][license-shield]][license-url]
 
-<br>
-<br>
+# My Souls
 
-There are many great README templates available on GitHub, however, I didn't find one that really suit my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need.
+There are several other soul plugins for spigot, however, I couldn't find any that would please my taste, so I ended up creating this open source project so surprising that it will be the last one you will be looking for on the internet.
 
 Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should element DRY principles to the rest of your life :smile:
 
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue.
+* Limited number of souls per player, making the **death** of a player something to think about and not spend it for nothing.
+* Use of APIs, such as **PlaceholderAPI**, **bStats** and **SinkAPI** *(coming soon)*.
+* Fully configurable via YAML, to make it **unique** for each server.
+* **Language files**, so that all countries understand what the plugin says
+* **Open source** project, which means that the code always has updates.
+* Own **Event API** for implementations in other plugins.
 
-A list of commonly used resources that I find helpful are listed in the acknowledgements.
+Of course, there aren't perfect plugins, since each need tends to be different. So I will be adding more and more features to this project. You may also suggest improvements by forking this project and creating a pull request or opening an issue
 
 ## Contributing
 
@@ -38,22 +25,21 @@ Contributions are what make the open source community such an amazing place to b
 4. Push to the Branch.
 5. Open a Pull Request.
 
-## License
+(
 
+*(Because of my poor English, the names of my commits are in PT-BR, sorry.* 😢 *)*
+
+## License
 Licensed under the **GNU General Public License v3.0**. See `License` for more information.
 
-## Media
-
+## Contact
 - Twitter: [@Hazork]([twitter-url])
-- Project Link: [GitHub]([github-url])
-- Spigot: [MySouls]([spigot-url])
+- Discord: **Hazork#1227**
+- Steam: [/id/HazorkBR]([steam-url])
 
-## Donations
-
-Any donation, even insignificant, will be received with great pleasure.
-Donate through [this]([donation-url]) link.
-
+<!-- Links -->
 <!-- Shields -->
+
 [forks-shield]: https://img.shields.io/github/forks/Hazork/MySouls?style=flat-square
 [forks-url]: hhttps://github.com/Hazork/MySouls/network/members
 [stars-shield]: https://img.shields.io/github/stars/Hazork/MySouls?style=flat-square
@@ -64,7 +50,6 @@ Donate through [this]([donation-url]) link.
 [license-url]: https://github.com/Hazork/MySouls/blob/main/LICENSE
 
 <!-- Urls -->
+
 [twitter-url]: https://twitter.com/Hazork_
-[donation-url]: https://twitter.com/Hazork_
-[spigot-url]: https://www.spigotmc.org/resources/adventurepass
-[github-url]: https://github.com/Hazork/AdventurePass
+[steam-url]: https://steamcommunity.com/profiles/76561198850668121
