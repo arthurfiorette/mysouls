@@ -1,60 +1,87 @@
 package com.github.hazork.mysouls.souls;
 
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.github.hazork.mysouls.MySouls;
-import com.github.hazork.mysouls.events.SoulChangeEvent;
-import com.github.hazork.mysouls.util.ItemStacks;
-import com.github.hazork.mysouls.util.Spigots;
-
-import net.minecraft.server.v1_8_R3.NBTTagCompound;
+import com.github.hazork.mysouls.utils.Utils.ItemStacks;
 
 public class SoulListener implements Listener {
 
     private final MySouls plugin;
-    private final WalletDB walletDB;
+    private SoulsDB soulsDb = MySouls.getDB();
 
     public SoulListener(MySouls plugin) {
 	this.plugin = plugin;
-	walletDB = this.plugin.getWallets();
-    }
-
-    @EventHandler
-    public void onPlayerDeath(PlayerDeathEvent event) {
-	if (!Spigots.isSelfKill(event) && event.getEntity().getKiller() != null) {
-	    Player dead = event.getEntity();
-	    SoulWallet dWallet = walletDB.from(dead);
-	    SoulWallet kWallet = walletDB.from(dead.getKiller());
-	    dWallet.reportDeath(kWallet);
-	}
-    }
-
-    @EventHandler
-    public void onItem(BlockPlaceEvent event) {
-	if (event.getItemInHand().getType().equals(Material.SKULL_ITEM)) {
-	    ItemStack skull = event.getItemInHand();
-	    NBTTagCompound nbt = ItemStacks.getNBT(skull);
-	    if (nbt.getLong("svuid") == SoulWallet.serialVersionUID) {
-		event.setCancelled(true);
-		event.getPlayer().sendMessage("§cVocê não pode colocar almas no chão");
-	    }
-	}
-    }
-
-    @EventHandler
-    public void onSoulChange(SoulChangeEvent event) {
-	System.out.println("SOUL CHANGE: " + event);
     }
 
     public void register() {
 	Bukkit.getPluginManager().registerEvents(this, plugin);
     }
 
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPlayerDeath(PlayerDeathEvent event) {
+	Player killer = event.getEntity().getKiller();
+	SoulWallet wallet = soulsDb.from(event.getEntity());
+	wallet.reportDeath(killer);
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onInteract(PlayerInteractEvent event) {
+	if (event.hasItem()) {
+	    ItemStack item = event.getItem();
+	    ItemStacks.getNBTPattern(item).ifPresent(value -> {
+		switch (value) {
+		    case SoulWallet.COIN_VALUE:
+			switch (event.getAction()) {
+			    case LEFT_CLICK_AIR:
+			    case LEFT_CLICK_BLOCK:
+				event.getPlayer().sendMessage("§cVocê não pode colocar um coin no chão.");
+				event.setCancelled(true);
+				break;
+
+			    default:
+				break;
+			}
+			break;
+
+		    case SoulWallet.SOUL_VALUE:
+			Player player = event.getPlayer();
+			int amount = item.getAmount();
+			SoulWallet sw = soulsDb.from(event.getPlayer());
+			UUID soul = UUID.fromString(ItemStacks.getNBT(item).getString(MySouls.NAME + ".uuid"));
+			if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_AIR) {
+			    if (player.isSneaking()) {
+				if (sw.canAddSouls(soul, amount)) {
+				    for (int i = 0; i < amount; i++) sw.addSoul(soul);
+				    player.sendMessage("§aAlmas adicionadas.");
+				    player.setItemInHand(null);
+				} else {
+				    player.sendMessage("§cO limite de almas para cada player é de 64.");
+				}
+			    } else {
+				if (sw.canAddSoul(soul)) {
+				    sw.addSoul(soul);
+				    player.sendMessage("§aAlma adicionada.");
+				    if (item.getAmount() > 1) item.setAmount(item.getAmount() - 1);
+				    else player.setItemInHand(null);
+				} else {
+				    player.sendMessage("§cO limite de almas para cada player é de 64.");
+				}
+			    }
+			}
+			break;
+		}
+	    });
+	}
+    }
 }
