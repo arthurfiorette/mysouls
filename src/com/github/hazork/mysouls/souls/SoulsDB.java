@@ -14,17 +14,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.hazork.mysouls.MySouls;
-import com.github.hazork.mysouls.util.CacheDB;
+import com.github.hazork.mysouls.utils.db.CacheDB;
 
-public class WalletDB extends CacheDB<UUID, SoulWallet> {
+public final class SoulsDB extends CacheDB<UUID, SoulWallet> {
 
     private final File file;
     private final String table = "CREATE TABLE IF NOT EXISTS 'wallets' ('uuid' TEXT UNIQUE NOT NULL, 'wallet' BLOB)";
 
     private Connection connection;
 
-    public WalletDB(JavaPlugin plugin) {
-	super(20, 15);
+    public SoulsDB(JavaPlugin plugin) {
+	super(100, 15);
 	file = new File(plugin.getDataFolder().getPath(), "database.db");
     }
 
@@ -33,8 +33,8 @@ public class WalletDB extends CacheDB<UUID, SoulWallet> {
     }
 
     @Override
-    protected UUID keyFunction(SoulWallet value) {
-	return value.getOwnerId();
+    protected UUID keyFunction(SoulWallet sw) {
+	return sw.getOwnerId();
     }
 
     @Override
@@ -50,27 +50,23 @@ public class WalletDB extends CacheDB<UUID, SoulWallet> {
 		MySouls.log(Level.INFO, "Conexão com a tabela concluída.");
 		return true;
 	    }
-	} catch (SQLException exception) {
-	    treatException(exception);
-	} catch (ClassNotFoundException exception) {
-	    MySouls.log(Level.SEVERE, "SQLite driver não foi encontrado.");
-	    exception.printStackTrace();
+	} catch (Exception exc) {
+	    treatException(exc);
 	}
 	return false;
     }
 
     @Override
-    protected void save(SoulWallet wallet) {
-	System.out.println(wallet.souls.size());
+    protected void save(SoulWallet sw) {
 	try {
 	    String sql = "INSERT OR REPLACE INTO 'wallets' (uuid, wallet) VALUES (?, ?)";
 	    PreparedStatement ps = connection.prepareStatement(sql);
-	    ps.setString(1, wallet.ownerId.toString());
-	    ps.setString(2, JSoulWallet.from(wallet).getJson());
+	    ps.setString(1, sw.ownerId.toString());
+	    ps.setString(2, JSoulWallet.from(sw).getJson());
 	    ps.executeUpdate();
 	    ps.close();
-	} catch (SQLException exception) {
-	    treatException(exception);
+	} catch (SQLException exc) {
+	    treatException(exc);
 	}
     }
 
@@ -84,7 +80,7 @@ public class WalletDB extends CacheDB<UUID, SoulWallet> {
 	    SoulWallet wallet = null;
 	    if (rs.next()) wallet = JSoulWallet.from(rs.getString("wallet")).getWallet();
 	    else wallet = new SoulWallet(uuid);
-	    putCache(wallet);
+	    putValue(wallet);
 	} catch (SQLException exception) {
 	    treatException(exception);
 	}
@@ -97,6 +93,7 @@ public class WalletDB extends CacheDB<UUID, SoulWallet> {
 		connection.close();
 		connection = null;
 		MySouls.log(Level.INFO, "Conexão com a database fachada.");
+		return true;
 	    }
 	} catch (SQLException exception) {
 	    treatException(exception);
@@ -104,8 +101,8 @@ public class WalletDB extends CacheDB<UUID, SoulWallet> {
 	return false;
     }
 
-    private void treatException(SQLException sql) {
-	MySouls.log(Level.SEVERE, "Ocorreu um erro com a conectividade da WalletDB. (" + sql.getMessage() + ")");
-	sql.printStackTrace();
+    private void treatException(Exception exc) {
+	MySouls.treatException(getClass(), "Ocorreu um erro com a conectividade da WalletDB", exc);
     }
+
 }
