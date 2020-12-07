@@ -5,6 +5,7 @@ import java.util.logging.Level;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.hazork.mysouls.commands.CommandHandler;
+import com.github.hazork.mysouls.data.lang.Lang;
 import com.github.hazork.mysouls.guis.GuiDB;
 import com.github.hazork.mysouls.guis.GuiListener;
 import com.github.hazork.mysouls.souls.SoulListener;
@@ -33,7 +34,7 @@ public class MySouls extends JavaPlugin {
 	else instance = this;
 	soulsdb = new SoulsDB(this);
 	guidb = new GuiDB();
-	command = new CommandHandler("mysouls", "info");
+	command = new CommandHandler("mysouls", Lang.MENU_COMMAND.getText());
 	soulListener = new SoulListener(this);
 	guiListener = new GuiListener(this);
     }
@@ -50,8 +51,8 @@ public class MySouls extends JavaPlugin {
 
     @Override
     public void onDisable() {
-	soulsdb.close();
 	guidb.close();
+	soulsdb.close();
     }
 
     public static MySouls get() {

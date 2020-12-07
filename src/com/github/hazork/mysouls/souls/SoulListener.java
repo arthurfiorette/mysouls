@@ -13,6 +13,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.github.hazork.mysouls.MySouls;
+import com.github.hazork.mysouls.data.lang.Lang;
 import com.github.hazork.mysouls.utils.Utils.ItemStacks;
 
 public class SoulListener implements Listener {
@@ -45,7 +46,7 @@ public class SoulListener implements Listener {
 			switch (event.getAction()) {
 			    case LEFT_CLICK_AIR:
 			    case LEFT_CLICK_BLOCK:
-				event.getPlayer().sendMessage("§cVocê não pode colocar um coin no chão.");
+				event.getPlayer().sendMessage(Lang.CANNOT_USE.getText());
 				event.setCancelled(true);
 				break;
 
@@ -63,19 +64,19 @@ public class SoulListener implements Listener {
 			    if (player.isSneaking()) {
 				if (sw.canAddSouls(soul, amount)) {
 				    for (int i = 0; i < amount; i++) sw.addSoul(soul);
-				    player.sendMessage("§aAlmas adicionadas.");
+				    player.sendMessage(Lang.SOULS_ADDED.getText());
 				    player.setItemInHand(null);
 				} else {
-				    player.sendMessage("§cO limite de almas para cada player é de 64.");
+				    player.sendMessage(Lang.SOUL_64_LIMIT.getText());
 				}
 			    } else {
 				if (sw.canAddSoul(soul)) {
 				    sw.addSoul(soul);
-				    player.sendMessage("§aAlma adicionada.");
+				    player.sendMessage(Lang.SOUL_ADDED.getText());
 				    if (item.getAmount() > 1) item.setAmount(item.getAmount() - 1);
 				    else player.setItemInHand(null);
 				} else {
-				    player.sendMessage("§cO limite de almas para cada player é de 64.");
+				    player.sendMessage(Lang.SOUL_64_LIMIT.getText());
 				}
 			    }
 			}

@@ -1,7 +1,9 @@
 package com.github.hazork.mysouls.guis.implementations;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.function.UnaryOperator;
 
@@ -13,6 +15,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import com.github.hazork.mysouls.commands.commands.InfoCommand;
+import com.github.hazork.mysouls.data.lang.Lang;
 import com.github.hazork.mysouls.guis.Gui;
 import com.github.hazork.mysouls.guis.GuiListener;
 import com.github.hazork.mysouls.utils.ItemBuilder;
@@ -28,11 +31,11 @@ public class GeneralGui extends Gui {
 	    : (i > 25 && i < 30) ? 30 : (i > 34 && i < 39) ? 39 : i;
 
     private static final ItemStack EMPTY_ITEM = new ItemStack(Material.THIN_GLASS);
-    private static final ItemStack INFO = ItemStacks.set(true, ItemStacks.getHead("MHF_Question"), "§5Créditos",
-	    InfoCommand.INFO);
+    private static final ItemStack INFO = ItemStacks.set(true, ItemStacks.getHead("MHF_Question"),
+	    Lang.CREDITS.getText(), InfoCommand.INFO);
     private static final ItemStack TROPHY = ItemStacks.set(true, ItemStacks.getHeadFromUrl(
 	    "http://textures.minecraft.net/texture/e34a592a79397a8df3997c43091694fc2fb76c883a76cce89f0227e5c9f1dfe"),
-	    "§6Ranking", "§cEm desenvolvimento.");
+	    Lang.RANKING_NAME.getText(), Lang.RANKING_LORE.getTextList());
 
     List<List<UUID>> soulsList = new ArrayList<>();
 
@@ -52,7 +55,7 @@ public class GeneralGui extends Gui {
     protected Inventory createInventory(int lines, String title) {
 	Inventory inv = super.createInventory(lines, title);
 	inv.setItem(45, INFO);
-	inv.setItem(19, TROPHY); // TODO Trophy page.
+	inv.setItem(19, TROPHY);
 	return inv;
     }
 
@@ -72,42 +75,38 @@ public class GeneralGui extends Gui {
 	    }
 	}
 
-	List<String> lores = new ArrayList<>();
-	lores.add("§eEste menu representa sua carteira de almas.");
-	lores.add("");
-	lores.add("§eAlmas: §f" + getWallet().getSoulsCount());
-	lores.add("§eJogadores: §f" + getWallet().getDifferentSoulsCount());
+	Map<String, String> placeholders = new HashMap<>();
+	placeholders.put("{souls}", getWallet().getSoulsCount() + "");
+	placeholders.put("{players}", getWallet().getDifferentSoulsCount() + "");
 	String media = String.format("%.2f",
 		((double) getWallet().getSoulsCount() / getWallet().getDifferentSoulsCount()));
-
-	lores.add("§eMédia: §f" + (media.equalsIgnoreCase("NaN") ? "§7?" : media));
+	placeholders.put("{average}", (media.equalsIgnoreCase("NaN") ? "§7?" : media));
 	OfflinePlayer p = getWallet().getMostKilledPlayer();
-	lores.add("§eMais almas de: §f" + (p == null ? "§7?" : p.getName()));
+	placeholders.put("{more-souls}", (p == null ? "§7?" : p.getName()));
 
-	ItemBuilder.ofHead(getOfflinePlayer(), true).setName("§6Sua carteira.").setLore(lores).setOnInventory(inventory,
-		10);
+	ItemBuilder.ofHead(getOfflinePlayer(), true).setName(Lang.YOUR_WALLET_NAME.getText())
+		.setLore(Lang.YOUR_WALLET_LORE.getListFormat(placeholders)).setOnInventory(inventory, 10);
 
 	if (hasPreviousPage()) {
-	    if (inventory.getItem(26) == null)
-		new ItemBuilder(Material.STONE_BUTTON, true).setName("§cVoltar").setOnInventory(inventory, 26);
+	    if (inventory.getItem(26) == null) new ItemBuilder(Material.STONE_BUTTON, true)
+		    .setName(Lang.BACKWARD.getText()).setOnInventory(inventory, 26);
 	} else if (inventory.getItem(26) != null) inventory.clear(26);
 
 	if (hasNextPage()) {
-	    if (inventory.getItem(35) == null)
-		new ItemBuilder(Material.STONE_BUTTON, true).setName("§aAvançar").setOnInventory(inventory, 35);
+	    if (inventory.getItem(35) == null) new ItemBuilder(Material.STONE_BUTTON, true)
+		    .setName(Lang.FORWARD.getText()).setOnInventory(inventory, 35);
 	} else if (inventory.getItem(35) != null) inventory.clear(35);
 
-	new ItemBuilder(Material.SKULL_ITEM, true).setDurability((byte) 1).setName("§7Retirar almas")
-		.addLores("§fClique aqui para transfomar uma alma ", "§fda sua carteira em cabeça.")
-		.setOnInventory(inventory, 49);
+	new ItemBuilder(Material.SKULL_ITEM, true).setDurability(1).setName(Lang.WITHDRAW_SOULS_NAME.getText())
+		.setLore(Lang.WITHDRAW_COINS_LORE.getTextList()).setOnInventory(inventory, 49);
 
 	ItemBuilder.ofHeadUrl(
 		"http://textures.minecraft.net/texture/77b9dfd281deaef2628ad5840d45bcda436d6626847587f3ac76498a51c861",
-		true).setName("§7Retirar coins")
-		.setLores("§fClique aqui para transfomar uma alma ", "§fda sua carteira em coin.")
+		true).setName(Lang.WITHDRAW_COINS_NAME.getText()).setLore(Lang.WITHDRAW_COINS_LORE.getTextList())
 		.setOnInventory(inventory, 51);
 
-	new ItemBuilder(Material.PAPER, true).setName("§7Página").setAmount(page + 1).setOnInventory(inventory, 53);
+	new ItemBuilder(Material.PAPER, true).setName(Lang.PAGE.getText()).setAmount(page + 1).setOnInventory(inventory,
+		53);
     }
 
     private void setInventory(List<UUID> list) {
@@ -121,8 +120,11 @@ public class GeneralGui extends Gui {
 
     private ItemStack soulToItem(UUID soul, int amount) {
 	OfflinePlayer player = Bukkit.getOfflinePlayer(soul);
-	return ItemBuilder.ofHead(player, true).setAmount(amount).setName("§5" + player.getName())
-		.addLores("§dAlma de jogador.").build();
+	Map<String, String> placeholders = new HashMap<>();
+	placeholders.put("{player}", player.getName());
+	return ItemBuilder.ofHead(player, true).setAmount(amount)
+		.setName(Lang.INVENTORY_SOUL_NAME.getFormat(placeholders))
+		.addLore(Lang.INVENTORY_SOUL_LORE.getTextList()).build();
     }
 
     @Override
@@ -141,8 +143,7 @@ public class GeneralGui extends Gui {
 
 	    case 49: // souls
 		getPlayer().closeInventory();
-		getPlayer().sendMessage(
-			"§6Escreva no chat o nome da alma que quer retirar ou escreva * para uma qualquer:");
+		getPlayer().sendMessage(Lang.SOUL_CHAT_MESSAGE.getText());
 		GuiListener.setChatAction(getOwnerId(), msg -> {
 		    String[] args = msg.split(" ");
 		    if (Spigots.hasEmptySlot(getPlayer())) {
@@ -150,7 +151,7 @@ public class GeneralGui extends Gui {
 			    if (args[0].equalsIgnoreCase("*")) {
 				ItemStack is = getWallet().withdrawSoul();
 				getPlayer().getInventory().addItem(is);
-				getPlayer().sendMessage("§aAlma retirada.");
+				getPlayer().sendMessage(Lang.SOUL_REMOVED.getText());
 			    } else {
 				@SuppressWarnings("deprecation")
 				OfflinePlayer player = Bukkit.getOfflinePlayer(args[0]);
@@ -158,24 +159,23 @@ public class GeneralGui extends Gui {
 				if (player != null && getWallet().canRemoveSoul(uuid)) {
 				    ItemStack is = getWallet().withdrawSoul(uuid);
 				    getPlayer().getInventory().addItem(is);
-				    getPlayer().sendMessage("§aAlma retirada.");
+				    getPlayer().sendMessage(Lang.SOUL_REMOVED.getText());
 				} else {
-				    getPlayer().sendMessage("§cVocê não tem este jogador em sua carteira.");
+				    getPlayer().sendMessage(Lang.DONT_HAVE_SOUL.getText());
 				}
 			    }
 			} else {
-			    getPlayer().sendMessage("§cSem almas suficientes.");
+			    getPlayer().sendMessage(Lang.DONT_HAVE_SOULS.getText());
 			}
 		    } else {
-			getPlayer().sendMessage("§cSem espaço no inventário.");
+			getPlayer().sendMessage(Lang.INVENTORY_FULL.getText());
 		    }
-		    getPlayer().sendMessage("§eOperação finalizada");
 		});
 		break;
 
 	    case 51: // coins
 		getPlayer().closeInventory();
-		getPlayer().sendMessage("\n§6Escreva no chat a quantia de almas para virar coins:\n");
+		getPlayer().sendMessage(Lang.COIN_CHAT_MESSAGE.getText());
 		GuiListener.setChatAction(getOwnerId(), msg -> {
 		    String[] args = msg.split(" ");
 		    try {
@@ -184,17 +184,18 @@ public class GeneralGui extends Gui {
 			    if (getWallet().canRemoveSouls(amount)) {
 				ItemStack is = getWallet().withdrawCoins(amount);
 				getPlayer().getInventory().addItem(is);
-				getPlayer().sendMessage("§aCoins retirados.");
+				getPlayer().sendMessage(Lang.COINS_REMOVED.getText());
 			    } else {
-				getPlayer().sendMessage("§cSem almas suficientes.");
+				getPlayer().sendMessage(Lang.DONT_HAVE_SOULS.getText());
 			    }
 			} else {
-			    getPlayer().sendMessage("§cSem espaço no inventário.");
+			    getPlayer().sendMessage(Lang.INVENTORY_FULL.getText());
 			}
 		    } catch (NumberFormatException e) {
-			getPlayer().sendMessage("§c" + args[0] + " não é um numero.");
+			Map<String, String> placeholders = new HashMap<>();
+			placeholders.put("{text}", args[0]);
+			getPlayer().sendMessage(Lang.NOT_A_NUMBER.getFormat(placeholders));
 		    }
-		    getPlayer().sendMessage("§eOperação finalizada");
 		});
 		break;
 	}

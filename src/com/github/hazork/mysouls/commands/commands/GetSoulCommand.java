@@ -7,9 +7,9 @@ import org.bukkit.inventory.ItemStack;
 
 import com.github.hazork.mysouls.MySouls;
 import com.github.hazork.mysouls.commands.MySoulsCommand;
+import com.github.hazork.mysouls.data.lang.Lang;
 import com.github.hazork.mysouls.souls.SoulWallet;
 import com.github.hazork.mysouls.souls.SoulsDB;
-import com.github.hazork.mysouls.utils.Utils;
 import com.github.hazork.mysouls.utils.Utils.Spigots;
 
 public class GetSoulCommand implements MySoulsCommand {
@@ -21,12 +21,16 @@ public class GetSoulCommand implements MySoulsCommand {
 	Player player = (Player) sender;
 	SoulWallet wallet = DB.from(player);
 	if (args.length < 1) {
-	    if (wallet.canRemoveSoul() && Spigots.hasEmptySlot(player)) {
-		ItemStack is = wallet.withdrawSoul();
-		player.getInventory().addItem(is);
-		Utils.sendMessageFormat(player, "§aVocê transformou uma alma em item.");
+	    if (wallet.canRemoveSoul()) {
+		if (Spigots.hasEmptySlot(player)) {
+		    ItemStack is = wallet.withdrawSoul();
+		    player.getInventory().addItem(is);
+		    player.sendMessage(Lang.SOUL_REMOVED.getText());
+		} else {
+		    player.sendMessage(Lang.INVENTORY_FULL.getText());
+		}
 	    } else {
-		Utils.sendMessageFormat(player, "§cSem almas restantes ou inventário cheio.");
+		player.sendMessage(Lang.DONT_HAVE_SOULS.getText());
 	    }
 	} else {
 	    Player soul = Bukkit.getPlayerExact(args[0]);
@@ -34,19 +38,19 @@ public class GetSoulCommand implements MySoulsCommand {
 		if (wallet.canRemoveSoul(soul.getUniqueId())) {
 		    ItemStack is = wallet.withdrawSoul(soul.getUniqueId());
 		    player.getInventory().addItem(is);
-		    Utils.sendMessageFormat(player, "§aVocê transformou a alma do jogador %s em item.", soul.getName());
+		    player.sendMessage(Lang.SOUL_REMOVED.getText());
 		} else {
-		    Utils.sendMessageFormat(player, "§cVocê não tem uma alma deste jogador.");
+		    player.sendMessage(Lang.DONT_HAVE_SOUL.getText());
 		}
 	    } else {
-		Utils.sendMessageFormat(player, "§cJogador não encontrado.");
+		player.sendMessage(Lang.PLAYER_NOT_FOUND.getText());
 	    }
 	}
     }
 
     @Override
     public String getName() {
-	return "getsoul";
+	return Lang.GETSOUL_COMMAND.getText();
     }
 
     @Override

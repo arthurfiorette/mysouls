@@ -6,9 +6,9 @@ import org.bukkit.inventory.ItemStack;
 
 import com.github.hazork.mysouls.MySouls;
 import com.github.hazork.mysouls.commands.MySoulsCommand;
+import com.github.hazork.mysouls.data.lang.Lang;
 import com.github.hazork.mysouls.souls.SoulWallet;
 import com.github.hazork.mysouls.souls.SoulsDB;
-import com.github.hazork.mysouls.utils.Utils;
 
 public class GetCoinCommand implements MySoulsCommand {
 
@@ -18,29 +18,18 @@ public class GetCoinCommand implements MySoulsCommand {
     public void handle(CommandSender sender, String[] args, String label) {
 	Player player = (Player) sender;
 	SoulWallet wallet = DB.from(player);
-	if (args.length < 1) {
+	try {
+	    int i = Integer.parseInt(args[0]);
 	    if (wallet.canRemoveSoul()) {
-		ItemStack is = wallet.withdrawCoin();
+		ItemStack is = wallet.withdrawCoins(i);
 		player.getInventory().addItem(is);
-		Utils.sendMessageFormat(player, "§aVocê retirou uma alma em coins.");
+		player.sendMessage(Lang.COINS_REMOVED.getText());
 	    } else {
-		Utils.sendMessageFormat(player, "§cVocê não tem almas suficientes.");
+		player.sendMessage(Lang.DONT_HAVE_SOULS.getText());
 	    }
-	} else {
-	    try {
-		int i = Integer.parseInt(args[0]);
-		if (wallet.canRemoveSoul()) {
-		    ItemStack is = wallet.withdrawCoins(i);
-		    player.getInventory().addItem(is);
-		    Utils.sendMessageFormat(player, "§aVocê retirou %s almas em coins.", i);
-		} else {
-		    Utils.sendMessageFormat(player, "§cVocê não tem almas suficientes.");
-		}
-	    } catch (NumberFormatException e) {
-		Utils.sendMessageFormat(player, "§c%s não é um numero.", args[1]);
-	    }
+	} catch (NumberFormatException e) {
+	    player.sendMessage(Lang.NOT_A_NUMBER.getText());
 	}
-
     }
 
     @Override

@@ -15,6 +15,7 @@ import com.github.hazork.mysouls.commands.commands.GetSoulCommand;
 import com.github.hazork.mysouls.commands.commands.InfoCommand;
 import com.github.hazork.mysouls.commands.commands.MenuCommand;
 import com.github.hazork.mysouls.commands.commands.SoulsCommand;
+import com.github.hazork.mysouls.data.lang.Lang;
 
 public class CommandHandler implements CommandExecutor {
 
@@ -35,7 +36,11 @@ public class CommandHandler implements CommandExecutor {
     }
 
     private void addCommand(MySoulsCommand... mscs) {
-	Arrays.stream(mscs).forEach(msc -> commandMap.put(msc.getName(), msc));
+	Arrays.stream(mscs).forEach(msc -> {
+	    if (commandMap.containsKey(msc.getName()))
+		throw new RuntimeException("Command with this name is already created: " + msc.getName());
+	    else commandMap.put(msc.getName(), msc);
+	});
     }
 
     @Override
@@ -49,7 +54,7 @@ public class CommandHandler implements CommandExecutor {
 		return true;
 	    }
 	}
-	sender.sendMessage("§cArgumento inválido, tente novamente.");
+	sender.sendMessage(Lang.UNKNOWN_ARGUMENT.getText());
 	return true;
     }
 

@@ -9,6 +9,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
+import com.github.hazork.mysouls.data.lang.Lang;
 import com.github.hazork.mysouls.utils.db.HashMapDB;
 
 public final class GuiDB extends HashMapDB<UUID, GuiContainer> {
@@ -46,7 +47,7 @@ public final class GuiDB extends HashMapDB<UUID, GuiContainer> {
 		    GuiContainer gc = entry.getValue();
 		    if (gc.getInventories().contains(top)) {
 			player.closeInventory();
-			player.sendMessage("§cInventário fechado pois o banco de dados de menus foi encerrado.");
+			player.sendMessage(Lang.INVENTORY_DATABASE_CLOSED.getText());
 		    }
 		}
 	    }

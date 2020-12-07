@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import com.github.hazork.mysouls.MySouls;
+import com.github.hazork.mysouls.data.lang.Lang;
 import com.github.hazork.mysouls.utils.Utils.ItemStacks;
 
 public class SoulWallet {
@@ -111,12 +112,15 @@ public class SoulWallet {
     }
 
     private ItemStack soulToItem(UUID soul) {
+	HashMap<String, String> placeholders = new HashMap<String, String>();
+	placeholders.put("{wallet}", getName());
+	placeholders.put("{player}", Bukkit.getOfflinePlayer(soul).getName());
+
 	OfflinePlayer owner = Bukkit.getOfflinePlayer(soul);
+
 	ItemStack skull = ItemStacks.getHead(owner.getName());
-	ItemStacks.setName(skull, "§5Alma do jogador: §f" + owner.getName());
-	ItemStacks.setLore(skull, "§5Este item é uma representação de alma para trocas entre players.", "",
-		"§cCuidado! Ao colocar no chão a alma é perdida.", "",
-		"§5Retirado da carteira de: §f" + getPlayer().getName(), "", "§aClique com o direito para coletar.");
+	ItemStacks.setName(skull, Lang.SOUL_NAME.getFormat(placeholders));
+	ItemStacks.setLore(skull, Lang.SOUL_LORE.getListFormat(placeholders));
 	ItemStacks.removeFlags(skull);
 	skull = ItemStacks.createNBT(skull, nbt -> nbt.setString(MySouls.NAME + ".uuid", soul.toString()));
 	return ItemStacks.createNBT(skull, SOUL_VALUE);
@@ -136,9 +140,8 @@ public class SoulWallet {
 	if (canRemoveSouls(amount)) {
 	    removeSouls(null, amount);
 	    ItemStack coin = COIN.clone();
-	    ItemStacks.setName(coin, "§bCrânio diamantado");
-	    ItemStacks.setLore(coin, "§bEste crânio era uma alma e agora pode ser usado como item de troca.", "",
-		    "§cNão pode ser convertido de volta para uma alma.");
+	    ItemStacks.setName(coin, Lang.COIN_NAME.getText());
+	    ItemStacks.setLore(coin, Lang.COIN_LORE.getTextList());
 	    ItemStacks.removeFlags(coin);
 	    coin.setAmount(amount);
 	    return ItemStacks.createNBT(coin, COIN_VALUE);
@@ -182,6 +185,10 @@ public class SoulWallet {
 
     public OfflinePlayer getPlayer() {
 	return Bukkit.getOfflinePlayer(getOwnerId());
+    }
+
+    public String getName() {
+	return getPlayer().getName();
     }
 
     public UUID getOwnerId() {

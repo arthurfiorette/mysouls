@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 
 import com.github.hazork.mysouls.MySouls;
 import com.github.hazork.mysouls.commands.MySoulsCommand;
+import com.github.hazork.mysouls.data.lang.Lang;
 import com.github.hazork.mysouls.guis.implementations.GeneralGui;
 
 public class MenuCommand implements MySoulsCommand {
@@ -16,7 +17,7 @@ public class MenuCommand implements MySoulsCommand {
 
     @Override
     public String getName() {
-	return "menu";
+	return Lang.MENU_COMMAND.getText();
     }
 
     @Override
