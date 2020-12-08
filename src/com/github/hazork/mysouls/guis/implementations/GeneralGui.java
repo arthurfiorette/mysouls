@@ -1,6 +1,7 @@
 package com.github.hazork.mysouls.guis.implementations;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import com.github.hazork.mysouls.commands.commands.InfoCommand;
 import com.github.hazork.mysouls.data.lang.Lang;
 import com.github.hazork.mysouls.guis.Gui;
 import com.github.hazork.mysouls.guis.GuiListener;
+import com.github.hazork.mysouls.souls.SoulWallet;
 import com.github.hazork.mysouls.utils.ItemBuilder;
 import com.github.hazork.mysouls.utils.ItemBuilder.Properties;
 import com.github.hazork.mysouls.utils.Utils.Spigots;
@@ -30,7 +32,7 @@ public class GeneralGui extends Gui {
     private static UnaryOperator<Integer> slotFunc = i -> (i > 16 && i < 21) ? 21
 	    : (i > 25 && i < 30) ? 30 : (i > 34 && i < 39) ? 39 : i;
 
-    private static ItemBuilder emptyBuilder = new ItemBuilder(Material.THIN_GLASS, true).setName("")
+    private static ItemBuilder emptyBuilder = new ItemBuilder(Material.THIN_GLASS, true).setName(" ")
 	    .remove(Properties.LORE);
     private static ItemBuilder infoBuilder = ItemBuilder.ofHead("MHF_Question", true).setName(Lang.CREDITS.getText())
 	    .setLores(InfoCommand.INFO);
@@ -62,60 +64,82 @@ public class GeneralGui extends Gui {
 
     @Override
     protected void load() {
-	setDefault();
-	soulsList = Lists.partition(new ArrayList<>(getWallet().getSoulsSet()), 20);
+	drawItens();
+	soulsList = Lists.partition(new ArrayList<>(getWallet().getSouls()), 20);
 	if (page >= soulsList.size()) page = 0;
-	if (!soulsList.isEmpty()) setInventory(soulsList.get(page));
+	if (!soulsList.isEmpty()) drawPageableItems(soulsList.get(page));
     }
 
-    private void setDefault() {
-	for (int i = 12; i <= 43; i++) {
-	    i = slotFunc.apply(i);
+    private void drawItens() {
+	HashMap<Integer, ItemStack> items = new HashMap<>();
+
+	for (int i = 12; i <= 43; i = slotFunc.apply(i + 1)) {
 	    if (!emptyBuilder.build().equals(inventory.getItem(i))) {
-		inventory.setItem(i, emptyBuilder.build());
+		items.put(i, emptyBuilder.build());
 	    }
 	}
 
-	String media = String.format("%.2f",
-		((double) getWallet().getSoulsCount() / getWallet().getDifferentSoulsCount()));
-	Map<String, String> placeholders = new HashMap<>();
+	double ratio = getWallet().soulsRatio();
+	Map<String, String> walletHolders = new HashMap<>();
+	walletHolders.put("{souls}", getWallet().soulsCount() + "");
+	walletHolders.put("{players}", getWallet().size() + "");
+	walletHolders.put("{average}", String.format("%.2f", Double.isNaN(ratio) ? 0 : ratio));
+	walletHolders.put("{more-souls}", getWallet().entrySet(set -> {
+	    if (set.isEmpty()) return "§7?";
+	    else {
+		UUID uuid = Collections.max(set, Map.Entry.comparingByValue()).getKey();
+		return Bukkit.getOfflinePlayer(uuid).getName();
+	    }
+	}));
 
-	placeholders.put("{souls}", getWallet().getSoulsCount() + "");
-	placeholders.put("{players}", getWallet().getDifferentSoulsCount() + "");
-	placeholders.put("{average}", (media.equalsIgnoreCase("NaN") ? "§7?" : media));
-	placeholders.put("{more-souls}",
-		(getWallet().getMostKilledPlayer() == null ? "§7?" : getWallet().getMostKilledPlayer().getName()));
+	int walletSlot = 10;
+	ItemBuilder walletBuilder = ItemBuilder.ofHead(getOfflinePlayer(), true)
+		.setName(Lang.YOUR_WALLET_NAME.getText()).setLore(Lang.YOUR_WALLET_LORE.getList(walletHolders));
+	items.put(walletSlot, walletBuilder.build());
 
-	ItemBuilder.ofHead(getOfflinePlayer(), true).setName(Lang.YOUR_WALLET_NAME.getText())
-		.setLore(Lang.YOUR_WALLET_LORE.getList(placeholders)).setOnInventory(inventory, 10);
+	int ppSlot = 26;
+	if (!hasPreviousPage()) inventory.clear(ppSlot);
+	else {
+	    if (inventory.getItem(ppSlot) == null) {
+		ItemBuilder ppBuilder = new ItemBuilder(Material.STONE_BUTTON, true).setName(Lang.BACKWARD.getText());
+		items.put(ppSlot, ppBuilder.build());
+	    }
+	}
 
-	if (hasPreviousPage()) {
-	    if (inventory.getItem(26) == null) new ItemBuilder(Material.STONE_BUTTON, true)
-		    .setName(Lang.BACKWARD.getText()).setOnInventory(inventory, 26);
-	} else if (inventory.getItem(26) != null) inventory.clear(26);
+	int npSlot = 35;
+	if (!hasNextPage()) inventory.clear(npSlot);
+	else {
+	    if (inventory.getItem(npSlot) == null) {
+		ItemBuilder npBuilder = new ItemBuilder(Material.STONE_BUTTON, true).setName(Lang.FORWARD.getText());
+		items.put(npSlot, npBuilder.build());
+	    }
+	}
 
-	if (hasNextPage()) {
-	    if (inventory.getItem(35) == null) new ItemBuilder(Material.STONE_BUTTON, true)
-		    .setName(Lang.FORWARD.getText()).setOnInventory(inventory, 35);
-	} else if (inventory.getItem(35) != null) inventory.clear(35);
+	int wsSlot = 49;
+	String wsUrl = "http://textures.minecraft.net/texture/35b116dc769d6d5726f12a24f3f186f839427321e82f4138775a4c40367a49";
+	ItemBuilder wsBuilder = ItemBuilder.ofHeadUrl(wsUrl, true).setName(Lang.WITHDRAW_SOULS_NAME.getText())
+		.setLore(Lang.WITHDRAW_SOULS_LORE.getList());
+	items.put(wsSlot, wsBuilder.build());
 
-	new ItemBuilder(Material.SKULL_ITEM, true).setDurability(1).setName(Lang.WITHDRAW_SOULS_NAME.getText())
-		.setLore(Lang.WITHDRAW_COINS_LORE.getList()).setOnInventory(inventory, 49);
+	int wcSlot = 51;
+	String wcUrl = "http://textures.minecraft.net/texture/77b9dfd281deaef2628ad5840d45bcda436d6626847587f3ac76498a51c861";
+	ItemBuilder wcBuilder = ItemBuilder.ofHeadUrl(wcUrl, true).setName(Lang.WITHDRAW_COINS_NAME.getText())
+		.setLore(Lang.WITHDRAW_COINS_LORE.getList());
+	items.put(wcSlot, wcBuilder.build());
 
-	ItemBuilder.ofHeadUrl(
-		"http://textures.minecraft.net/texture/77b9dfd281deaef2628ad5840d45bcda436d6626847587f3ac76498a51c861",
-		true).setName(Lang.WITHDRAW_COINS_NAME.getText()).setLore(Lang.WITHDRAW_COINS_LORE.getList())
-		.setOnInventory(inventory, 51);
+	int pageSlot = 53;
+	ItemBuilder pageBuilder = new ItemBuilder(Material.PAPER, true).setName(Lang.PAGE.getText())
+		.setAmount(page + 1);
+	items.put(pageSlot, pageBuilder.build());
 
-	new ItemBuilder(Material.PAPER, true).setName(Lang.PAGE.getText()).setAmount(page + 1).setOnInventory(inventory,
-		53);
+	items.forEach((k, v) -> inventory.setItem(k, v));
     }
 
-    private void setInventory(List<UUID> list) {
+    private void drawPageableItems(List<UUID> list) {
 	int i = 12;
 	for (UUID soul : list) {
 	    i = slotFunc.apply(i);
-	    inventory.setItem(i, soulToItem(soul, getWallet().getSoulsCount(soul)));
+	    inventory.setItem(i, soulToItem(soul, getWallet().soulsCount(soul)));
 	    i++;
 	}
     }
@@ -147,17 +171,18 @@ public class GeneralGui extends Gui {
 		GuiListener.setChatAction(getOwnerId(), msg -> {
 		    String[] args = msg.split(" ");
 		    if (Spigots.hasEmptySlot(getPlayer())) {
-			if (getWallet().canRemoveSoul()) {
+			UUID soul = SoulWallet.ANY;
+			if (getWallet().canRemoveSoul(soul, 1)) {
 			    if (args[0].equalsIgnoreCase("*")) {
-				ItemStack is = getWallet().withdrawSoul();
+				ItemStack is = getWallet().withdrawSoul(soul);
 				getPlayer().getInventory().addItem(is);
 				getPlayer().sendMessage(Lang.SOUL_REMOVED.getText());
 			    } else {
 				@SuppressWarnings("deprecation")
 				OfflinePlayer player = Bukkit.getOfflinePlayer(args[0]);
-				UUID uuid = player.getUniqueId();
-				if (player != null && getWallet().canRemoveSoul(uuid)) {
-				    ItemStack is = getWallet().withdrawSoul(uuid);
+				soul = player.getUniqueId();
+				if (player != null && getWallet().canRemoveSoul(soul, 1)) {
+				    ItemStack is = getWallet().withdrawSoul(soul);
 				    getPlayer().getInventory().addItem(is);
 				    getPlayer().sendMessage(Lang.SOUL_REMOVED.getText());
 				} else {
@@ -180,8 +205,9 @@ public class GeneralGui extends Gui {
 		    String[] args = msg.split(" ");
 		    try {
 			int amount = Integer.parseInt(args[0]);
+			UUID soul = SoulWallet.ANY;
 			if (Spigots.hasEmptySlot(getPlayer())) {
-			    if (getWallet().canRemoveSouls(amount)) {
+			    if (getWallet().canRemoveSoul(soul, amount)) {
 				ItemStack is = getWallet().withdrawCoins(amount);
 				getPlayer().getInventory().addItem(is);
 				getPlayer().sendMessage(Lang.COINS_REMOVED.getText());

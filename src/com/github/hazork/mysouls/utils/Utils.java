@@ -1,10 +1,8 @@
 package com.github.hazork.mysouls.utils;
 
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -29,10 +27,17 @@ public class Utils {
 	return new Random().nextInt(range);
     }
 
-    public static UUID[] multiply(UUID source, int mult) {
-	List<UUID> list = Arrays.asList(new UUID[mult]);
-	Collections.fill(list, source);
-	return list.toArray(new UUID[mult]);
+    public static <O> List<O> multiply(O source, int mult) {
+	if (mult <= 0) return new ArrayList<>();
+	else {
+	    List<O> list = new ArrayList<>();
+	    for (int i = 0; i < mult; i++) list.add(source);
+	    return list;
+	}
+    }
+
+    public static boolean isMinecraftPack(int amount) {
+	return (amount <= 64 && amount >= 1);
     }
 
     public static <R> List<R> listMapper(List<String> list, Function<String, R> mapper) {
