@@ -3,6 +3,7 @@ commands:
   souls-info-command: "souls"
   menu-command: "menu"
   getsoul-command: "getsoul"
+  getcoins-command: "getcoins"
 
 messages:
     page: "&7Página"

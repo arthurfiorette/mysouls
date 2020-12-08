@@ -19,7 +19,7 @@ import com.github.hazork.mysouls.data.lang.Lang;
 import com.github.hazork.mysouls.guis.Gui;
 import com.github.hazork.mysouls.guis.GuiListener;
 import com.github.hazork.mysouls.utils.ItemBuilder;
-import com.github.hazork.mysouls.utils.Utils.ItemStacks;
+import com.github.hazork.mysouls.utils.ItemBuilder.Properties;
 import com.github.hazork.mysouls.utils.Utils.Spigots;
 import com.google.common.collect.Lists;
 
@@ -30,12 +30,13 @@ public class GeneralGui extends Gui {
     private static UnaryOperator<Integer> slotFunc = i -> (i > 16 && i < 21) ? 21
 	    : (i > 25 && i < 30) ? 30 : (i > 34 && i < 39) ? 39 : i;
 
-    private static final ItemStack EMPTY_ITEM = new ItemStack(Material.THIN_GLASS);
-    private static final ItemStack INFO = ItemStacks.set(true, ItemStacks.getHead("MHF_Question"),
-	    Lang.CREDITS.getText(), InfoCommand.INFO);
-    private static final ItemStack TROPHY = ItemStacks.set(true, ItemStacks.getHeadFromUrl(
-	    "http://textures.minecraft.net/texture/e34a592a79397a8df3997c43091694fc2fb76c883a76cce89f0227e5c9f1dfe"),
-	    Lang.RANKING_NAME.getText(), Lang.RANKING_LORE.getTextList());
+    private static ItemBuilder emptyBuilder = new ItemBuilder(Material.THIN_GLASS, true).setName("")
+	    .remove(Properties.LORE);
+    private static ItemBuilder infoBuilder = ItemBuilder.ofHead("MHF_Question", true).setName(Lang.CREDITS.getText())
+	    .setLores(InfoCommand.INFO);
+    private static ItemBuilder trophyBuilder = ItemBuilder.ofHeadUrl(
+	    "http://textures.minecraft.net/texture/e34a592a79397a8df3997c43091694fc2fb76c883a76cce89f0227e5c9f1dfe",
+	    true).setName(Lang.RANKING_NAME.getText()).setLores("§cNot ready yet..");
 
     List<List<UUID>> soulsList = new ArrayList<>();
 
@@ -54,8 +55,8 @@ public class GeneralGui extends Gui {
     @Override
     protected Inventory createInventory(int lines, String title) {
 	Inventory inv = super.createInventory(lines, title);
-	inv.setItem(45, INFO);
-	inv.setItem(19, TROPHY);
+	inv.setItem(45, infoBuilder.build());
+	inv.setItem(19, trophyBuilder.build()); // TODO Trophy information.
 	return inv;
     }
 
@@ -70,22 +71,23 @@ public class GeneralGui extends Gui {
     private void setDefault() {
 	for (int i = 12; i <= 43; i++) {
 	    i = slotFunc.apply(i);
-	    if (!EMPTY_ITEM.equals(inventory.getItem(i))) {
-		inventory.setItem(i, EMPTY_ITEM);
+	    if (!emptyBuilder.build().equals(inventory.getItem(i))) {
+		inventory.setItem(i, emptyBuilder.build());
 	    }
 	}
 
-	Map<String, String> placeholders = new HashMap<>();
-	placeholders.put("{souls}", getWallet().getSoulsCount() + "");
-	placeholders.put("{players}", getWallet().getDifferentSoulsCount() + "");
 	String media = String.format("%.2f",
 		((double) getWallet().getSoulsCount() / getWallet().getDifferentSoulsCount()));
+	Map<String, String> placeholders = new HashMap<>();
+
+	placeholders.put("{souls}", getWallet().getSoulsCount() + "");
+	placeholders.put("{players}", getWallet().getDifferentSoulsCount() + "");
 	placeholders.put("{average}", (media.equalsIgnoreCase("NaN") ? "§7?" : media));
-	OfflinePlayer p = getWallet().getMostKilledPlayer();
-	placeholders.put("{more-souls}", (p == null ? "§7?" : p.getName()));
+	placeholders.put("{more-souls}",
+		(getWallet().getMostKilledPlayer() == null ? "§7?" : getWallet().getMostKilledPlayer().getName()));
 
 	ItemBuilder.ofHead(getOfflinePlayer(), true).setName(Lang.YOUR_WALLET_NAME.getText())
-		.setLore(Lang.YOUR_WALLET_LORE.getListFormat(placeholders)).setOnInventory(inventory, 10);
+		.setLore(Lang.YOUR_WALLET_LORE.getList(placeholders)).setOnInventory(inventory, 10);
 
 	if (hasPreviousPage()) {
 	    if (inventory.getItem(26) == null) new ItemBuilder(Material.STONE_BUTTON, true)
@@ -98,11 +100,11 @@ public class GeneralGui extends Gui {
 	} else if (inventory.getItem(35) != null) inventory.clear(35);
 
 	new ItemBuilder(Material.SKULL_ITEM, true).setDurability(1).setName(Lang.WITHDRAW_SOULS_NAME.getText())
-		.setLore(Lang.WITHDRAW_COINS_LORE.getTextList()).setOnInventory(inventory, 49);
+		.setLore(Lang.WITHDRAW_COINS_LORE.getList()).setOnInventory(inventory, 49);
 
 	ItemBuilder.ofHeadUrl(
 		"http://textures.minecraft.net/texture/77b9dfd281deaef2628ad5840d45bcda436d6626847587f3ac76498a51c861",
-		true).setName(Lang.WITHDRAW_COINS_NAME.getText()).setLore(Lang.WITHDRAW_COINS_LORE.getTextList())
+		true).setName(Lang.WITHDRAW_COINS_NAME.getText()).setLore(Lang.WITHDRAW_COINS_LORE.getList())
 		.setOnInventory(inventory, 51);
 
 	new ItemBuilder(Material.PAPER, true).setName(Lang.PAGE.getText()).setAmount(page + 1).setOnInventory(inventory,
@@ -120,11 +122,9 @@ public class GeneralGui extends Gui {
 
     private ItemStack soulToItem(UUID soul, int amount) {
 	OfflinePlayer player = Bukkit.getOfflinePlayer(soul);
-	Map<String, String> placeholders = new HashMap<>();
-	placeholders.put("{player}", player.getName());
 	return ItemBuilder.ofHead(player, true).setAmount(amount)
-		.setName(Lang.INVENTORY_SOUL_NAME.getFormat(placeholders))
-		.addLore(Lang.INVENTORY_SOUL_LORE.getTextList()).build();
+		.setName(Lang.INVENTORY_SOUL_NAME.getText("{player}", player.getName()))
+		.addLore(Lang.INVENTORY_SOUL_LORE.getList()).build();
     }
 
     @Override
@@ -192,9 +192,7 @@ public class GeneralGui extends Gui {
 			    getPlayer().sendMessage(Lang.INVENTORY_FULL.getText());
 			}
 		    } catch (NumberFormatException e) {
-			Map<String, String> placeholders = new HashMap<>();
-			placeholders.put("{text}", args[0]);
-			getPlayer().sendMessage(Lang.NOT_A_NUMBER.getFormat(placeholders));
+			getPlayer().sendMessage(Lang.NOT_A_NUMBER.getText("{text}", args[0]));
 		    }
 		});
 		break;

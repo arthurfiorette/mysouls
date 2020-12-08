@@ -26,25 +26,41 @@ import com.mojang.authlib.properties.Property;
 
 public class ItemBuilder {
 
+    private transient ItemStack lastBuild;
+    private transient boolean modified = false;
+
     private Material material;
-    private EnumMap<Properties, Consumer<ItemStack>> prop = new EnumMap<>(Properties.class);
+    private EnumMap<Properties, Consumer<ItemStack>> properties = new EnumMap<>(Properties.class);
 
     public static ItemBuilder ofHead(OfflinePlayer player) {
 	return ofHead(player, false);
     }
 
-    public static ItemBuilder ofHead(OfflinePlayer player, boolean removeAllItemFlags) {
-	ItemBuilder builder = new ItemBuilder(Material.SKULL_ITEM, removeAllItemFlags).setDurability((byte) 3);
+    public static ItemBuilder ofHead(OfflinePlayer player, boolean allItemFlags) {
+	ItemBuilder builder = new ItemBuilder(Material.SKULL_ITEM, allItemFlags).setDurability(3);
 	if (player == null) return builder;
-	return ofSkullGameProfile(new GameProfile(player.getUniqueId(), player.getName()), removeAllItemFlags);
+	return ofSkullGameProfile(new GameProfile(player.getUniqueId(), player.getName()), allItemFlags);
     }
 
-    public static ItemBuilder ofHeadUrl(String playerName) {
-	return ofHeadUrl(playerName, false);
+    public static ItemBuilder ofHead(String playername) {
+	return ofHead(playername, false);
     }
 
-    public static ItemBuilder ofHeadUrl(String url, boolean removeAllItemFlags) {
-	ItemBuilder builder = new ItemBuilder(Material.SKULL_ITEM, removeAllItemFlags).setDurability((byte) 3);
+    public static ItemBuilder ofHead(String playername, boolean allItemFlags) {
+	ItemBuilder builder = new ItemBuilder(Material.SKULL_ITEM, true).setDurability(3);
+	return builder.addCustomMeta(im -> {
+	    SkullMeta sm = (SkullMeta) im;
+	    sm.setOwner(playername);
+	    return sm;
+	});
+    }
+
+    public static ItemBuilder ofHeadUrl(String url) {
+	return ofHeadUrl(url, false);
+    }
+
+    public static ItemBuilder ofHeadUrl(String url, boolean allItemFlags) {
+	ItemBuilder builder = new ItemBuilder(Material.SKULL_ITEM, allItemFlags).setDurability(3);
 	if (url.isEmpty()) return builder;
 	GameProfile profile = new GameProfile(UUID.randomUUID(), null);
 	byte[] encodedData = Base64.encodeBase64(String.format("{textures:{SKIN:{url:\"%s\"}}}", url).getBytes());
@@ -56,8 +72,8 @@ public class ItemBuilder {
 	return ofSkullGameProfile(gp, false);
     }
 
-    public static ItemBuilder ofSkullGameProfile(GameProfile gp, boolean removeAllItemFlags) {
-	ItemBuilder builder = new ItemBuilder(Material.SKULL_ITEM, removeAllItemFlags).setDurability((byte) 3);
+    public static ItemBuilder ofSkullGameProfile(GameProfile gp, boolean allItemFlags) {
+	ItemBuilder builder = new ItemBuilder(Material.SKULL_ITEM, allItemFlags).setDurability(3);
 	if (gp == null) return builder;
 	builder.addCustomMeta(meta -> {
 	    try {
@@ -75,33 +91,17 @@ public class ItemBuilder {
 	return builder;
     }
 
-    /**
-     * Save the item builder, saving the ItemStack and copying it to item builder
-     * doesn't work anymore.
-     * 
-     * @param source the other item stack to copy
-     */
-    @Deprecated
-    public ItemBuilder(ItemStack source) {
-	this(source.getType());
-	addCustomMeta(m -> source.getItemMeta());
-	setDurability(source.getDurability());
-	setAmount(source.getAmount());
-	setData(source.getData());
-	addEnchantments(source.getEnchantments());
-    }
-
     public ItemBuilder(Material material, boolean removeAllItemFlags) {
 	this(material);
-	if (removeAllItemFlags) removeAllItemFlags();
+	if (removeAllItemFlags) setItemFlags();
     }
 
     public ItemBuilder(Material material) {
 	this.material = (material == null ? Material.AIR : material);
     }
 
-    public ItemBuilder setDurability(short durability) {
-	return addProperties(Properties.DAMAGE, is -> is.setDurability(durability));
+    public ItemBuilder setDurability(int durability) {
+	return addProperties(Properties.DAMAGE, is -> is.setDurability((short) durability));
     }
 
     public ItemBuilder setAmount(int amount) {
@@ -124,7 +124,7 @@ public class ItemBuilder {
 	return addProperties(Properties.NAME, is -> setItemMeta(is, im -> im.setDisplayName(name)));
     }
 
-    public ItemBuilder removeAllItemFlags() {
+    public ItemBuilder setItemFlags() {
 	return setItemFlags(ItemFlag.values());
     }
 
@@ -152,7 +152,7 @@ public class ItemBuilder {
     }
 
     public ItemBuilder addLore(List<String> lore) {
-	if (prop.containsKey(Properties.LORE))
+	if (properties.containsKey(Properties.LORE))
 	    return addProperties(Properties.LORE, is -> setItemMeta(is, im -> im.getLore().addAll(lore)));
 	else return setLore(lore);
     }
@@ -162,9 +162,14 @@ public class ItemBuilder {
     }
 
     public ItemStack build() {
+	if (!modified) return getLastBuild();
 	ItemStack item = new ItemStack(material);
-	prop.values().stream().forEach(c -> c.accept(item));
-	return item;
+	properties.values().stream().forEach(c -> c.accept(item));
+	return lastBuild = item;
+    }
+
+    public ItemStack getLastBuild() {
+	return lastBuild;
     }
 
     public void setOnInventory(Inventory inv, int... slots) {
@@ -176,14 +181,22 @@ public class ItemBuilder {
 	return build().getItemMeta().spigot();
     }
 
+    public ItemBuilder clone() {
+	ItemBuilder clone = new ItemBuilder(this.material);
+	clone.properties = this.properties;
+	return clone;
+    }
+
     public ItemBuilder remove(Properties property) {
-	prop.remove(property);
+	properties.remove(property);
 	return this;
     }
 
     private ItemBuilder addProperties(Properties type, Consumer<ItemStack> consumer) {
-	if (prop.containsKey(type) && type.isCumulative()) prop.compute(type, (k, v) -> v.andThen(consumer));
-	else prop.put(type, consumer);
+	if (properties.containsKey(type) && type.isCumulative())
+	    properties.compute(type, (k, v) -> v.andThen(consumer));
+	else properties.put(type, consumer);
+	modified = true;
 	return this;
     }
 
@@ -193,9 +206,15 @@ public class ItemBuilder {
 	item.setItemMeta(meta);
     }
 
-    private enum Properties {
-	NAME(false), LORE(false), DAMAGE(false), AMOUNT(false), MATERIAL_DATA(false), ENCHANTMENT(true),
-	ITEM_FLAG(true), CUSTOM_META(true);
+    public static enum Properties {
+	NAME(false),
+	LORE(false),
+	DAMAGE(false),
+	AMOUNT(false),
+	MATERIAL_DATA(false),
+	ENCHANTMENT(true),
+	ITEM_FLAG(true),
+	CUSTOM_META(true);
 
 	private boolean cumulative;
 
