@@ -19,7 +19,7 @@ public class Nbts {
     public static ItemStack saveValue(ItemStack source, String id, String value) {
 	Map<String, String> map = Maps.newHashMap();
 	map.put(Nbts.id, id);
-	map.put(Nbts.value, value);
+	if (value != null) map.put(Nbts.value, value);
 	return saveValues(source, map);
     }
 
