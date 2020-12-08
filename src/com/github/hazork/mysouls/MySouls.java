@@ -75,10 +75,10 @@ public class MySouls extends JavaPlugin {
 	get().getLogger().log(level, message);
     }
 
-    public static <T extends Throwable> void treatException(Class<?> clazz, String message, T throwable) {
+    public static void treatException(Class<?> clazz, String message, Throwable throwable) {
 	log(Level.SEVERE, String.format("Oops! Ocorreu um erro na classe %s. Veja o aviso: \n%s", clazz.getSimpleName(),
 		message));
-	throwable.printStackTrace();
+	if (throwable != null) throwable.printStackTrace();
     }
 
 }
