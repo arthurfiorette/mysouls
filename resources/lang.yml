@@ -3,7 +3,6 @@ commands:
   souls-info-command: "souls"
   menu-command: "menu"
   getsoul-command: "getsoul"
-  getcoins-command: "getcoins"
 
 messages:
     page: "&7Página"
@@ -22,8 +21,8 @@ messages:
     dont-have-soul: "&cVocê não tem este jogador em sua carteira."
     dont-have-souls: "&cSem almas suficientes."
     player-not-found: "&cJogador não encontrado."
-    soul-chat-message: "\n&6Escreva no chat o nome da alma que quer retirar ou escreva * para uma qualquer:\n\n"
-    coin-chat-message: "\n&6Escreva no chat a quantia de almas para virar coins:\n"
+    soul-chat-message: "\n&6Escreva no chat o nome da alma que quer retirar ou escreva * para uma qualquer:\n "
+    coin-chat-message: "\n&6Escreva no chat a quantia de almas para virar coins:\n "
     inventory-database-closed: "&cInventário fechado pois o banco de menus foi encerrado."
 
 menus:
@@ -39,7 +38,8 @@ menus:
   your-wallet:
     name: "&6Sua carteira."
     lore:
-      - "&eEste menu representa sua carteira de almas."
+      - "&eEste menu representa "
+      - "&esua carteira de almas."
       - ""
       - "&eAlmas: &f{souls}"
       - "&eJogadores: &f{players}"
@@ -61,7 +61,7 @@ menus:
   inventory-soul:
     name: "&5{player}"
     lore:
-      -  "&dAlma de jogador."
+      -  "&f * &dAlma de jogador &f* "
 
 itens:
   soul:
