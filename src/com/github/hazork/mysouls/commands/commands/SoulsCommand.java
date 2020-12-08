@@ -11,7 +11,7 @@ public class SoulsCommand implements MySoulsCommand {
 
     @Override
     public void handle(CommandSender sender, String[] args, String label) {
-	int amount = MySouls.getDB().from((Player) sender).getSoulsCount();
+	int amount = MySouls.getDB().from((Player) sender).size();
 	sender.sendMessage(Lang.SOULS_INFO.getText("{souls}", String.valueOf(amount)));
     }
 

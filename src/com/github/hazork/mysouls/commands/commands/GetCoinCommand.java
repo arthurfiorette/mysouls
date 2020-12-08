@@ -21,7 +21,7 @@ public class GetCoinCommand implements MySoulsCommand {
 	Lang message = null;
 	try {
 	    int i = Integer.parseInt(args[0]);
-	    if (!wallet.canRemoveSouls(i)) message = Lang.DONT_HAVE_SOULS;
+	    if (!wallet.canRemoveSoul(SoulWallet.ANY, i)) message = Lang.DONT_HAVE_SOULS;
 	    else {
 		ItemStack is = wallet.withdrawCoins(i);
 		player.getInventory().addItem(is);

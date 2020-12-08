@@ -32,7 +32,7 @@ public class SoulListener implements Listener {
     public void onPlayerDeath(PlayerDeathEvent event) {
 	Player killer = event.getEntity().getKiller();
 	SoulWallet wallet = soulsDb.from(event.getEntity());
-	wallet.reportDeath(killer);
+	wallet.reportDeath(soulsDb.from(killer));
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -59,16 +59,15 @@ public class SoulListener implements Listener {
 
 		    switch (event.getAction()) {
 			case RIGHT_CLICK_AIR:
-			case LEFT_CLICK_AIR:
-			    if (!player.isSneaking()) {
-				if (!sw.canRemoveSouls(soul, amount)) message = Lang.SOUL_64_LIMIT;
+			    if (player.isSneaking()) {
+				if (!sw.canAddSoul(soul, amount)) message = Lang.SOUL_64_LIMIT;
 				else {
 				    for (int i = 0; i < amount; i++) sw.addSoul(soul);
 				    message = Lang.SOULS_ADDED;
 				    player.setItemInHand(null);
 				}
 			    } else {
-				if (!sw.canAddSoul(soul)) message = Lang.SOUL_64_LIMIT;
+				if (!sw.canAddSoul(soul, 1)) message = Lang.SOUL_64_LIMIT;
 				else {
 				    sw.addSoul(soul);
 				    if (amount > 1) item.setAmount(amount - 1);

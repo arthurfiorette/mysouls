@@ -1,25 +1,32 @@
 package com.github.hazork.mysouls.souls;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.Function;
+
+import javax.annotation.Nullable;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import com.github.hazork.mysouls.MySouls;
 import com.github.hazork.mysouls.data.lang.Lang;
 import com.github.hazork.mysouls.utils.ItemBuilder;
 import com.github.hazork.mysouls.utils.Nbts;
+import com.github.hazork.mysouls.utils.Utils;
+import com.google.common.base.Verify;
 
 public class SoulWallet {
+
+    /**
+     * Represents any soul to be used in class parameters and for reasons of
+     * redability. Same as {@code null}
+     */
+    public static final UUID ANY = null;
+    public static final String SOUL_ID = "soulsId";
+    public static final String COIN_ID = "coinsId";
 
     final UUID ownerId;
     Map<UUID, Integer> souls = new HashMap<>();
@@ -29,109 +36,67 @@ public class SoulWallet {
 	souls.put(ownerId, 2);
     }
 
-    /* ADD SOULS */
-
-    public boolean canAddSoul(UUID soul) {
-	return canAddSouls(soul, 1);
-    }
-
-    public boolean canAddSouls(UUID soul, int amount) {
-	return (souls.containsKey(soul)) ? (souls.get(soul) + amount <= 64) : (true);
+    public boolean canAddSoul(UUID soul, int amount) {
+	if (soul == null) return false;
+	else if (!Utils.isMinecraftPack(amount)) return false;
+	else if (souls.containsKey(soul)) return souls.get(soul) + amount <= 64;
+	else return true;
     }
 
     boolean addSoul(UUID soul) {
-	if (canAddSoul(soul)) {
+	if (canAddSoul(soul, 1)) {
 	    souls.compute(soul, (k, v) -> v == null ? 1 : v + 1);
 	    return true;
 	} else return false;
     }
 
-    /* REMOVE SOULS */
-
-    public boolean canRemoveSoul() {
-	return canRemoveSouls(null, 1);
+    public boolean canRemoveSoul(@Nullable UUID soul, int amount) {
+	return Utils.isMinecraftPack(amount) && soulsCount(soul) >= amount;
     }
 
-    public boolean canRemoveSouls(int amount) {
-	return canRemoveSouls(null, amount);
-    }
-
-    public boolean canRemoveSoul(UUID soul) {
-	return canRemoveSouls(soul, 1);
-    }
-
-    public boolean canRemoveSouls(UUID soul, int amount) {
-	return (amount <= 64 && amount >= 1) && getSoulsCount(soul) >= amount;
-    }
-
-    private UUID removeSoul() {
-	return removeSoul(null);
-    }
-
-    private UUID removeSoul(UUID soul) {
-	if (canRemoveSoul(soul)) {
-	    if (soul == null) soul = souls.entrySet().stream().findAny().get().getKey();
+    UUID removeSoul(@Nullable UUID soul) {
+	if (canRemoveSoul(soul, 1)) {
+	    if (soul == null) {
+		soul = souls.entrySet().stream().findAny().get().getKey();
+	    }
 	    souls.compute(soul, (k, v) -> v <= 1 ? null : v - 1);
 	    return soul;
 	} else return null;
     }
 
-    private List<UUID> removeSouls(UUID soul, int amount) {
-	List<UUID> list = new ArrayList<>();
-	if (canRemoveSouls(soul, amount)) {
-	    for (int i = 0; i < amount; i++) list.add(removeSoul(soul));
+    private int removeSouls(@Nullable UUID soul, int amount) {
+	if (!canRemoveSoul(soul, amount)) return 0;
+	else {
+	    Verify.verify(amount >= 0, "Amount must be greater than or equal to 0, value: %s", amount);
+	    int souls = 0;
+	    for (int i = 0; i < amount; i++) {
+		removeSoul(soul);
+		souls++;
+	    }
+	    return souls;
 	}
-	return list;
-    }
-
-    /* REPORT DEATH */
-
-    public void reportDeath(Player killer) {
-	reportDeath(MySouls.getDB().from(killer));
     }
 
     public void reportDeath(SoulWallet killer) {
-	if (canRemoveSoul()) {
-	    UUID soul = removeSoul();
+	if (canRemoveSoul(ANY, 1)) {
+	    UUID soul = removeSoul(ANY);
 	    killer.addSoul(soul);
 	}
     }
 
-    /* WITHDRAW SOULS */
-
-    public static final String SOUL_ID = "soulsId";
-
-    public ItemStack withdrawSoul() {
-	return withdrawSoul(null);
-    }
-
     public ItemStack withdrawSoul(UUID soul) {
-	if (canRemoveSoul(soul)) {
+	if (canRemoveSoul(soul, 1)) {
 	    soul = removeSoul(soul);
-	    return soulToItem(soul);
-	} else return null;
-    }
-
-    private ItemStack soulToItem(UUID soul) {
-	ItemBuilder builder = ItemBuilder.ofHead(Bukkit.getOfflinePlayer(soul), true);
-	builder.setName(Lang.SOUL_NAME.getText("{player}", Bukkit.getOfflinePlayer(soul).getName()));
-	builder.setLore(Lang.SOUL_LORE.getList("{wallet}", getName()));
-	return Nbts.saveValue(builder.build(), SOUL_ID, soul.toString());
-    }
-
-    /* WITHDRAW SOUL COIN */
-
-    public static final String COIN_ID = "coinsId";
-
-    public ItemStack withdrawCoin() {
-	if (canRemoveSoul()) {
-	    return withdrawCoins(1);
+	    ItemBuilder builder = ItemBuilder.ofHead(Bukkit.getOfflinePlayer(soul), true);
+	    builder.setName(Lang.SOUL_NAME.getText("{player}", Bukkit.getOfflinePlayer(soul).getName()));
+	    builder.setLore(Lang.SOUL_LORE.getList("{wallet}", getPlayer().getName()));
+	    return Nbts.saveValue(builder.build(), SOUL_ID, soul.toString());
 	} else return null;
     }
 
     public ItemStack withdrawCoins(int amount) {
-	if (canRemoveSouls(amount)) {
-	    removeSouls(null, amount);
+	if (canRemoveSoul(ANY, amount)) {
+	    removeSouls(ANY, amount);
 	    String url = "http://textures.minecraft.net/texture/77b9dfd281deaef2628ad5840d45bcda436d6626847587f3ac76498a51c861";
 	    ItemBuilder builder = ItemBuilder.ofHeadUrl(url, true);
 	    builder.setName(Lang.COIN_NAME.getText());
@@ -141,48 +106,36 @@ public class SoulWallet {
 	} else return null;
     }
 
-    /* GETTERS */
-
-    public List<UUID> getSoulsList() {
-	List<UUID> request = new ArrayList<>();
-	for (Entry<UUID, Integer> entry : souls.entrySet()) {
-	    for (int i = 0; i < entry.getValue(); i++) request.add(entry.getKey());
-	}
-	return request;
-    }
-
-    public Set<UUID> getSoulsSet() {
+    public Set<UUID> getSouls() {
 	return souls.keySet();
     }
 
-    public int getSoulsCount() {
-	return getSoulsCount(null);
-    }
-
-    public int getDifferentSoulsCount() {
+    public int size() {
 	return souls.size();
     }
 
-    public OfflinePlayer getMostKilledPlayer() {
-	if (souls.isEmpty()) return null;
-	return Bukkit.getOfflinePlayer(Collections.max(souls.entrySet(), Map.Entry.comparingByValue()).getKey());
+    public int soulsCount() {
+	return soulsCount(ANY);
     }
 
-    public int getSoulsCount(UUID uuid) {
+    public int soulsCount(@Nullable UUID uuid) {
 	if (uuid == null) return souls.values().stream().reduce(0, Integer::sum);
 	else return souls.containsKey(uuid) ? souls.get(uuid) : 0;
+    }
+
+    public double soulsRatio() {
+	return (double) soulsCount() / size();
+    }
+
+    public <R> R entrySet(Function<Set<Map.Entry<UUID, Integer>>, R> function) {
+	return function.apply(souls.entrySet());
     }
 
     public OfflinePlayer getPlayer() {
 	return Bukkit.getOfflinePlayer(getOwnerId());
     }
 
-    public String getName() {
-	return getPlayer().getName();
-    }
-
     public UUID getOwnerId() {
 	return ownerId;
     }
-
 }
