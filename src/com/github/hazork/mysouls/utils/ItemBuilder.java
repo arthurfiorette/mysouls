@@ -13,7 +13,6 @@ import org.apache.commons.codec.binary.Base64;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -170,11 +169,6 @@ public class ItemBuilder {
 
     public ItemStack getLastBuild() {
 	return lastBuild;
-    }
-
-    public void setOnInventory(Inventory inv, int... slots) {
-	ItemStack item = build();
-	for (int i : slots) inv.setItem(i, item);
     }
 
     public ItemMeta.Spigot spigot() {
