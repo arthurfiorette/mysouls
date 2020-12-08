@@ -3,8 +3,6 @@ package com.github.hazork.mysouls.data.lang;
 import java.util.List;
 import java.util.Map;
 
-import org.bukkit.OfflinePlayer;
-
 public enum Lang {
 
     BACKWARD("messages.backward"),
@@ -18,6 +16,7 @@ public enum Lang {
     DONT_HAVE_SOULS("messages.dont-have-souls"),
     FORWARD("messages.forward"),
     GETSOUL_COMMAND("commands.getsoul-command"),
+    GETCOINS_COMMAND("commands.getcoins-command"),
     INVENTORY_DATABASE_CLOSED("messages.inventory-database-closed"),
     INVENTORY_FULL("messages.inventory-full"),
     INVENTORY_SOUL_LORE("menus.inventory-soul.lore"),
@@ -59,31 +58,23 @@ public enum Lang {
 	return LangFile.getString(this);
     }
 
-    public String getFormat(Map<String, String> placeholders) {
-	return LangFile.getStringFormat(this, placeholders);
+    public String getText(String key, String value) {
+	return LangFile.getString(this, key, value);
     }
 
-    public String getFormat(OfflinePlayer player) {
-	return LangFile.getStringFormat(this, player);
+    public String getText(Map<String, String> placeholders) {
+	return LangFile.getString(this, placeholders);
     }
 
-    public String getFormat(Map<String, String> placeholders, OfflinePlayer player) {
-	return LangFile.getStringFormat(this, placeholders, player);
-    }
-
-    public List<String> getTextList() {
+    public List<String> getList() {
 	return LangFile.getList(this);
     }
 
-    public List<String> getListFormat(Map<String, String> placeholders) {
-	return LangFile.getListFormat(this, placeholders);
+    public List<String> getList(String key, String value) {
+	return LangFile.getList(this, key, value);
     }
 
-    public List<String> getListFormat(OfflinePlayer player) {
-	return LangFile.getListFormat(this, player);
-    }
-
-    public List<String> getListFormat(Map<String, String> placeholders, OfflinePlayer player) {
-	return LangFile.getListFormat(this, placeholders, player);
+    public List<String> getList(Map<String, String> placeholders) {
+	return LangFile.getList(this, placeholders);
     }
 }

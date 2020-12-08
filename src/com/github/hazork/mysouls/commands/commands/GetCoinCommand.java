@@ -18,23 +18,24 @@ public class GetCoinCommand implements MySoulsCommand {
     public void handle(CommandSender sender, String[] args, String label) {
 	Player player = (Player) sender;
 	SoulWallet wallet = DB.from(player);
+	Lang message = null;
 	try {
 	    int i = Integer.parseInt(args[0]);
-	    if (wallet.canRemoveSoul()) {
+	    if (!wallet.canRemoveSouls(i)) message = Lang.DONT_HAVE_SOULS;
+	    else {
 		ItemStack is = wallet.withdrawCoins(i);
 		player.getInventory().addItem(is);
-		player.sendMessage(Lang.COINS_REMOVED.getText());
-	    } else {
-		player.sendMessage(Lang.DONT_HAVE_SOULS.getText());
+		message = Lang.COINS_REMOVED;
 	    }
 	} catch (NumberFormatException e) {
-	    player.sendMessage(Lang.NOT_A_NUMBER.getText());
+	    message = Lang.NOT_A_NUMBER;
 	}
+	player.sendMessage(message.getText());
     }
 
     @Override
     public String getName() {
-	return "getcoins";
+	return Lang.GETCOINS_COMMAND.getText();
     }
 
     @Override

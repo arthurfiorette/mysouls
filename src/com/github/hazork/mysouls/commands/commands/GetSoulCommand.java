@@ -20,32 +20,30 @@ public class GetSoulCommand implements MySoulsCommand {
     public void handle(CommandSender sender, String[] args, String label) {
 	Player player = (Player) sender;
 	SoulWallet wallet = DB.from(player);
+	Lang message = null;
 	if (args.length < 1) {
-	    if (wallet.canRemoveSoul()) {
-		if (Spigots.hasEmptySlot(player)) {
+	    if (!wallet.canRemoveSoul()) message = Lang.DONT_HAVE_SOULS;
+	    else {
+		if (!Spigots.hasEmptySlot(player)) message = Lang.INVENTORY_FULL;
+		else {
 		    ItemStack is = wallet.withdrawSoul();
 		    player.getInventory().addItem(is);
-		    player.sendMessage(Lang.SOUL_REMOVED.getText());
-		} else {
-		    player.sendMessage(Lang.INVENTORY_FULL.getText());
+		    message = Lang.SOUL_REMOVED;
 		}
-	    } else {
-		player.sendMessage(Lang.DONT_HAVE_SOULS.getText());
 	    }
 	} else {
 	    Player soul = Bukkit.getPlayerExact(args[0]);
-	    if (soul != null) {
-		if (wallet.canRemoveSoul(soul.getUniqueId())) {
+	    if (soul == null) message = Lang.PLAYER_NOT_FOUND;
+	    else {
+		if (!wallet.canRemoveSoul(soul.getUniqueId())) message = Lang.DONT_HAVE_SOUL;
+		else {
 		    ItemStack is = wallet.withdrawSoul(soul.getUniqueId());
 		    player.getInventory().addItem(is);
-		    player.sendMessage(Lang.SOUL_REMOVED.getText());
-		} else {
-		    player.sendMessage(Lang.DONT_HAVE_SOUL.getText());
+		    message = Lang.SOUL_REMOVED;
 		}
-	    } else {
-		player.sendMessage(Lang.PLAYER_NOT_FOUND.getText());
 	    }
 	}
+	player.sendMessage(message.getText());
     }
 
     @Override

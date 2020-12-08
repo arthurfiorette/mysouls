@@ -7,14 +7,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.github.hazork.mysouls.MySouls;
 import com.github.hazork.mysouls.data.lang.Lang;
-import com.github.hazork.mysouls.utils.Utils.ItemStacks;
+import com.github.hazork.mysouls.utils.Nbts;
 
 public class SoulListener implements Listener {
 
@@ -40,49 +39,49 @@ public class SoulListener implements Listener {
     public void onInteract(PlayerInteractEvent event) {
 	if (event.hasItem()) {
 	    ItemStack item = event.getItem();
-	    ItemStacks.getNBTPattern(item).ifPresent(value -> {
-		switch (value) {
-		    case SoulWallet.COIN_VALUE:
-			switch (event.getAction()) {
-			    case LEFT_CLICK_AIR:
-			    case LEFT_CLICK_BLOCK:
-				event.getPlayer().sendMessage(Lang.CANNOT_USE.getText());
-				event.setCancelled(true);
-				break;
+	    Lang message = null;
+	    switch (Nbts.getIdValue(item)) {
+		case SoulWallet.COIN_ID:
+		    switch (event.getAction()) {
+			case RIGHT_CLICK_BLOCK:
+			    message = Lang.CANNOT_USE;
+			    event.setCancelled(true);
+			default:
+			    break;
+		    }
+		    break;
 
-			    default:
-				break;
-			}
-			break;
+		case SoulWallet.SOUL_ID:
+		    Player player = event.getPlayer();
+		    int amount = item.getAmount();
+		    SoulWallet sw = soulsDb.from(event.getPlayer());
+		    UUID soul = UUID.fromString(Nbts.getValue(item));
 
-		    case SoulWallet.SOUL_VALUE:
-			Player player = event.getPlayer();
-			int amount = item.getAmount();
-			SoulWallet sw = soulsDb.from(event.getPlayer());
-			UUID soul = UUID.fromString(ItemStacks.getNBT(item).getString(MySouls.NAME + ".uuid"));
-			if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_AIR) {
-			    if (player.isSneaking()) {
-				if (sw.canAddSouls(soul, amount)) {
+		    switch (event.getAction()) {
+			case RIGHT_CLICK_AIR:
+			case LEFT_CLICK_AIR:
+			    if (!player.isSneaking()) {
+				if (!sw.canRemoveSouls(soul, amount)) message = Lang.SOUL_64_LIMIT;
+				else {
 				    for (int i = 0; i < amount; i++) sw.addSoul(soul);
-				    player.sendMessage(Lang.SOULS_ADDED.getText());
+				    message = Lang.SOULS_ADDED;
 				    player.setItemInHand(null);
-				} else {
-				    player.sendMessage(Lang.SOUL_64_LIMIT.getText());
 				}
 			    } else {
-				if (sw.canAddSoul(soul)) {
+				if (!sw.canAddSoul(soul)) message = Lang.SOUL_64_LIMIT;
+				else {
 				    sw.addSoul(soul);
-				    player.sendMessage(Lang.SOUL_ADDED.getText());
-				    if (item.getAmount() > 1) item.setAmount(item.getAmount() - 1);
+				    if (amount > 1) item.setAmount(amount - 1);
 				    else player.setItemInHand(null);
-				} else {
-				    player.sendMessage(Lang.SOUL_64_LIMIT.getText());
 				}
 			    }
-			}
-			break;
-		}
-	    });
+			    break;
+
+			default:
+			    break;
+		    }
+	    }
+	    if (message != null) event.getPlayer().sendMessage(message.getText());
 	}
     }
 }
