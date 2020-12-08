@@ -16,7 +16,8 @@ import org.bukkit.inventory.ItemStack;
 
 import com.github.hazork.mysouls.MySouls;
 import com.github.hazork.mysouls.data.lang.Lang;
-import com.github.hazork.mysouls.utils.Utils.ItemStacks;
+import com.github.hazork.mysouls.utils.ItemBuilder;
+import com.github.hazork.mysouls.utils.Nbts;
 
 public class SoulWallet {
 
@@ -98,7 +99,7 @@ public class SoulWallet {
 
     /* WITHDRAW SOULS */
 
-    public static final String SOUL_VALUE = "souls-skulls-withdrawable-01";
+    public static final String SOUL_ID = "soulsId";
 
     public ItemStack withdrawSoul() {
 	return withdrawSoul(null);
@@ -112,23 +113,15 @@ public class SoulWallet {
     }
 
     private ItemStack soulToItem(UUID soul) {
-	HashMap<String, String> placeholders = new HashMap<String, String>();
-	placeholders.put("{wallet}", getName());
-	placeholders.put("{player}", Bukkit.getOfflinePlayer(soul).getName());
-
-	OfflinePlayer owner = Bukkit.getOfflinePlayer(soul);
-
-	ItemStack skull = ItemStacks.getHead(owner.getName());
-	ItemStacks.setName(skull, Lang.SOUL_NAME.getFormat(placeholders));
-	ItemStacks.setLore(skull, Lang.SOUL_LORE.getListFormat(placeholders));
-	ItemStacks.removeFlags(skull);
-	skull = ItemStacks.createNBT(skull, nbt -> nbt.setString(MySouls.NAME + ".uuid", soul.toString()));
-	return ItemStacks.createNBT(skull, SOUL_VALUE);
+	ItemBuilder builder = ItemBuilder.ofHead(Bukkit.getOfflinePlayer(soul), true);
+	builder.setName(Lang.SOUL_NAME.getText("{player}", Bukkit.getOfflinePlayer(soul).getName()));
+	builder.setLore(Lang.SOUL_LORE.getList("{wallet}", getName()));
+	return Nbts.saveValue(builder.build(), SOUL_ID, soul.toString());
     }
 
     /* WITHDRAW SOUL COIN */
 
-    public static final String COIN_VALUE = "souls-skulls-withdrawable-02";
+    public static final String COIN_ID = "coinsId";
 
     public ItemStack withdrawCoin() {
 	if (canRemoveSoul()) {
@@ -139,17 +132,14 @@ public class SoulWallet {
     public ItemStack withdrawCoins(int amount) {
 	if (canRemoveSouls(amount)) {
 	    removeSouls(null, amount);
-	    ItemStack coin = COIN.clone();
-	    ItemStacks.setName(coin, Lang.COIN_NAME.getText());
-	    ItemStacks.setLore(coin, Lang.COIN_LORE.getTextList());
-	    ItemStacks.removeFlags(coin);
-	    coin.setAmount(amount);
-	    return ItemStacks.createNBT(coin, COIN_VALUE);
+	    String url = "http://textures.minecraft.net/texture/77b9dfd281deaef2628ad5840d45bcda436d6626847587f3ac76498a51c861";
+	    ItemBuilder builder = ItemBuilder.ofHeadUrl(url, true);
+	    builder.setName(Lang.COIN_NAME.getText());
+	    builder.setLore(Lang.COIN_LORE.getList());
+	    builder.setAmount(amount);
+	    return Nbts.saveValue(builder.build(), COIN_ID, null);
 	} else return null;
     }
-
-    public static ItemStack COIN = ItemStacks.getHeadFromUrl(
-	    "http://textures.minecraft.net/texture/77b9dfd281deaef2628ad5840d45bcda436d6626847587f3ac76498a51c861");
 
     /* GETTERS */
 

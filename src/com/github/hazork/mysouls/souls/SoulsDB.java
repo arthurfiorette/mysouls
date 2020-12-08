@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -40,7 +39,7 @@ public final class SoulsDB extends CacheDB<UUID, SoulWallet> {
     @Override
     public boolean open() {
 	try {
-	    if (Objects.isNull(connection)) {
+	    if (Objects.isNull(connection) || connection.isClosed()) {
 		Class.forName("org.sqlite.JDBC");
 		connection = DriverManager.getConnection("jdbc:sqlite:" + file.getAbsolutePath());
 		MySouls.log(Level.INFO, "Conexão com a database aberta.");
@@ -65,7 +64,7 @@ public final class SoulsDB extends CacheDB<UUID, SoulWallet> {
 	    ps.setString(2, JSoulWallet.from(sw).getJson());
 	    ps.executeUpdate();
 	    ps.close();
-	} catch (SQLException exc) {
+	} catch (Exception exc) {
 	    treatException(exc);
 	}
     }
@@ -81,7 +80,7 @@ public final class SoulsDB extends CacheDB<UUID, SoulWallet> {
 	    if (rs.next()) wallet = JSoulWallet.from(rs.getString("wallet")).getWallet();
 	    else wallet = new SoulWallet(uuid);
 	    putValue(wallet);
-	} catch (SQLException exception) {
+	} catch (Exception exception) {
 	    treatException(exception);
 	}
     }
@@ -91,11 +90,10 @@ public final class SoulsDB extends CacheDB<UUID, SoulWallet> {
 	try {
 	    if (Objects.nonNull(connection)) {
 		connection.close();
-		connection = null;
 		MySouls.log(Level.INFO, "Conexão com a database fachada.");
 		return true;
 	    }
-	} catch (SQLException exception) {
+	} catch (Exception exception) {
 	    treatException(exception);
 	}
 	return false;

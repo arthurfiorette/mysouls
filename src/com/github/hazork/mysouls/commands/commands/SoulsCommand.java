@@ -1,8 +1,5 @@
 package com.github.hazork.mysouls.commands.commands;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -15,9 +12,7 @@ public class SoulsCommand implements MySoulsCommand {
     @Override
     public void handle(CommandSender sender, String[] args, String label) {
 	int amount = MySouls.getDB().from((Player) sender).getSoulsCount();
-	Map<String, String> placeholders = new HashMap<>();
-	placeholders.put("{souls}", amount + "");
-	sender.sendMessage(Lang.SOULS_INFO.getText());
+	sender.sendMessage(Lang.SOULS_INFO.getText("{souls}", String.valueOf(amount)));
     }
 
     @Override
