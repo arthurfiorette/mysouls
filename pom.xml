@@ -26,9 +26,19 @@
 			<id>bukkit-repo</id>
 			<url>http://repo.bukkit.org/content/groups/public/</url>
 		</repository>
+		<repository>
+			<id>CodeMC</id>
+			<url>https://repo.codemc.org/repository/maven-public</url>
+		</repository>
 	</repositories>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.bstats</groupId>
+			<artifactId>bstats-bukkit</artifactId>
+			<version>1.7</version>
+			<scope>compile</scope>
+		</dependency>
 		<dependency>
 			<groupId>me.clip</groupId>
 			<artifactId>placeholderapi</artifactId>
@@ -59,18 +69,21 @@
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>3.0.0</version>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.1.0</version>
 				<configuration>
-					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies</descriptorRef>
-					</descriptorRefs>
+					<relocations>
+						<relocation>
+							<pattern>org.bstats</pattern>
+							<shadedPattern>com.github.hazork.mysouls.apis.bstats</shadedPattern>
+						</relocation>
+					</relocations>
 				</configuration>
 				<executions>
 					<execution>
 						<phase>package</phase>
 						<goals>
-							<goal>single</goal>
+							<goal>shade</goal>
 						</goals>
 					</execution>
 				</executions>

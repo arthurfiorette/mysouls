@@ -15,6 +15,8 @@ Here's why:
 
 Of course, there aren't perfect plugins, since each need tends to be different. So I will be adding more and more features to this project. You may also suggest improvements by forking this project and creating a pull request or opening an issue
 
+![]([bstats])
+
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
@@ -26,9 +28,9 @@ Contributions are what make the open source community such an amazing place to b
 5. Open a Pull Request.
 
 
-*(You can see and add things to TODO.md)*
-<br>
-*(Because of my poor English, the names of my commits are in PT-BR, sorry.😢)*
+**Edit:**
+*You can see and add things to TODO.md <br>
+Because of my poor English, the names of my commits are in PT-BR, sorry. 😢*
 
 ## License
 Licensed under the **GNU General Public License v3.0**. See `License` for more information.
@@ -37,6 +39,16 @@ Licensed under the **GNU General Public License v3.0**. See `License` for more i
 - Twitter: [@Hazork]([twitter-url])
 - Discord: **Hazork#1227**
 - Steam: [/id/HazorkBR]([steam-url])
+
+## Usage
+
+**Placeholders:** <br>
+Below is the list of placeholders that the plugin offers the PlaceholderAPI extension to be used in any other plugin.:
+
+ - **%mysouls_soulscount%**: returns the player's amount of souls.
+ - **%mysouls_soulscount_<player>%**: returns the number of souls he has from a player.
+ - **%mysouls_playercount%**: returns the number of unique players of their souls.
+ - **%mysouls_soulsratio%**: returns the ratio from soulscount and playercount.
 
 <!-- Links -->
 <!-- Shields -->
@@ -52,5 +64,6 @@ Licensed under the **GNU General Public License v3.0**. See `License` for more i
 
 <!-- Urls -->
 
+[bstats]: https://bstats.org/signatures/bukkit/MySouls.svg
 [twitter-url]: https://twitter.com/Hazork_
 [steam-url]: https://steamcommunity.com/profiles/76561198850668121
