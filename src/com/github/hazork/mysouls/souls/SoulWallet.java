@@ -70,11 +70,12 @@ public class SoulWallet {
 	return true;
     }
 
-    public void reportDeath(SoulWallet killer) {
+    public boolean reportDeath(SoulWallet killer) {
 	if (canRemoveSoul(ANY, 1)) {
 	    UUID soul = removeSoul(ANY);
 	    killer.addSoul(soul);
-	}
+	    return true;
+	} else return false;
     }
 
     public ItemStack withdrawSoul(UUID soul) {

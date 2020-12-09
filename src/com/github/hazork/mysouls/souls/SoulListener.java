@@ -32,7 +32,13 @@ public class SoulListener implements Listener {
     public void onPlayerDeath(PlayerDeathEvent event) {
 	Player killer = event.getEntity().getKiller();
 	SoulWallet wallet = soulsDb.from(event.getEntity());
-	wallet.reportDeath(soulsDb.from(killer));
+	if (wallet.reportDeath(soulsDb.from(killer))) {
+	    killer.sendMessage(Lang.KILL_MESSAGE.getText("{player}", event.getEntity().getName()));
+	    event.getEntity().sendMessage(Lang.DEATH_MESSAGE.getText("{player}", killer.getName()));
+	} else {
+	    killer.sendMessage(Lang.KILL_MESSAGE_FAIL.getText());
+	    event.getEntity().sendMessage(Lang.DEATH_MESSAGE_FAIL.getText());
+	}
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -72,6 +78,7 @@ public class SoulListener implements Listener {
 				    sw.addSoul(soul);
 				    if (amount > 1) item.setAmount(amount - 1);
 				    else player.setItemInHand(null);
+				    message = Lang.SOUL_ADDED;
 				}
 			    }
 			    break;
