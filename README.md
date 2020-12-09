@@ -15,7 +15,7 @@ Here's why:
 
 Of course, there aren't perfect plugins, since each need tends to be different. So I will be adding more and more features to this project. You may also suggest improvements by forking this project and creating a pull request or opening an issue
 
-![]([bstats])
+![bstats]
 
 ## Contributing
 
