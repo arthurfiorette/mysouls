@@ -4,6 +4,9 @@ import java.util.logging.Level;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.github.hazork.mysouls.apis.APICoordinator;
+import com.github.hazork.mysouls.apis.implementations.BStatsAPI;
+import com.github.hazork.mysouls.apis.implementations.PlaceholderAPI;
 import com.github.hazork.mysouls.commands.CommandHandler;
 import com.github.hazork.mysouls.data.lang.Lang;
 import com.github.hazork.mysouls.guis.GuiDB;
@@ -28,6 +31,7 @@ public class MySouls extends JavaPlugin {
     private CommandHandler command;
     private SoulListener soulListener;
     private GuiListener guiListener;
+    private APICoordinator apiCoordinator;
 
     public MySouls() {
 	if (instance != null) throw new RuntimeException("Plugin instance already running");
@@ -37,6 +41,8 @@ public class MySouls extends JavaPlugin {
 	command = new CommandHandler("mysouls", Lang.MENU_COMMAND.getText());
 	soulListener = new SoulListener(this);
 	guiListener = new GuiListener(this);
+	apiCoordinator = new APICoordinator();
+	apiCoordinator.registerApi(new BStatsAPI(), new PlaceholderAPI());
     }
 
     @Override
@@ -47,10 +53,13 @@ public class MySouls extends JavaPlugin {
 	command.registerFor(this);
 	soulListener.register();
 	guiListener.register();
+	apiCoordinator.enable();
+	log(Level.INFO, "Plugin habilitado com sucesso!");
     }
 
     @Override
     public void onDisable() {
+	apiCoordinator.disable();
 	guidb.close();
 	soulsdb.close();
     }
@@ -69,6 +78,10 @@ public class MySouls extends JavaPlugin {
 
     public static String getVersion() {
 	return get().getDescription().getVersion();
+    }
+
+    public static void disable() {
+	get().getPluginLoader().disablePlugin(get());
     }
 
     public static void log(Level level, String message) {

@@ -3,6 +3,7 @@ description: The best soul pvp plugin for Spigot 1.8
 main: com.github.hazork.mysouls.MySouls
 author: Hazork
 version: 1.3.0
+softdepend: [PlaceholderAPI]
 commands:
   mysouls:
     aliases: [ms, souls]
