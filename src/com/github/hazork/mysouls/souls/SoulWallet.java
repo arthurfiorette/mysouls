@@ -12,11 +12,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.inventory.ItemStack;
 
+import com.github.hazork.mysouls.data.config.Config;
 import com.github.hazork.mysouls.data.lang.Lang;
 import com.github.hazork.mysouls.utils.ItemBuilder;
 import com.github.hazork.mysouls.utils.Nbts;
 import com.github.hazork.mysouls.utils.Utils;
-import com.google.common.base.Verify;
 
 public class SoulWallet {
 
@@ -33,7 +33,7 @@ public class SoulWallet {
 
     public SoulWallet(UUID ownerId) {
 	this.ownerId = ownerId;
-	souls.put(ownerId, 2);
+	souls.put(ownerId, Config.INITIAL_SOULS.getInt());
     }
 
     public boolean canAddSoul(UUID soul, int amount) {
@@ -64,17 +64,10 @@ public class SoulWallet {
 	} else return null;
     }
 
-    private int removeSouls(@Nullable UUID soul, int amount) {
-	if (!canRemoveSoul(soul, amount)) return 0;
-	else {
-	    Verify.verify(amount >= 0, "Amount must be greater than or equal to 0, value: %s", amount);
-	    int souls = 0;
-	    for (int i = 0; i < amount; i++) {
-		removeSoul(soul);
-		souls++;
-	    }
-	    return souls;
-	}
+    public boolean removeSouls(@Nullable UUID soul, int amount) {
+	if (!canRemoveSoul(soul, amount)) return false;
+	for (int souls = 0; souls < amount; souls++) removeSoul(soul);
+	return true;
     }
 
     public void reportDeath(SoulWallet killer) {
@@ -97,8 +90,7 @@ public class SoulWallet {
     public ItemStack withdrawCoins(int amount) {
 	if (canRemoveSoul(ANY, amount)) {
 	    removeSouls(ANY, amount);
-	    String url = "http://textures.minecraft.net/texture/77b9dfd281deaef2628ad5840d45bcda436d6626847587f3ac76498a51c861";
-	    ItemBuilder builder = ItemBuilder.ofHeadUrl(url, true);
+	    ItemBuilder builder = ItemBuilder.ofHeadUrl(Config.COIN_HEAD_URL.getText(), true);
 	    builder.setName(Lang.COIN_NAME.getText());
 	    builder.setLore(Lang.COIN_LORE.getList());
 	    builder.setAmount(amount);

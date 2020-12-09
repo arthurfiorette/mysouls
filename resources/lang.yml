@@ -1,8 +1,6 @@
 commands:
   unknown-argument: "&cArgumento desconhecido."
-  souls-info-command: "souls"
   menu-command: "menu"
-  getsoul-command: "getsoul"
 
 messages:
     page: "&7Página"
@@ -10,7 +8,6 @@ messages:
     forward: "&aAvançar"
     backward: "&cVoltar"
     cannot-use: "&cVocê não pode utilizar este item."
-    souls-info: "&eVocê tem {souls} almas."
     soul-added: "&aAlma adicionada."
     souls-added: "&aAlmas adicionadas."
     soul-removed: "&aAlma retirada."

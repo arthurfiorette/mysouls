@@ -1,1 +1,30 @@
-# TODO
+#  
+#    /$$      /$$            /$$$$$$                      /$$          
+#   | $$$    /$$$           /$$__  $$                    | $$          
+#   | $$$$  /$$$$ /$$   /$$| $$  \__/  /$$$$$$  /$$   /$$| $$  /$$$$$$$
+#   | $$ $$/$$ $$| $$  | $$|  $$$$$$  /$$__  $$| $$  | $$| $$ /$$_____/
+#   | $$  $$$| $$| $$  | $$ \____  $$| $$  \ $$| $$  | $$| $$|  $$$$$$ 
+#   | $$\  $ | $$| $$  | $$ /$$  \ $$| $$  | $$| $$  | $$| $$ \____  $$
+#   | $$ \/  | $$|  $$$$$$$|  $$$$$$/|  $$$$$$/|  $$$$$$/| $$ /$$$$$$$/
+#   |__/     |__/ \____  $$ \______/  \______/  \______/ |__/|_______/ 
+#                 /$$  | $$                                            
+#                |  $$$$$$/                                            
+#                 \______/                                             
+#
+# - The best soul pvp plugin for Spigot 1.8 -
+#
+# /#/ By Hazork /#/ https://Github.com/Hazork/MySouls /#/
+#
+
+#
+# General settings
+#
+souls:
+  initial-souls: 2
+  
+itens:
+  coin-head-url: "http://textures.minecraft.net/texture/77b9dfd281deaef2628ad5840d45bcda436d6626847587f3ac76498a51c861"
+  
+  soul-head-url: "http://textures.minecraft.net/texture/35b116dc769d6d5726f12a24f3f186f839427321e82f4138775a4c40367a49"
+  
+  trophy-head-url: "http://textures.minecraft.net/texture/e34a592a79397a8df3997c43091694fc2fb76c883a76cce89f0227e5c9f1dfe"

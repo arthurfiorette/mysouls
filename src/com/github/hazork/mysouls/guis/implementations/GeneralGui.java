@@ -11,17 +11,20 @@ import java.util.function.UnaryOperator;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.Sound;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import com.github.hazork.mysouls.commands.commands.InfoCommand;
+import com.github.hazork.mysouls.data.config.Config;
 import com.github.hazork.mysouls.data.lang.Lang;
 import com.github.hazork.mysouls.guis.Gui;
 import com.github.hazork.mysouls.guis.GuiListener;
 import com.github.hazork.mysouls.souls.SoulWallet;
 import com.github.hazork.mysouls.utils.ItemBuilder;
 import com.github.hazork.mysouls.utils.ItemBuilder.Properties;
+import com.github.hazork.mysouls.utils.Utils;
 import com.github.hazork.mysouls.utils.Utils.Spigots;
 import com.google.common.collect.Lists;
 
@@ -36,9 +39,8 @@ public class GeneralGui extends Gui {
 	    .remove(Properties.LORE);
     private static ItemBuilder infoBuilder = ItemBuilder.ofHead("MHF_Question", true).setName(Lang.CREDITS.getText())
 	    .setLores(InfoCommand.INFO);
-    private static ItemBuilder trophyBuilder = ItemBuilder.ofHeadUrl(
-	    "http://textures.minecraft.net/texture/e34a592a79397a8df3997c43091694fc2fb76c883a76cce89f0227e5c9f1dfe",
-	    true).setName(Lang.RANKING_NAME.getText()).setLores("§cNot ready yet..");
+    private static ItemBuilder trophyBuilder = ItemBuilder.ofHeadUrl(Config.TROPHY_HEAD_URL.getText(), true)
+	    .setName(Lang.RANKING_NAME.getText()).setLores("§cNot ready yet..");
 
     List<List<UUID>> soulsList = new ArrayList<>();
 
@@ -58,7 +60,7 @@ public class GeneralGui extends Gui {
     protected Inventory createInventory(int lines, String title) {
 	Inventory inv = super.createInventory(lines, title);
 	inv.setItem(45, infoBuilder.build());
-	inv.setItem(19, trophyBuilder.build()); // TODO Trophy information.
+	inv.setItem(19, trophyBuilder.build());
 	return inv;
     }
 
@@ -72,13 +74,11 @@ public class GeneralGui extends Gui {
 
     private void drawItens() {
 	HashMap<Integer, ItemStack> items = new HashMap<>();
-
 	for (int i = 12; i <= 43; i = slotFunc.apply(i + 1)) {
 	    if (!emptyBuilder.build().equals(inventory.getItem(i))) {
 		items.put(i, emptyBuilder.build());
 	    }
 	}
-
 	double ratio = getWallet().soulsRatio();
 	Map<String, String> walletHolders = new HashMap<>();
 	walletHolders.put("{souls}", getWallet().soulsCount() + "");
@@ -116,15 +116,13 @@ public class GeneralGui extends Gui {
 	}
 
 	int wsSlot = 49;
-	String wsUrl = "http://textures.minecraft.net/texture/35b116dc769d6d5726f12a24f3f186f839427321e82f4138775a4c40367a49";
-	ItemBuilder wsBuilder = ItemBuilder.ofHeadUrl(wsUrl, true).setName(Lang.WITHDRAW_SOULS_NAME.getText())
-		.setLore(Lang.WITHDRAW_SOULS_LORE.getList());
+	ItemBuilder wsBuilder = ItemBuilder.ofHeadUrl(Config.SOUL_HEAD_URL.getText(), true)
+		.setName(Lang.WITHDRAW_SOULS_NAME.getText()).setLore(Lang.WITHDRAW_SOULS_LORE.getList());
 	items.put(wsSlot, wsBuilder.build());
 
 	int wcSlot = 51;
-	String wcUrl = "http://textures.minecraft.net/texture/77b9dfd281deaef2628ad5840d45bcda436d6626847587f3ac76498a51c861";
-	ItemBuilder wcBuilder = ItemBuilder.ofHeadUrl(wcUrl, true).setName(Lang.WITHDRAW_COINS_NAME.getText())
-		.setLore(Lang.WITHDRAW_COINS_LORE.getList());
+	ItemBuilder wcBuilder = ItemBuilder.ofHeadUrl(Config.COIN_HEAD_URL.getText(), true)
+		.setName(Lang.WITHDRAW_COINS_NAME.getText()).setLore(Lang.WITHDRAW_COINS_LORE.getList());
 	items.put(wcSlot, wcBuilder.build());
 
 	int pageSlot = 53;
@@ -169,32 +167,32 @@ public class GeneralGui extends Gui {
 		getPlayer().closeInventory();
 		getPlayer().sendMessage(Lang.SOUL_CHAT_MESSAGE.getText());
 		GuiListener.setChatAction(getOwnerId(), msg -> {
-		    String[] args = msg.split(" ");
-		    if (Spigots.hasEmptySlot(getPlayer())) {
-			UUID soul = SoulWallet.ANY;
-			if (getWallet().canRemoveSoul(soul, 1)) {
+		    Lang message = null;
+		    if (!Spigots.hasEmptySlot(getPlayer())) message = Lang.INVENTORY_FULL;
+		    else {
+			String[] args = msg.split(" ");
+			if (!getWallet().canRemoveSoul(SoulWallet.ANY, 1)) message = Lang.DONT_HAVE_SOULS;
+			else {
 			    if (args[0].equalsIgnoreCase("*")) {
-				ItemStack is = getWallet().withdrawSoul(soul);
+				ItemStack is = getWallet().withdrawSoul(SoulWallet.ANY);
 				getPlayer().getInventory().addItem(is);
-				getPlayer().sendMessage(Lang.SOUL_REMOVED.getText());
+				message = Lang.SOUL_REMOVED;
+				Utils.playSound(getPlayer(), Sound.ORB_PICKUP);
 			    } else {
 				@SuppressWarnings("deprecation")
 				OfflinePlayer player = Bukkit.getOfflinePlayer(args[0]);
-				soul = player.getUniqueId();
-				if (player != null && getWallet().canRemoveSoul(soul, 1)) {
-				    ItemStack is = getWallet().withdrawSoul(soul);
+				if (player == null || !getWallet().canRemoveSoul(player.getUniqueId(), 1))
+				    message = Lang.DONT_HAVE_SOUL;
+				else {
+				    ItemStack is = getWallet().withdrawSoul(player.getUniqueId());
 				    getPlayer().getInventory().addItem(is);
-				    getPlayer().sendMessage(Lang.SOUL_REMOVED.getText());
-				} else {
-				    getPlayer().sendMessage(Lang.DONT_HAVE_SOUL.getText());
+				    message = Lang.SOUL_REMOVED;
+				    Utils.playSound(getPlayer(), Sound.ORB_PICKUP);
 				}
 			    }
-			} else {
-			    getPlayer().sendMessage(Lang.DONT_HAVE_SOULS.getText());
 			}
-		    } else {
-			getPlayer().sendMessage(Lang.INVENTORY_FULL.getText());
 		    }
+		    getPlayer().sendMessage(message.getText());
 		});
 		break;
 
@@ -203,23 +201,23 @@ public class GeneralGui extends Gui {
 		getPlayer().sendMessage(Lang.COIN_CHAT_MESSAGE.getText());
 		GuiListener.setChatAction(getOwnerId(), msg -> {
 		    String[] args = msg.split(" ");
+		    Lang message = null;
 		    try {
 			int amount = Integer.parseInt(args[0]);
 			UUID soul = SoulWallet.ANY;
-			if (Spigots.hasEmptySlot(getPlayer())) {
-			    if (getWallet().canRemoveSoul(soul, amount)) {
+			if (!Spigots.hasEmptySlot(getPlayer())) message = Lang.INVENTORY_FULL;
+			else {
+			    if (!getWallet().canRemoveSoul(soul, amount)) message = Lang.DONT_HAVE_SOULS;
+			    else {
 				ItemStack is = getWallet().withdrawCoins(amount);
 				getPlayer().getInventory().addItem(is);
-				getPlayer().sendMessage(Lang.COINS_REMOVED.getText());
-			    } else {
-				getPlayer().sendMessage(Lang.DONT_HAVE_SOULS.getText());
+				message = Lang.COINS_REMOVED;
 			    }
-			} else {
-			    getPlayer().sendMessage(Lang.INVENTORY_FULL.getText());
 			}
 		    } catch (NumberFormatException e) {
-			getPlayer().sendMessage(Lang.NOT_A_NUMBER.getText("{text}", args[0]));
+			message = Lang.NOT_A_NUMBER;
 		    }
+		    getPlayer().sendMessage(message.getText());
 		});
 		break;
 	}
@@ -246,5 +244,4 @@ public class GeneralGui extends Gui {
 	    load();
 	}
     }
-
 }
