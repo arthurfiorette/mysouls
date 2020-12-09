@@ -88,7 +88,11 @@ public class GeneralGui extends Gui {
 	    if (set.isEmpty()) return "§7?";
 	    else {
 		UUID uuid = Collections.max(set, Map.Entry.comparingByValue()).getKey();
-		return Bukkit.getOfflinePlayer(uuid).getName();
+		OfflinePlayer offplayer = Bukkit.getOfflinePlayer(uuid);
+		if (offplayer == null) return "§7?";
+		else {
+		    return offplayer.getName();
+		}
 	    }
 	}));
 
@@ -126,9 +130,12 @@ public class GeneralGui extends Gui {
 	items.put(wcSlot, wcBuilder.build());
 
 	int pageSlot = 53;
-	ItemBuilder pageBuilder = new ItemBuilder(Material.PAPER, true).setName(Lang.PAGE.getText())
-		.setAmount(page + 1);
-	items.put(pageSlot, pageBuilder.build());
+	if (page <= 0) inventory.clear(pageSlot);
+	else {
+	    ItemBuilder pageBuilder = new ItemBuilder(Material.PAPER, true).setName(Lang.PAGE.getText())
+		    .setAmount(page + 1);
+	    items.put(pageSlot, pageBuilder.build());
+	}
 
 	items.forEach((k, v) -> inventory.setItem(k, v));
     }
@@ -214,10 +221,11 @@ public class GeneralGui extends Gui {
 				message = Lang.COINS_REMOVED;
 			    }
 			}
+			getPlayer().sendMessage(message.getText());
 		    } catch (NumberFormatException e) {
-			message = Lang.NOT_A_NUMBER;
+			getPlayer().sendMessage(Lang.NOT_A_NUMBER.getText("{text}", args[0]));
+			return;
 		    }
-		    getPlayer().sendMessage(message.getText());
 		});
 		break;
 	}

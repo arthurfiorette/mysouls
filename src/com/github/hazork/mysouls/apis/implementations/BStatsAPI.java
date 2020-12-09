@@ -25,7 +25,6 @@ public class BStatsAPI implements MySoulsAPI {
     public boolean register() {
 	if (isRegistered()) return false;
 	metrics = new Metrics(MySouls.get(), PluginID);
-	System.out.println("BSTATS: " + isRegistered());
 	return isRegistered();
     }
 

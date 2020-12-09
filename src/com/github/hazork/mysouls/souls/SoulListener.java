@@ -31,6 +31,7 @@ public class SoulListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerDeath(PlayerDeathEvent event) {
 	Player killer = event.getEntity().getKiller();
+	if (killer == null) return;
 	SoulWallet wallet = soulsDb.from(event.getEntity());
 	if (wallet.reportDeath(soulsDb.from(killer))) {
 	    killer.sendMessage(Lang.KILL_MESSAGE.getText("{player}", event.getEntity().getName()));
