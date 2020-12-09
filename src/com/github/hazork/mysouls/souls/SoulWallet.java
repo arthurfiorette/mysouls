@@ -102,7 +102,7 @@ public class SoulWallet {
 	return souls.keySet();
     }
 
-    public int size() {
+    public int playerCount() {
 	return souls.size();
     }
 
@@ -116,7 +116,7 @@ public class SoulWallet {
     }
 
     public double soulsRatio() {
-	return (double) soulsCount() / size();
+	return (double) soulsCount() / playerCount();
     }
 
     public <R> R entrySet(Function<Set<Map.Entry<UUID, Integer>>, R> function) {

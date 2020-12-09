@@ -82,7 +82,7 @@ public class GeneralGui extends Gui {
 	double ratio = getWallet().soulsRatio();
 	Map<String, String> walletHolders = new HashMap<>();
 	walletHolders.put("{souls}", getWallet().soulsCount() + "");
-	walletHolders.put("{players}", getWallet().size() + "");
+	walletHolders.put("{players}", getWallet().playerCount() + "");
 	walletHolders.put("{average}", String.format("%.2f", Double.isNaN(ratio) ? 0 : ratio));
 	walletHolders.put("{more-souls}", getWallet().entrySet(set -> {
 	    if (set.isEmpty()) return "§7?";
