@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -54,6 +55,10 @@ public class Utils {
 
     public static void sendMessageFormat(Player player, String message, Object... args) {
 	sendMessageFormat(player, String.format(message, args));
+    }
+
+    public static void playSound(Player player, Sound sound) {
+	player.playSound(player.getLocation(), sound, 3.0F, 0.5F);
     }
 
     public static class Spigots {
