@@ -1,81 +1,91 @@
 commands:
-  unknown-argument: "&cArgumento desconhecido."
+  unknown-argument: "&4Oops! &7Unknown argument."
   menu-command: "menu"
 
 messages:
-    page: "&7Página"
-    credits: "&5Créditos:"
-    forward: "&aAvançar"
-    backward: "&cVoltar"
-    cannot-use: "&cVocê não pode utilizar este item."
-    soul-added: "&aAlma adicionada."
-    souls-added: "&aAlmas adicionadas."
-    soul-removed: "&aAlma retirada."
-    not-a-number: "&c{text} não é um número."
-    coins-removed: "&aCoins retirados."
-    inventory-full: "&cSem espaço no inventário."
-    soul-64-limit: "&cO limite de almas para cada player é de 64."
-    dont-have-soul: "&cVocê não tem este jogador em sua carteira."
-    dont-have-souls: "&cSem almas suficientes."
-    player-not-found: "&cJogador não encontrado."
-    soul-chat-message: "\n&6Escreva no chat o nome da alma que quer retirar ou escreva * para uma qualquer:\n "
-    coin-chat-message: "\n&6Escreva no chat a quantia de almas para virar coins:\n "
-    inventory-database-closed: "&cInventário fechado pois o banco de menus foi encerrado."
+    page: "&7Page"
+    credits: "&dCredits:"
+
+    forward: "&aForward"
+    backward: "&cBackward"
+
+    soul-added: "&aYay! &7Soul added."
+    souls-added: "&aYay! &7Souls added."
+    soul-removed: "&eDone! &7Soul removed."
+    coins-removed: "&eDone! &7Withdrawn coins."
+    soul-64-limit: "&4Oops! &7You can only have 64 souls per player."
+    dont-have-soul: "&4Oops! &7You don't have this player's soul."
+    dont-have-souls: "&4Oops! &7Insufficient coins."
+
+    death-message: "&4Oops! &7You died and one of your souls went to: &f{player}&7."
+    death-message-fail: "&4Ah! &7You died but did not lose souls because you had none."
+    kill-message: "&aYay! &7You killed the player: &f{player}&7 and won a soul."
+    kill-message-fail: "&4Ah! &7The player you killed doesn't have enough souls to transfer you."
+
+    soul-chat-message: "\n&eWrite in chat, the &fPlayer Name&e to remove or &f*&e to any soul.\n "
+    coin-chat-message: "\n&eWrite in the chat the amount of the soul to be withdrawn in coins:\n "
+
+    not-a-number: "&4Oops! &7{text} isn't a number."
+    cannot-use: "&4Oops! &7You can't put the coin on the floor."
+    inventory-full: "&4Oops! &7Your inventory is full."
+    player-not-found: "&4Oops! &7Player not found."
+    inventory-database-closed: "&4Oops! &7Closed inventory due to database shutdown."
 
 menus:
   ranking:
     name: "&6Ranking"
     lore:
-      - "&7Ranking de almas:"
+      - "&7Soul's ranking:"
       - ""
-      - "&71st: &f{first}"
-      - "&72nd: &f{second}"
-      - "&73rd: &f{third}"
+      - "&cComing soon..."
+#      - "&71st: &f{first}"
+#      - "&72nd: &f{second}"
+#      - "&73rd: &f{third}"
 
   your-wallet:
-    name: "&6Sua carteira."
+    name: "&6Your Wallet."
     lore:
-      - "&eEste menu representa "
-      - "&esua carteira de almas."
+      - "&eThis inventory represents"
+      - "&eyour souls wallet."
       - ""
-      - "&eAlmas: &f{souls}"
-      - "&eJogadores: &f{players}"
-      - "&eMédia: &f{average}"
-      - "&eMais almas de: &f{more-souls}" 
+      - "&eSouls: &f{souls}"
+      - "&ePlayers: &f{players}"
+      - "&eAvarage: &f{average}"
+      - "&eMore souls from: &f{more-souls}" 
 
   withdraw-souls:
-    name: "&7Retirar almas"
+    name: "&7Withdraw soul"
     lore:
-      - "&fClique aqui para transfomar uma alma"
-      - "&fda sua carteira em cabeça."
+      - "&fClick here to collect"
+      - "&fa soul in a soul head"
 
   withdraw-coins:
-    name: "&7Retirar coins"
+    name: "&7Withdraw coins"
     lore:
-      - "&fClique aqui para transfomar uma alma"
-      - "&fda sua carteira em coin."
+      - "&fClick here to collect"
+      - "&fa soul in a coin head"
 
   inventory-soul:
-    name: "&5{player}"
+    name: "&e{player}"
     lore:
-      -  "&f * &dAlma de jogador &f* "
+      -  "&7 * &fPlayer's soul &7* "
 
 itens:
   soul:
-    name: "&5Alma do jogador: &f{player}"
+    name: "&6{player}'s soul"
     lore:
-      - "&dEste item é uma representação de alma "
-      - "&dpara trocas entre players."
+      - "&fThis item is a soul that can be"
+      - "&fcollected again, but it can also"
+      - "&fbe used as a block and a "
+      - "&fcommercial item."
       - ""
-      - "&5Retirado da carteira de: &f{wallet}"
+      - "&fWithdrawer: &e{wallet}"
       - ""
-      - "&cCuidado! Ao colocar no chão a alma é perdida."
-      - "&dClique com o direito para coletar."
+      - "&cBe careful! When placing the soul"
+      - "&con the floor, its value will be lost."
 
   coin:
-    name: "&bCrânio diamantado"
+    name: "&6Soul Coin"
     lore:
-      - "&bEste crânio era uma alma e agora pode ser"
-      - "&busado como item de troca."
-      - ""
-      - "&cNão pode ser convertido de volta."
+      - "&eThis coin was a soul and now"
+      - "&ecan be only used as tradable item"
