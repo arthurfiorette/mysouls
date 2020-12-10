@@ -25,7 +25,6 @@ import com.github.hazork.mysouls.souls.SoulWallet;
 import com.github.hazork.mysouls.utils.ItemBuilder;
 import com.github.hazork.mysouls.utils.ItemBuilder.Properties;
 import com.github.hazork.mysouls.utils.Utils;
-import com.github.hazork.mysouls.utils.Utils.Spigots;
 import com.google.common.collect.Lists;
 
 public class GeneralGui extends Gui {
@@ -179,7 +178,7 @@ public class GeneralGui extends Gui {
 		getPlayer().sendMessage(Lang.SOUL_CHAT_MESSAGE.getText());
 		GuiListener.setChatAction(getOwnerId(), msg -> {
 		    Lang message = null;
-		    if (Spigots.hasEmptySlot(getPlayer())) {
+		    if (Utils.hasEmptySlot(getPlayer())) {
 			String[] args = msg.split(" ");
 			if (getWallet().canRemoveSoul(SoulWallet.ANY, 1)) {
 			    if (args[0].equalsIgnoreCase("*")) {
@@ -218,7 +217,7 @@ public class GeneralGui extends Gui {
 		    try {
 			int amount = Integer.parseInt(args[0]);
 			UUID soul = SoulWallet.ANY;
-			if (Spigots.hasEmptySlot(getPlayer())) {
+			if (Utils.hasEmptySlot(getPlayer())) {
 			    if (getWallet().canRemoveSoul(soul, amount)) {
 				ItemStack is = getWallet().withdrawCoins(amount);
 				getPlayer().getInventory().addItem(is);

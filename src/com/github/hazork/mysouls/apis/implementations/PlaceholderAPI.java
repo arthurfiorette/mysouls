@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import com.github.hazork.mysouls.MySouls;
 import com.github.hazork.mysouls.apis.MySoulsAPI;
 import com.github.hazork.mysouls.souls.SoulWallet;
+import com.github.hazork.mysouls.utils.Utils;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 
@@ -53,7 +54,7 @@ public class PlaceholderAPI extends PlaceholderExpansion implements MySoulsAPI {
 
     @Override
     public boolean canRegister() {
-	return true;
+	return Utils.hasPlugin("PlaceholderAPI");
     }
 
     @Override
