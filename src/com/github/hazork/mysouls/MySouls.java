@@ -13,17 +13,8 @@ import com.github.hazork.mysouls.guis.GuiDB;
 import com.github.hazork.mysouls.guis.GuiListener;
 import com.github.hazork.mysouls.souls.SoulListener;
 import com.github.hazork.mysouls.souls.SoulsDB;
-import com.github.hazork.mysouls.utils.Utils;
 
 public class MySouls extends JavaPlugin {
-
-    /**
-     * A constant of the name used as a key to identify things from the plugin
-     * or not.
-     *
-     * @see {@link Utils.ItemStacks#createNBT(org.bukkit.inventory.ItemStack, String)}
-     */
-    public static final String NAME = "mysouls";
 
     private static MySouls instance = null;
 

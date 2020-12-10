@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.github.hazork.mysouls.MySouls;
 import com.github.hazork.mysouls.apis.MySoulsAPI;
+import com.github.hazork.mysouls.souls.SoulWallet;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 
@@ -23,24 +24,25 @@ public class PlaceholderAPI extends PlaceholderExpansion implements MySoulsAPI {
 	String[] arr = params.split("_");
 	String[] args = Arrays.copyOfRange(arr, 1, arr.length);
 	Object result = null;
+	SoulWallet wallet = MySouls.getDB().from(player);
 
 	switch (arr[0]) {
 	    case "soulscount":
 		if (args.length >= 1) {
 		    @SuppressWarnings("deprecation")
 		    OfflinePlayer of = Bukkit.getOfflinePlayer(args[0]);
-		    result = MySouls.getDB().from(player).soulsCount(of.getUniqueId());
-		} else {
-		    result = MySouls.getDB().from(player).soulsCount();
+		    result = wallet.soulsCount(of.getUniqueId());
+		    break;
 		}
+		result = wallet.soulsCount();
 		break;
 
 	    case "playercount":
-		result = MySouls.getDB().from(player).playerCount();
+		result = wallet.playerCount();
 		break;
 
 	    case "soulsratio":
-		result = MySouls.getDB().from(player).soulsRatio();
+		result = wallet.soulsRatio();
 		break;
 
 	    default:
@@ -66,7 +68,7 @@ public class PlaceholderAPI extends PlaceholderExpansion implements MySoulsAPI {
 
     @Override
     public String getIdentifier() {
-	return MySouls.NAME;
+	return MySouls.get().getName().toLowerCase();
     }
 
     @Override
