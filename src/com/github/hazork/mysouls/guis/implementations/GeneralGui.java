@@ -38,7 +38,7 @@ public class GeneralGui extends Gui {
     private static ItemBuilder emptyBuilder = new ItemBuilder(Material.THIN_GLASS, true).setName(" ")
 	    .remove(Properties.LORE);
     private static ItemBuilder infoBuilder = ItemBuilder.ofHead("MHF_Question", true).setName(Lang.CREDITS.getText())
-	    .setLores(InfoCommand.INFO);
+	    .setLore(InfoCommand.infoList);
     private static ItemBuilder trophyBuilder = ItemBuilder.ofHeadUrl(Config.TROPHY_HEAD_URL.getText(), true)
 	    .setName(Lang.RANKING_NAME.getText()).setLores("§cNot ready yet..");
 
@@ -68,15 +68,18 @@ public class GeneralGui extends Gui {
     protected void load() {
 	drawItens();
 	soulsList = Lists.partition(new ArrayList<>(getWallet().getSouls()), 20);
-	if (page >= soulsList.size()) page = 0;
-	if (!soulsList.isEmpty()) drawPageableItems(soulsList.get(page));
+	if (page >= soulsList.size()) {
+	    page = 0;
+	}
+	if (!soulsList.isEmpty()) {
+	    drawPageableItems(soulsList.get(page));
+	}
     }
 
     private void drawItens() {
-	HashMap<Integer, ItemStack> items = new HashMap<>();
 	for (int i = 12; i <= 43; i = slotFunc.apply(i + 1)) {
 	    if (!emptyBuilder.build().equals(inventory.getItem(i))) {
-		items.put(i, emptyBuilder.build());
+		inventory.setItem(i, emptyBuilder.build());
 	    }
 	}
 	double ratio = getWallet().soulsRatio();
@@ -85,59 +88,61 @@ public class GeneralGui extends Gui {
 	walletHolders.put("{players}", getWallet().playerCount() + "");
 	walletHolders.put("{average}", String.format("%.2f", Double.isNaN(ratio) ? 0 : ratio));
 	walletHolders.put("{more-souls}", getWallet().entrySet(set -> {
-	    if (set.isEmpty()) return "§7?";
-	    else {
+	    if (!set.isEmpty()) {
 		UUID uuid = Collections.max(set, Map.Entry.comparingByValue()).getKey();
 		OfflinePlayer offplayer = Bukkit.getOfflinePlayer(uuid);
-		if (offplayer == null) return "§7?";
-		else {
+		if (offplayer != null) {
 		    return offplayer.getName();
 		}
 	    }
+	    return "§7?";
 	}));
 
 	int walletSlot = 10;
-	ItemBuilder walletBuilder = ItemBuilder.ofHead(getOfflinePlayer(), true)
-		.setName(Lang.YOUR_WALLET_NAME.getText()).setLore(Lang.YOUR_WALLET_LORE.getList(walletHolders));
-	items.put(walletSlot, walletBuilder.build());
+	ItemBuilder walletBuilder = ItemBuilder.ofHead(getOfflinePlayer(), true);
+	walletBuilder.setName(Lang.YOUR_WALLET_NAME.getText());
+	walletBuilder.setLore(Lang.YOUR_WALLET_LORE.getList(walletHolders));
+	inventory.setItem(walletSlot, walletBuilder.build());
 
 	int ppSlot = 26;
-	if (!hasPreviousPage()) inventory.clear(ppSlot);
-	else {
-	    if (inventory.getItem(ppSlot) == null) {
-		ItemBuilder ppBuilder = new ItemBuilder(Material.STONE_BUTTON, true).setName(Lang.BACKWARD.getText());
-		items.put(ppSlot, ppBuilder.build());
-	    }
+	if (hasPreviousPage() && inventory.getItem(ppSlot) == null) {
+	    ItemBuilder ppBuilder = new ItemBuilder(Material.STONE_BUTTON, true);
+	    ppBuilder.setName(Lang.BACKWARD.getText());
+	    inventory.setItem(ppSlot, ppBuilder.build());
+	} else {
+	    inventory.clear(ppSlot);
 	}
 
 	int npSlot = 35;
-	if (!hasNextPage()) inventory.clear(npSlot);
-	else {
-	    if (inventory.getItem(npSlot) == null) {
-		ItemBuilder npBuilder = new ItemBuilder(Material.STONE_BUTTON, true).setName(Lang.FORWARD.getText());
-		items.put(npSlot, npBuilder.build());
-	    }
+	if (hasNextPage() && inventory.getItem(ppSlot) == null) {
+	    ItemBuilder npBuilder = new ItemBuilder(Material.STONE_BUTTON, true);
+	    npBuilder.setName(Lang.FORWARD.getText());
+	    inventory.setItem(npSlot, npBuilder.build());
+	} else {
+	    inventory.clear(npSlot);
 	}
 
 	int wsSlot = 49;
-	ItemBuilder wsBuilder = ItemBuilder.ofHeadUrl(Config.SOUL_HEAD_URL.getText(), true)
-		.setName(Lang.WITHDRAW_SOULS_NAME.getText()).setLore(Lang.WITHDRAW_SOULS_LORE.getList());
-	items.put(wsSlot, wsBuilder.build());
+	ItemBuilder wsBuilder = ItemBuilder.ofHeadUrl(Config.SOUL_HEAD_URL.getText(), true);
+	wsBuilder.setName(Lang.WITHDRAW_SOULS_NAME.getText());
+	wsBuilder.setLore(Lang.WITHDRAW_SOULS_LORE.getList());
+	inventory.setItem(wsSlot, wsBuilder.build());
 
 	int wcSlot = 51;
-	ItemBuilder wcBuilder = ItemBuilder.ofHeadUrl(Config.COIN_HEAD_URL.getText(), true)
-		.setName(Lang.WITHDRAW_COINS_NAME.getText()).setLore(Lang.WITHDRAW_COINS_LORE.getList());
-	items.put(wcSlot, wcBuilder.build());
+	ItemBuilder wcBuilder = ItemBuilder.ofHeadUrl(Config.COIN_HEAD_URL.getText(), true);
+	wcBuilder.setName(Lang.WITHDRAW_COINS_NAME.getText());
+	wcBuilder.setLore(Lang.WITHDRAW_COINS_LORE.getList());
+	inventory.setItem(wcSlot, wcBuilder.build());
 
 	int pageSlot = 53;
-	if (page <= 0) inventory.clear(pageSlot);
-	else {
-	    ItemBuilder pageBuilder = new ItemBuilder(Material.PAPER, true).setName(Lang.PAGE.getText())
-		    .setAmount(page + 1);
-	    items.put(pageSlot, pageBuilder.build());
+	if (page > 0) {
+	    ItemBuilder pageBuilder = new ItemBuilder(Material.PAPER, true);
+	    pageBuilder.setName(Lang.PAGE.getText());
+	    pageBuilder.setAmount(page + 1);
+	    inventory.setItem(pageSlot, pageBuilder.build());
+	} else {
+	    inventory.clear(pageSlot);
 	}
-
-	items.forEach((k, v) -> inventory.setItem(k, v));
     }
 
     private void drawPageableItems(List<UUID> list) {
@@ -161,7 +166,6 @@ public class GeneralGui extends Gui {
 	super.onClick(event);
 
 	switch (event.getSlot()) {
-
 	    case 26: // previous
 		previousPage();
 		break;
@@ -175,11 +179,9 @@ public class GeneralGui extends Gui {
 		getPlayer().sendMessage(Lang.SOUL_CHAT_MESSAGE.getText());
 		GuiListener.setChatAction(getOwnerId(), msg -> {
 		    Lang message = null;
-		    if (!Spigots.hasEmptySlot(getPlayer())) message = Lang.INVENTORY_FULL;
-		    else {
+		    if (Spigots.hasEmptySlot(getPlayer())) {
 			String[] args = msg.split(" ");
-			if (!getWallet().canRemoveSoul(SoulWallet.ANY, 1)) message = Lang.DONT_HAVE_SOULS;
-			else {
+			if (getWallet().canRemoveSoul(SoulWallet.ANY, 1)) {
 			    if (args[0].equalsIgnoreCase("*")) {
 				ItemStack is = getWallet().withdrawSoul(SoulWallet.ANY);
 				getPlayer().getInventory().addItem(is);
@@ -188,16 +190,20 @@ public class GeneralGui extends Gui {
 			    } else {
 				@SuppressWarnings("deprecation")
 				OfflinePlayer player = Bukkit.getOfflinePlayer(args[0]);
-				if (player == null || !getWallet().canRemoveSoul(player.getUniqueId(), 1))
-				    message = Lang.DONT_HAVE_SOUL;
-				else {
+				if (player != null && getWallet().canRemoveSoul(player.getUniqueId(), 1)) {
 				    ItemStack is = getWallet().withdrawSoul(player.getUniqueId());
 				    getPlayer().getInventory().addItem(is);
 				    message = Lang.SOUL_REMOVED;
 				    Utils.playSound(getPlayer(), Sound.ORB_PICKUP);
+				} else {
+				    message = Lang.DONT_HAVE_SOUL;
 				}
 			    }
+			} else {
+			    message = Lang.DONT_HAVE_SOULS;
 			}
+		    } else {
+			message = Lang.INVENTORY_FULL;
 		    }
 		    getPlayer().sendMessage(message.getText());
 		});
@@ -212,14 +218,16 @@ public class GeneralGui extends Gui {
 		    try {
 			int amount = Integer.parseInt(args[0]);
 			UUID soul = SoulWallet.ANY;
-			if (!Spigots.hasEmptySlot(getPlayer())) message = Lang.INVENTORY_FULL;
-			else {
-			    if (!getWallet().canRemoveSoul(soul, amount)) message = Lang.DONT_HAVE_SOULS;
-			    else {
+			if (Spigots.hasEmptySlot(getPlayer())) {
+			    if (getWallet().canRemoveSoul(soul, amount)) {
 				ItemStack is = getWallet().withdrawCoins(amount);
 				getPlayer().getInventory().addItem(is);
 				message = Lang.COINS_REMOVED;
+			    } else {
+				message = Lang.DONT_HAVE_SOULS;
 			    }
+			} else {
+			    message = Lang.INVENTORY_FULL;
 			}
 			getPlayer().sendMessage(message.getText());
 		    } catch (NumberFormatException e) {

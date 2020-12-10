@@ -14,46 +14,24 @@ import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 
 public class PlaceholderAPI extends PlaceholderExpansion implements MySoulsAPI {
 
-    private MySouls mysouls = MySouls.get();
-
-    @Override
-    public boolean canRegister() {
-	return true;
-    }
-
-    @Override
-    public boolean persist() {
-	return true;
-    }
-
-    @Override
-    public @NotNull String getAuthor() {
-	return mysouls.getDescription().getAuthors().toString();
-    }
-
-    @Override
-    public @NotNull String getIdentifier() {
-	return MySouls.NAME;
-    }
-
-    @Override
-    public @NotNull String getVersion() {
-	return MySouls.getVersion();
-    }
-
     @Override
     public String onPlaceholderRequest(Player player, @NotNull String params) {
-	if (player == null) return null;
+	if (player == null) {
+	    return null;
+	}
+
 	String[] arr = params.split("_");
 	String[] args = Arrays.copyOfRange(arr, 1, arr.length);
 	Object result = null;
+
 	switch (arr[0]) {
 	    case "soulscount":
-		if (args.length < 1) result = MySouls.getDB().from(player).soulsCount();
-		else {
+		if (args.length >= 1) {
 		    @SuppressWarnings("deprecation")
 		    OfflinePlayer of = Bukkit.getOfflinePlayer(args[0]);
 		    result = MySouls.getDB().from(player).soulsCount(of.getUniqueId());
+		} else {
+		    result = MySouls.getDB().from(player).soulsCount();
 		}
 		break;
 
@@ -69,5 +47,30 @@ public class PlaceholderAPI extends PlaceholderExpansion implements MySoulsAPI {
 		return null;
 	}
 	return result.toString();
+    }
+
+    @Override
+    public boolean canRegister() {
+	return true;
+    }
+
+    @Override
+    public boolean persist() {
+	return true;
+    }
+
+    @Override
+    public String getAuthor() {
+	return MySouls.get().getDescription().getAuthors().toString();
+    }
+
+    @Override
+    public String getIdentifier() {
+	return MySouls.NAME;
+    }
+
+    @Override
+    public String getVersion() {
+	return MySouls.getVersion();
     }
 }

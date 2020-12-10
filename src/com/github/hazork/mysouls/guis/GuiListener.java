@@ -49,5 +49,4 @@ public class GuiListener implements Listener {
 	guiDb.fromCache(player.getUniqueId())
 		.ifPresent(container -> container.getGui(event.getInventory()).ifPresent(gui -> gui.onClick(event)));
     }
-
 }

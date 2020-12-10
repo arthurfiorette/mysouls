@@ -1,7 +1,6 @@
 package com.github.hazork.mysouls.data.config;
 
 public enum Config {
-
     INITIAL_SOULS("souls.initial-souls"),
     COIN_HEAD_URL("itens.coin-head-url"),
     SOUL_HEAD_URL("itens.soul-head-url"),

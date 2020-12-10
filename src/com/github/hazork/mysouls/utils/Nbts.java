@@ -19,7 +19,9 @@ public class Nbts {
     public static ItemStack saveValue(ItemStack source, String id, String value) {
 	Map<String, String> map = Maps.newHashMap();
 	map.put(Nbts.id, id);
-	if (value != null) map.put(Nbts.value, value);
+	if (value != null) {
+	    map.put(Nbts.value, value);
+	}
 	return saveValues(source, map);
     }
 
@@ -33,8 +35,10 @@ public class Nbts {
 
     private static String getValue(ItemStack item, String keyName) {
 	NBTTagCompound nbt = getNbt(item);
-	if (nbt.getBoolean(Nbts.name)) return nbt.getString(getKey(keyName));
-	else return new String();
+	if (nbt.getBoolean(Nbts.name)) {
+	    return nbt.getString(getKey(keyName));
+	}
+	return new String();
     }
 
     private static ItemStack saveValues(ItemStack source, Map<String, String> values) {
@@ -59,5 +63,4 @@ public class Nbts {
     private static String getKey(String keyName) {
 	return keyName.startsWith(name + ".") ? keyName : name + "." + keyName;
     }
-
 }

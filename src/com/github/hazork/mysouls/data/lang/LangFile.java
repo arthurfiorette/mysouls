@@ -13,7 +13,7 @@ import com.google.common.collect.Lists;
 
 public class LangFile extends YamlFile {
 
-    private static final String UNKNOWN_VALUE = "§4§l??? §c(Incorrect lang.yml line).";
+    private static final String UNKNOWN_VALUE = "§7Unknown Text.";
 
     private static LangFile instance = null;
 
@@ -28,20 +28,20 @@ public class LangFile extends YamlFile {
 
     public static String getString(Lang lang) {
 	String value = get().config.getString(lang.getPath());
-	if (value != null) return setColorful(value);
-	else {
+	if (value == null) {
 	    warnNPE(lang);
 	    return UNKNOWN_VALUE;
 	}
+	return setColorful(value);
     }
 
     public static List<String> getList(Lang lang) {
 	List<String> value = get().config.getStringList(lang.getPath());
-	if (value != null) return Utils.listMapper(value, LangFile::setColorful);
-	else {
+	if (value == null) {
 	    warnNPE(lang);
 	    return Lists.newArrayList(UNKNOWN_VALUE);
 	}
+	return Utils.listMapper(value, LangFile::setColorful);
     }
 
     public static String getString(Lang lang, String key, String value) {
@@ -67,15 +67,16 @@ public class LangFile extends YamlFile {
     }
 
     private static String setInternalPlaceholders(String text, Map<String, String> placeholders) {
-	if (placeholders.isEmpty()) return text;
-	for (Entry<String, String> entry : placeholders.entrySet())
-	    if (text.contains(entry.getKey())) text = text.replace(entry.getKey(), entry.getValue());
+	for (Entry<String, String> entry : placeholders.entrySet()) {
+	    if (text.contains(entry.getKey())) {
+		text = text.replace(entry.getKey(), entry.getValue());
+	    }
+	}
 	return text;
     }
 
     private static void warnNPE(Lang cause) {
-	MySouls.treatException(Lang.class, String.format("%s está retornando nulo, veja na lang.yml", cause.getPath()),
+	MySouls.treatException(Lang.class, String.format("%s is returning null, see it on lang.yml", cause.getPath()),
 		null);
     }
-
 }

@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import com.github.hazork.mysouls.MySouls;
 import com.github.hazork.mysouls.data.lang.Lang;
 import com.github.hazork.mysouls.utils.Nbts;
+import com.github.hazork.mysouls.utils.Utils;
 
 public class SoulListener implements Listener {
 
@@ -31,14 +32,20 @@ public class SoulListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerDeath(PlayerDeathEvent event) {
 	Player killer = event.getEntity().getKiller();
-	if (killer == null) return;
-	SoulWallet wallet = soulsDb.from(event.getEntity());
-	if (wallet.reportDeath(soulsDb.from(killer))) {
-	    killer.sendMessage(Lang.KILL_MESSAGE.getText("{player}", event.getEntity().getName()));
-	    event.getEntity().sendMessage(Lang.DEATH_MESSAGE.getText("{player}", killer.getName()));
-	} else {
-	    killer.sendMessage(Lang.KILL_MESSAGE_FAIL.getText());
-	    event.getEntity().sendMessage(Lang.DEATH_MESSAGE_FAIL.getText());
+	Player entity = event.getEntity();
+	if (Utils.nonNull(killer, entity)) {
+	    SoulWallet wallet = soulsDb.from(event.getEntity());
+	    String kMessage;
+	    String eMessage;
+	    if (wallet.reportDeath(soulsDb.from(killer))) {
+		kMessage = Lang.KILL_MESSAGE.getText("{player}", event.getEntity().getName());
+		eMessage = Lang.DEATH_MESSAGE.getText("{player}", killer.getName());
+	    } else {
+		kMessage = Lang.KILL_MESSAGE_FAIL.getText();
+		eMessage = Lang.DEATH_MESSAGE_FAIL.getText();
+	    }
+	    killer.sendMessage(kMessage);
+	    entity.sendMessage(eMessage);
 	}
     }
 
@@ -53,6 +60,8 @@ public class SoulListener implements Listener {
 			case RIGHT_CLICK_BLOCK:
 			    message = Lang.CANNOT_USE;
 			    event.setCancelled(true);
+			    break;
+
 			default:
 			    break;
 		    }
@@ -63,23 +72,29 @@ public class SoulListener implements Listener {
 		    int amount = item.getAmount();
 		    SoulWallet sw = soulsDb.from(event.getPlayer());
 		    UUID soul = UUID.fromString(Nbts.getValue(item));
-
 		    switch (event.getAction()) {
 			case RIGHT_CLICK_AIR:
 			    if (player.isSneaking()) {
-				if (!sw.canAddSoul(soul, amount)) message = Lang.SOUL_64_LIMIT;
-				else {
-				    for (int i = 0; i < amount; i++) sw.addSoul(soul);
-				    message = Lang.SOULS_ADDED;
+				if (sw.canAddSoul(soul, amount)) {
+				    for (int i = 0; i < amount; i++) {
+					sw.addSoul(soul);
+				    }
 				    player.setItemInHand(null);
+				    message = Lang.SOULS_ADDED;
+				} else {
+				    message = Lang.SOUL_64_LIMIT;
 				}
 			    } else {
-				if (!sw.canAddSoul(soul, 1)) message = Lang.SOUL_64_LIMIT;
-				else {
+				if (sw.canAddSoul(soul, 1)) {
 				    sw.addSoul(soul);
-				    if (amount > 1) item.setAmount(amount - 1);
-				    else player.setItemInHand(null);
+				    if (amount > 1) {
+					item.setAmount(amount - 1);
+				    } else {
+					player.setItemInHand(null);
+				    }
 				    message = Lang.SOUL_ADDED;
+				} else {
+				    message = Lang.SOUL_64_LIMIT;
 				}
 			    }
 			    break;
@@ -88,7 +103,9 @@ public class SoulListener implements Listener {
 			    break;
 		    }
 	    }
-	    if (message != null) event.getPlayer().sendMessage(message.getText());
+	    if (message != null) {
+		event.getPlayer().sendMessage(message.getText());
+	    }
 	}
     }
 }

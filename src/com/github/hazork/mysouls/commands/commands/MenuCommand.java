@@ -24,5 +24,4 @@ public class MenuCommand implements MySoulsCommand {
     public boolean predicate(CommandSender sender) {
 	return sender instanceof Player;
     }
-
 }

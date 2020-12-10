@@ -1,7 +1,9 @@
 package com.github.hazork.mysouls.utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -24,15 +26,22 @@ public class Utils {
 	return element;
     }
 
+    public static <E> E getRandom(List<E> list) {
+	return list.get(getRandom(list.size()));
+    }
+
     public static int getRandom(int range) {
 	return new Random().nextInt(range);
     }
 
     public static <O> List<O> multiply(O source, int mult) {
-	if (mult <= 0) return new ArrayList<>();
-	else {
+	if (mult <= 0) {
+	    return new ArrayList<>();
+	} else {
 	    List<O> list = new ArrayList<>();
-	    for (int i = 0; i < mult; i++) list.add(source);
+	    for (int i = 0; i < mult; i++) {
+		list.add(source);
+	    }
 	    return list;
 	}
     }
@@ -61,6 +70,10 @@ public class Utils {
 	player.playSound(player.getLocation(), sound, 3.0F, 0.5F);
     }
 
+    public static boolean nonNull(Object... objects) {
+	return Arrays.stream(objects).filter(Objects::isNull).count() > 0;
+    }
+
     public static class Spigots {
 
 	public static boolean hasPlugin(String name) {
@@ -72,14 +85,19 @@ public class Utils {
 	}
 
 	public static boolean hasEmptySpace(Player player, int amount) {
-	    if (!hasEmptySlot(player)) return false;
+	    if (!hasEmptySlot(player)) {
+		return false;
+	    }
 	    return ((getEmptySlots(player) * 64) >= amount);
 	}
 
 	public static int getEmptySlots(Player player) {
 	    int space = 0;
-	    for (ItemStack is : player.getInventory().getContents())
-		if (is == null || is.getType() == Material.AIR) space += 64;
+	    for (ItemStack is : player.getInventory().getContents()) {
+		if (is == null || is.getType() == Material.AIR) {
+		    space += 64;
+		}
+	    }
 	    return space;
 	}
 
@@ -92,7 +110,11 @@ public class Utils {
 	}
 
 	public static boolean isPlayer(Object... objs) {
-	    for (Object obj : objs) if (!isPlayer(obj)) return false;
+	    for (Object obj : objs) {
+		if (!isPlayer(obj)) {
+		    return false;
+		}
+	    }
 	    return true;
 	}
 

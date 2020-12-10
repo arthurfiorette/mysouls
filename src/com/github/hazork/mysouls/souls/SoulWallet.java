@@ -1,5 +1,6 @@
 package com.github.hazork.mysouls.souls;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -25,6 +26,7 @@ public class SoulWallet {
      * redability. Same as {@code null}
      */
     public static final UUID ANY = null;
+
     public static final String SOUL_ID = "soulsId";
     public static final String COIN_ID = "coinsId";
 
@@ -37,17 +39,22 @@ public class SoulWallet {
     }
 
     public boolean canAddSoul(UUID soul, int amount) {
-	if (soul == null) return false;
-	else if (!Utils.isMinecraftPack(amount)) return false;
-	else if (souls.containsKey(soul)) return souls.get(soul) + amount <= 64;
-	else return true;
+	if ((soul == null) || !Utils.isMinecraftPack(amount)) {
+	    return false;
+	} else if (souls.containsKey(soul)) {
+	    return souls.get(soul) + amount <= 64;
+	} else {
+	    return true;
+	}
     }
 
     boolean addSoul(UUID soul) {
 	if (canAddSoul(soul, 1)) {
 	    souls.compute(soul, (k, v) -> v == null ? 1 : v + 1);
 	    return true;
-	} else return false;
+	} else {
+	    return false;
+	}
     }
 
     public boolean canRemoveSoul(@Nullable UUID soul, int amount) {
@@ -57,17 +64,22 @@ public class SoulWallet {
     UUID removeSoul(@Nullable UUID soul) {
 	if (canRemoveSoul(soul, 1)) {
 	    if (soul == null) {
-		soul = souls.entrySet().stream().findAny().get().getKey();
+		soul = Utils.getRandom(new ArrayList<>(souls.keySet()));
 	    }
 	    souls.compute(soul, (k, v) -> v <= 1 ? null : v - 1);
 	    return soul;
-	} else return null;
+	}
+	return null;
     }
 
     public boolean removeSouls(@Nullable UUID soul, int amount) {
-	if (!canRemoveSoul(soul, amount)) return false;
-	for (int souls = 0; souls < amount; souls++) removeSoul(soul);
-	return true;
+	if (canRemoveSoul(soul, amount)) {
+	    for (int souls = 0; souls < amount; souls++) {
+		removeSoul(soul);
+	    }
+	    return true;
+	}
+	return false;
     }
 
     public boolean reportDeath(SoulWallet killer) {
@@ -75,7 +87,8 @@ public class SoulWallet {
 	    UUID soul = removeSoul(ANY);
 	    killer.addSoul(soul);
 	    return true;
-	} else return false;
+	}
+	return false;
     }
 
     public ItemStack withdrawSoul(UUID soul) {
@@ -85,7 +98,8 @@ public class SoulWallet {
 	    builder.setName(Lang.SOUL_NAME.getText("{player}", Bukkit.getOfflinePlayer(soul).getName()));
 	    builder.setLore(Lang.SOUL_LORE.getList("{wallet}", getPlayer().getName()));
 	    return Nbts.saveValue(builder.build(), SOUL_ID, soul.toString());
-	} else return null;
+	}
+	return null;
     }
 
     public ItemStack withdrawCoins(int amount) {
@@ -96,7 +110,8 @@ public class SoulWallet {
 	    builder.setLore(Lang.COIN_LORE.getList());
 	    builder.setAmount(amount);
 	    return Nbts.saveValue(builder.build(), COIN_ID, null);
-	} else return null;
+	}
+	return null;
     }
 
     public Set<UUID> getSouls() {
@@ -112,8 +127,10 @@ public class SoulWallet {
     }
 
     public int soulsCount(@Nullable UUID uuid) {
-	if (uuid == null) return souls.values().stream().reduce(0, Integer::sum);
-	else return souls.containsKey(uuid) ? souls.get(uuid) : 0;
+	if (uuid == null) {
+	    return souls.values().stream().reduce(0, Integer::sum);
+	}
+	return souls.containsKey(uuid) ? souls.get(uuid) : 0;
     }
 
     public double soulsRatio() {

@@ -17,7 +17,7 @@ public abstract class YamlFile {
     protected YamlFile(MySouls plugin, File folder, String name) {
 	this.plugin = plugin;
 	this.name = (name.endsWith(".yml") ? name : name + ".yml");
-	this.file = new File(folder, this.name);
+	file = new File(folder, this.name);
 	load();
     }
 
@@ -31,7 +31,9 @@ public abstract class YamlFile {
     }
 
     public FileConfiguration getConfig(boolean reload) {
-	if (reload) load();
+	if (reload) {
+	    load();
+	}
 	return config;
     }
 

@@ -20,29 +20,30 @@ public class APICoordinator {
 
     public void enable() {
 	for (MySoulsAPI api : apis) {
-	    if (api.canRegister()) api.register();
-	    else switch (api.getDependent()) {
-		case DEPEND: {
-		    MySouls.log(Level.WARNING,
-			    String.format("A api (%s) não pode ser carregada e é dependente total. Plugin desabilitado",
-				    api.getName()));
+	    if (api.canRegister()) {
+		api.register();
+		continue;
+	    }
+	    switch (api.getDependent()) {
+		case DEPEND:
+		    final String msg = "A api (%s) não pode ser carregada e é dependente total. Plugin desabilitado";
+		    MySouls.log(Level.WARNING, String.format(msg, api.getName()));
 		    MySouls.disable();
 		    break;
-		}
 
-		case SOFT_DEPEND: {
-		    MySouls.log(Level.INFO,
-			    String.format(
-				    "A api (%s) não foi encontrada e não será inicializada, mas não era essencial.",
-				    api.getName()));
+		case SOFT_DEPEND:
+		    final String messasge = "A api (%s) não foi encontrada e não será inicializada, mas não era essencial.";
+		    MySouls.log(Level.INFO, String.format(messasge, api.getName()));
 		    break;
-		}
 	    }
 	}
     }
 
     public void disable() {
-	for (MySoulsAPI api : apis) if (api.isRegistered()) api.unregister();
+	for (MySoulsAPI api : apis) {
+	    if (api.isRegistered()) {
+		api.unregister();
+	    }
+	}
     }
-
 }

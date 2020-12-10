@@ -36,8 +36,6 @@ public class ItemBuilder {
     }
 
     public static ItemBuilder ofHead(OfflinePlayer player, boolean allItemFlags) {
-	ItemBuilder builder = new ItemBuilder(Material.SKULL_ITEM, allItemFlags).setDurability(3);
-	if (player == null) return builder;
 	return ofSkullGameProfile(new GameProfile(player.getUniqueId(), player.getName()), allItemFlags);
     }
 
@@ -59,8 +57,6 @@ public class ItemBuilder {
     }
 
     public static ItemBuilder ofHeadUrl(String url, boolean allItemFlags) {
-	ItemBuilder builder = new ItemBuilder(Material.SKULL_ITEM, allItemFlags).setDurability(3);
-	if (url.isEmpty()) return builder;
 	GameProfile profile = new GameProfile(UUID.randomUUID(), null);
 	byte[] encodedData = Base64.encodeBase64(String.format("{textures:{SKIN:{url:\"%s\"}}}", url).getBytes());
 	profile.getProperties().put("textures", new Property("textures", new String(encodedData)));
@@ -73,7 +69,6 @@ public class ItemBuilder {
 
     public static ItemBuilder ofSkullGameProfile(GameProfile gp, boolean allItemFlags) {
 	ItemBuilder builder = new ItemBuilder(Material.SKULL_ITEM, allItemFlags).setDurability(3);
-	if (gp == null) return builder;
 	builder.addCustomMeta(meta -> {
 	    try {
 		SkullMeta headMeta = (SkullMeta) meta;
@@ -81,7 +76,7 @@ public class ItemBuilder {
 		profileField.setAccessible(true);
 		profileField.set(headMeta, gp);
 		return headMeta;
-	    } catch (Exception exc) {
+	    } catch (IllegalAccessException | NoSuchFieldException exc) {
 		MySouls.treatException(ItemBuilder.class, "Erro ao tentar carregar cabeça customizada via GameProfile",
 			exc);
 		return meta;
@@ -92,7 +87,9 @@ public class ItemBuilder {
 
     public ItemBuilder(Material material, boolean removeAllItemFlags) {
 	this(material);
-	if (removeAllItemFlags) setItemFlags();
+	if (removeAllItemFlags) {
+	    setItemFlags();
+	}
     }
 
     public ItemBuilder(Material material) {
@@ -151,9 +148,10 @@ public class ItemBuilder {
     }
 
     public ItemBuilder addLore(List<String> lore) {
-	if (properties.containsKey(Properties.LORE))
+	if (properties.containsKey(Properties.LORE)) {
 	    return addProperties(Properties.LORE, is -> setItemMeta(is, im -> im.getLore().addAll(lore)));
-	else return setLore(lore);
+	}
+	return setLore(lore);
     }
 
     public ItemBuilder addCustomMeta(UnaryOperator<ItemMeta> customMeta) {
@@ -161,7 +159,9 @@ public class ItemBuilder {
     }
 
     public ItemStack build() {
-	if (!modified) return getLastBuild();
+	if (!modified) {
+	    return getLastBuild();
+	}
 	ItemStack item = new ItemStack(material);
 	properties.values().stream().forEach(c -> c.accept(item));
 	return lastBuild = item;
@@ -175,9 +175,10 @@ public class ItemBuilder {
 	return build().getItemMeta().spigot();
     }
 
+    @Override
     public ItemBuilder clone() {
-	ItemBuilder clone = new ItemBuilder(this.material);
-	clone.properties = this.properties;
+	ItemBuilder clone = new ItemBuilder(material);
+	clone.properties = properties;
 	return clone;
     }
 
@@ -187,9 +188,11 @@ public class ItemBuilder {
     }
 
     private ItemBuilder addProperties(Properties type, Consumer<ItemStack> consumer) {
-	if (properties.containsKey(type) && type.isCumulative())
+	if (properties.containsKey(type) && type.isCumulative()) {
 	    properties.compute(type, (k, v) -> v.andThen(consumer));
-	else properties.put(type, consumer);
+	} else {
+	    properties.put(type, consumer);
+	}
 	modified = true;
 	return this;
     }
@@ -200,7 +203,7 @@ public class ItemBuilder {
 	item.setItemMeta(meta);
     }
 
-    public static enum Properties {
+    public enum Properties {
 	NAME(false),
 	LORE(false),
 	DAMAGE(false),
@@ -220,5 +223,4 @@ public class ItemBuilder {
 	    return cumulative;
 	}
     }
-
 }

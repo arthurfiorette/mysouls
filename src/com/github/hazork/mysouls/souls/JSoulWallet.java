@@ -1,6 +1,7 @@
 package com.github.hazork.mysouls.souls;
 
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -22,7 +23,7 @@ public class JSoulWallet {
 	jsw.obj = wallet;
 	jsw.uuid = wallet.getOwnerId().toString();
 	jsw.souls = wallet.souls.entrySet().stream()
-		.collect(Collectors.toMap(e -> e.getKey().toString(), e -> e.getValue()));
+		.collect(Collectors.toMap(e -> e.getKey().toString(), Entry::getValue));
 	return jsw;
     }
 
@@ -35,11 +36,12 @@ public class JSoulWallet {
     }
 
     public SoulWallet getWallet() {
-	if (Objects.nonNull(obj)) return obj;
+	if (Objects.nonNull(obj)) {
+	    return obj;
+	}
 	SoulWallet wallet = new SoulWallet(UUID.fromString(uuid));
 	wallet.souls = souls.entrySet().stream()
-		.collect(Collectors.toMap(e -> UUID.fromString(e.getKey()), e -> e.getValue()));
+		.collect(Collectors.toMap(e -> UUID.fromString(e.getKey()), Entry::getValue));
 	return obj = wallet;
     }
-
 }

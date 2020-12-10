@@ -5,7 +5,7 @@ public abstract class CacheDB<K, V> extends MapDB<CacheMap<K, V>, K, V> {
     private volatile CacheMap<K, V> cache;
 
     public CacheDB(long delay, long seconds) {
-	cache = new CacheMap<K, V>(delay, seconds, (k, v) -> save(v));
+	cache = new CacheMap<>(delay, seconds, (k, v) -> save(v));
     }
 
     @Override

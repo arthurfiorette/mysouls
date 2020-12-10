@@ -7,24 +7,23 @@ import com.github.hazork.mysouls.apis.MySoulsAPI;
 
 public class BStatsAPI implements MySoulsAPI {
 
-    public static final int PluginID = 9601;
-
+    public static final int pluginId = 9601;
     private Metrics metrics = null;
 
     @Override
     public boolean canRegister() {
 	try {
-	    Class<?> clazz = Class.forName("org.bstats.bukkit.Metrics");
-	    return clazz != null;
-	} catch (Exception e) {
+	    return (Class.forName("org.bstats.bukkit.Metrics") != null);
+	} catch (ClassNotFoundException cannotRegister) {
 	    return false;
 	}
     }
 
     @Override
     public boolean register() {
-	if (isRegistered()) return false;
-	metrics = new Metrics(MySouls.get(), PluginID);
+	if (!isRegistered()) {
+	    metrics = new Metrics(MySouls.get(), pluginId);
+	}
 	return isRegistered();
     }
 
@@ -42,5 +41,4 @@ public class BStatsAPI implements MySoulsAPI {
     public boolean isRegistered() {
 	return metrics != null && metrics.isEnabled();
     }
-
 }

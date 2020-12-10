@@ -24,7 +24,7 @@ public abstract class Gui {
 
     protected Gui(UUID ownerId, int lines, String title) {
 	this.ownerId = ownerId;
-	this.inventory = createInventory(lines, title);
+	inventory = createInventory(lines, title);
     }
 
     protected abstract String getName();
@@ -36,7 +36,9 @@ public abstract class Gui {
     }
 
     public void open(boolean load) {
-	if (load) load();
+	if (load) {
+	    load();
+	}
 	getPlayer().openInventory(getInventory());
     }
 

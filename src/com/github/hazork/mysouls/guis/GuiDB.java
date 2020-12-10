@@ -33,8 +33,11 @@ public final class GuiDB extends HashMapDB<UUID, GuiContainer> {
      * {@link Optional#empty} if the uuid isn't on the map.
      */
     public Optional<GuiContainer> fromCache(UUID uuid) {
-	if (getMap().containsKey(uuid)) return Optional.of(getMap().get(uuid));
-	else return Optional.empty();
+	if (getMap().containsKey(uuid)) {
+	    return Optional.of(getMap().get(uuid));
+	} else {
+	    return Optional.empty();
+	}
     }
 
     public void close() {

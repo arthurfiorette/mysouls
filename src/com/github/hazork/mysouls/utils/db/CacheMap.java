@@ -42,9 +42,11 @@ public class CacheMap<K, V> extends ConcurrentHashMap<K, V> implements Runnable 
 
     @Override
     public void run() {
-	while (!this.isEmpty()) {
+	while (!isEmpty()) {
 	    for (Entry<K, LocalTime> entry : time_map.entrySet()) {
-		if (LocalTime.now().minusSeconds(seconds).isAfter(entry.getValue())) removeSafety(entry.getKey());
+		if (LocalTime.now().minusSeconds(seconds).isAfter(entry.getValue())) {
+		    removeSafety(entry.getKey());
+		}
 		try {
 		    Thread.sleep(delay);
 		} catch (InterruptedException e) {
@@ -56,7 +58,9 @@ public class CacheMap<K, V> extends ConcurrentHashMap<K, V> implements Runnable 
     }
 
     public void removeSafety(K key) {
-	if (callback != null) callback.accept(key, get(key));
+	if (callback != null) {
+	    callback.accept(key, get(key));
+	}
 	this.remove(key);
     }
 

@@ -77,8 +77,11 @@ public final class SoulsDB extends CacheDB<UUID, SoulWallet> {
 	    ps.setString(1, uuid.toString());
 	    ResultSet rs = ps.executeQuery();
 	    SoulWallet wallet = null;
-	    if (rs.next()) wallet = JSoulWallet.from(rs.getString("wallet")).getWallet();
-	    else wallet = new SoulWallet(uuid);
+	    if (rs.next()) {
+		wallet = JSoulWallet.from(rs.getString("wallet")).getWallet();
+	    } else {
+		wallet = new SoulWallet(uuid);
+	    }
 	    putValue(wallet);
 	} catch (Exception exception) {
 	    treatException(exception);
@@ -102,5 +105,4 @@ public final class SoulsDB extends CacheDB<UUID, SoulWallet> {
     private void treatException(Exception exc) {
 	MySouls.treatException(getClass(), "Ocorreu um erro com a conectividade da WalletDB", exc);
     }
-
 }

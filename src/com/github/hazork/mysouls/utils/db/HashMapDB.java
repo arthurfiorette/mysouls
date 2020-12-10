@@ -15,5 +15,4 @@ public abstract class HashMapDB<K, V> extends MapDB<HashMap<K, V>, K, V> {
     protected void putValue(V value) {
 	hashmap.put(keyFunction(value), value);
     }
-
 }

@@ -15,5 +15,4 @@ public interface MySoulsCommand {
     default Optional<String> getPermission() {
 	return Optional.empty();
     }
-
 }

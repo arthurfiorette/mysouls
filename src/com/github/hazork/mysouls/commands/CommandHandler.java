@@ -31,11 +31,8 @@ public class CommandHandler implements CommandExecutor {
     }
 
     private void addCommand(MySoulsCommand... mscs) {
-	Arrays.stream(mscs).forEach(msc -> {
-	    if (commandMap.containsKey(msc.getName()))
-		throw new IllegalArgumentException("Command with this name is already created: " + msc.getName());
-	    else commandMap.put(msc.getName(), msc);
-	});
+	Arrays.stream(mscs).filter(ms -> !commandMap.containsKey(ms.getName()))
+		.forEach(ms -> commandMap.put(ms.getName(), ms));
     }
 
     @Override
@@ -52,5 +49,4 @@ public class CommandHandler implements CommandExecutor {
 	sender.sendMessage(Lang.UNKNOWN_ARGUMENT.getText());
 	return true;
     }
-
 }

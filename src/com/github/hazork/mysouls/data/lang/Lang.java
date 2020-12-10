@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 public enum Lang {
-
     BACKWARD("messages.backward"),
     CANNOT_USE("messages.cannot-use"),
     COIN_CHAT_MESSAGE("messages.coin-chat-message"),

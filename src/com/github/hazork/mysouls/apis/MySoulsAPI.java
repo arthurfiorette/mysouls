@@ -16,7 +16,7 @@ public interface MySoulsAPI {
 	return Dependent.SOFT_DEPEND;
     }
 
-    public static enum Dependent {
+    public enum Dependent {
 	SOFT_DEPEND,
 	DEPEND;
     }
