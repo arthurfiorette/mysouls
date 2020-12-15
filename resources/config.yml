@@ -1,24 +1,34 @@
+#   /$$      /$$                  /$$$$$$                      /$$          
+#  | $$$    /$$$                 /$$__  $$                    | $$          
+#  | $$$$  /$$$$ /$$   /$$      | $$  \__/  /$$$$$$  /$$   /$$| $$  /$$$$$$$
+#  | $$ $$/$$ $$| $$  | $$      |  $$$$$$  /$$__  $$| $$  | $$| $$ /$$_____/
+#  | $$  $$$| $$| $$  | $$       \____  $$| $$  \ $$| $$  | $$| $$|  $$$$$$ 
+#  | $$\  $ | $$| $$  | $$       /$$  \ $$| $$  | $$| $$  | $$| $$ \____  $$
+#  | $$ \/  | $$|  $$$$$$$      |  $$$$$$/|  $$$$$$/|  $$$$$$/| $$ /$$$$$$$/
+#  |__/     |__/ \____  $$       \______/  \______/  \______/ |__/|_______/ 
+#                /$$  | $$                                                  
+#               |  $$$$$$/                                                  
+#                \______/                                                   
+#
+# --------------------------------------------------------------------------
+#
+#  Release: 1.0.1
+#
+#  About:
+#  Spigot: https://www.spigotmc.org/resources/my-souls.86749/
+#  Github: https://github.com/Hazork/MySouls
+#  Twitter: https://twitter.com/Hazork_
+#  Steam: https://steamcommunity.com/profiles/76561198850668121
 #  
-#    /$$      /$$            /$$$$$$                      /$$          
-#   | $$$    /$$$           /$$__  $$                    | $$          
-#   | $$$$  /$$$$ /$$   /$$| $$  \__/  /$$$$$$  /$$   /$$| $$  /$$$$$$$
-#   | $$ $$/$$ $$| $$  | $$|  $$$$$$  /$$__  $$| $$  | $$| $$ /$$_____/
-#   | $$  $$$| $$| $$  | $$ \____  $$| $$  \ $$| $$  | $$| $$|  $$$$$$ 
-#   | $$\  $ | $$| $$  | $$ /$$  \ $$| $$  | $$| $$  | $$| $$ \____  $$
-#   | $$ \/  | $$|  $$$$$$$|  $$$$$$/|  $$$$$$/|  $$$$$$/| $$ /$$$$$$$/
-#   |__/     |__/ \____  $$ \______/  \______/  \______/ |__/|_______/ 
-#                 /$$  | $$                                            
-#                |  $$$$$$/                                            
-#                 \______/                                             
+#  In any use of this plugin, I would love it if I had any credit
+#  relating to the plugin. Good game!
+#  
 #
-# - The best soul pvp plugin for Spigot 1.8 -
-#
-# /#/ By Hazork /#/ https://Github.com/Hazork/MySouls /#/
+#  This file contains the general settings of the plugin, 
+#  customizing it makes the game rules of the plugin
+#  different from the others.
 #
 
-#
-# General settings
-#
 souls:
   initial-souls: 2
   
