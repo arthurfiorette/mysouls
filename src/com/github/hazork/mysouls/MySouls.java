@@ -49,7 +49,7 @@ public class MySouls extends JavaPlugin {
 	soulListener.register();
 	guiListener.register();
 	apiCoordinator.enable();
-	log(Level.INFO, "Plugin habilitado com sucesso!");
+	log(Level.INFO, "Plugin enabled successfully!");
     }
 
     @Override
@@ -57,6 +57,7 @@ public class MySouls extends JavaPlugin {
 	apiCoordinator.disable();
 	guidb.close();
 	soulsdb.close();
+	log(Level.INFO, "Plugin disabled successfully!");
     }
 
     public static MySouls get() {

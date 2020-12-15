@@ -77,7 +77,7 @@ public class ItemBuilder {
 		profileField.set(headMeta, gp);
 		return headMeta;
 	    } catch (IllegalAccessException | NoSuchFieldException exc) {
-		MySouls.treatException(ItemBuilder.class, "Erro ao tentar carregar cabeça customizada via GameProfile",
+		MySouls.treatException(ItemBuilder.class, "Error when trying to load custom head via GameProfile",
 			exc);
 		return meta;
 	    }

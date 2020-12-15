@@ -26,13 +26,13 @@ public class APICoordinator {
 	    }
 	    switch (api.getDependent()) {
 		case DEPEND:
-		    final String msg = "A api (%s) não pode ser carregada e é dependente total. Plugin desabilitado";
+		    final String msg = "The api (%s) cannot be loaded and is fully dependent. Plugin disabled";
 		    MySouls.log(Level.WARNING, String.format(msg, api.getName()));
 		    MySouls.disable();
 		    break;
 
 		case SOFT_DEPEND:
-		    final String messasge = "A api (%s) não foi encontrada e não será inicializada, mas não era essencial.";
+		    final String messasge = "The api (%s) was not found and will not be initialized, but it was not essential.";
 		    MySouls.log(Level.INFO, String.format(messasge, api.getName()));
 		    break;
 	    }
