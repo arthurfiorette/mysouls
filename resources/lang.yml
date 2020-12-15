@@ -1,3 +1,34 @@
+#   /$$      /$$                  /$$$$$$                      /$$          
+#  | $$$    /$$$                 /$$__  $$                    | $$          
+#  | $$$$  /$$$$ /$$   /$$      | $$  \__/  /$$$$$$  /$$   /$$| $$  /$$$$$$$
+#  | $$ $$/$$ $$| $$  | $$      |  $$$$$$  /$$__  $$| $$  | $$| $$ /$$_____/
+#  | $$  $$$| $$| $$  | $$       \____  $$| $$  \ $$| $$  | $$| $$|  $$$$$$ 
+#  | $$\  $ | $$| $$  | $$       /$$  \ $$| $$  | $$| $$  | $$| $$ \____  $$
+#  | $$ \/  | $$|  $$$$$$$      |  $$$$$$/|  $$$$$$/|  $$$$$$/| $$ /$$$$$$$/
+#  |__/     |__/ \____  $$       \______/  \______/  \______/ |__/|_______/ 
+#                /$$  | $$                                                  
+#               |  $$$$$$/                                                  
+#                \______/                                                   
+#
+# --------------------------------------------------------------------------
+#
+#  Release: 1.0.1
+#
+#  About:
+#  Spigot: https://www.spigotmc.org/resources/my-souls.86749/
+#  Github: https://github.com/Hazork/MySouls
+#  Twitter: https://twitter.com/Hazork_
+#  Steam: https://steamcommunity.com/profiles/76561198850668121
+#  
+#  In any use of this plugin, I would love it if I had any credit
+#  relating to the plugin. Good game!
+#  
+#
+#  This file contains all the messages that a player can receive,
+#  usually, customizing it demonstrates a server designed for 
+#  the player.
+#
+
 commands:
   unknown-argument: "&4Oops! &7Unknown argument."
   menu-command: "menu"
