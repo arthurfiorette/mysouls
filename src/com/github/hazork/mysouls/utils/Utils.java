@@ -39,7 +39,7 @@ public class Utils {
     }
 
     public static boolean nonNull(Object... objects) {
-	return Arrays.stream(objects).filter(Objects::isNull).count() > 0;
+	return Arrays.stream(objects).filter(Objects::isNull).count() == 0;
     }
 
     public static boolean hasPlugin(String name) {
