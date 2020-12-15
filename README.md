@@ -1,4 +1,4 @@
-[![Forks][forks-shield]][forks-url] [![Stargazers][stars-shield]][stars-url] [![Issues][issues-shield]][issues-url] [![License][license-shield]][license-url]
+[![Release][release-shield]][release-url] [![Forks][forks-shield]][forks-url] [![Stargazers][stars-shield]][stars-url] [![Issues][issues-shield]][issues-url] [![License][license-shield]][license-url] 
 
 # My Souls
 
@@ -61,6 +61,8 @@ Below is the list of placeholders that the plugin offers the PlaceholderAPI exte
 [issues-url]: https://github.com/Hazork/MySouls/issues
 [license-shield]: https://img.shields.io/github/license/Hazork/MySouls?style=flat-square
 [license-url]: https://github.com/Hazork/MySouls/blob/main/LICENSE
+[release-shield]: https://img.shields.io/github/v/release/hazork/mysouls?style=flat-square
+[release-url]: https://github.com/Hazork/MySouls/releases
 
 <!-- Urls -->
 
