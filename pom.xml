@@ -5,7 +5,7 @@
 
 	<groupId>com.github.hazork</groupId>
 	<artifactId>mysouls</artifactId>
-	<version>1.0.1</version>
+	<version>1.0.2</version>
 	<name>My Souls</name>
 
 	<properties>
