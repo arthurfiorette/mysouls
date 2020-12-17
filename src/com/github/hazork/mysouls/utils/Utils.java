@@ -18,10 +18,10 @@ import com.github.hazork.mysouls.MySouls;
 public class Utils {
 
     public static <E> E getRandom(List<E> list) {
-	return list.get(getRandom(list.size()));
+	return list.get(random(list.size()));
     }
 
-    public static int getRandom(int range) {
+    public static int random(int range) {
 	return new Random().nextInt(range);
     }
 
@@ -42,7 +42,9 @@ public class Utils {
     }
 
     public static void playSound(Sound sound, Player... players) {
-	for (Player p : players) p.playSound(p.getLocation(), sound, 3.0F, 0.5F);
+	for(Player p: players) {
+	    p.playSound(p.getLocation(), sound, 3.0F, 0.5F);
+	}
     }
 
     public static boolean nonNull(Object... objects) {

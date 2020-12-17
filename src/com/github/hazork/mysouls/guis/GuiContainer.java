@@ -26,7 +26,7 @@ public class GuiContainer {
     }
 
     private void addGuis(Gui... guis) {
-	for (Gui gui : guis) {
+	for(Gui gui: guis) {
 	    guiMap.put(gui.getName(), gui);
 	}
     }
@@ -37,7 +37,7 @@ public class GuiContainer {
 
     @Nullable
     public Optional<Gui> getGui(Inventory inv) {
-	for (Gui gui : guiMap.values()) {
+	for(Gui gui: guiMap.values()) {
 	    if (gui.getInventory().equals(inv)) {
 		return Optional.of(gui);
 	    }

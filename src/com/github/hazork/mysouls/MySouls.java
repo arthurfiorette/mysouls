@@ -46,15 +46,12 @@ public class MySouls extends JavaPlugin {
 	soulListener.register();
 	guiListener.register();
 	apiController.enable();
-	log(Level.INFO, "Plugin enabled successfully!");
     }
 
     @Override
     public void onDisable() {
-
 	guidb.close();
 	soulsdb.close();
-	log(Level.INFO, "Plugin disabled successfully!");
     }
 
     public static MySouls get() {

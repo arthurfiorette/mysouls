@@ -43,7 +43,7 @@ public class CacheMap<K, V> extends ConcurrentHashMap<K, V> implements Runnable 
     @Override
     public void run() {
 	while (!isEmpty()) {
-	    for (Entry<K, LocalTime> entry : time_map.entrySet()) {
+	    for(Entry<K, LocalTime> entry: time_map.entrySet()) {
 		if (LocalTime.now().minusSeconds(seconds).isAfter(entry.getValue())) {
 		    removeSafety(entry.getKey());
 		}

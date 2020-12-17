@@ -67,7 +67,7 @@ public class LangFile extends YamlFile {
     }
 
     private static String setInternalPlaceholders(String text, Map<String, String> placeholders) {
-	for (Entry<String, String> entry : placeholders.entrySet()) {
+	for(Entry<String, String> entry: placeholders.entrySet()) {
 	    if (text.contains(entry.getKey())) {
 		text = text.replace(entry.getKey(), entry.getValue());
 	    }

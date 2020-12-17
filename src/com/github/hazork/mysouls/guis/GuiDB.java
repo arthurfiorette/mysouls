@@ -41,7 +41,7 @@ public final class GuiDB extends HashMapDB<UUID, GuiContainer> {
     }
 
     public void close() {
-	for (Entry<UUID, GuiContainer> entry : getMap().entrySet()) {
+	for(Entry<UUID, GuiContainer> entry: getMap().entrySet()) {
 	    OfflinePlayer op = Bukkit.getOfflinePlayer(entry.getKey());
 	    if (op != null && op.isOnline()) {
 		Player player = (Player) op;

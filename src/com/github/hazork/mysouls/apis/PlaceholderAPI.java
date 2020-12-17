@@ -17,7 +17,9 @@ public class PlaceholderAPI extends PlaceholderExpansion {
 
     @Override
     public String onPlaceholderRequest(Player player, @NotNull String params) {
-	if (player == null) return null;
+	if (player == null) {
+	    return null;
+	}
 
 	Object result = null;
 	String[] arr = params.split("_");
