@@ -4,9 +4,7 @@ import java.util.logging.Level;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.github.hazork.mysouls.apis.APICoordinator;
-import com.github.hazork.mysouls.apis.implementations.BStatsAPI;
-import com.github.hazork.mysouls.apis.implementations.PlaceholderAPI;
+import com.github.hazork.mysouls.apis.APIController;
 import com.github.hazork.mysouls.commands.CommandHandler;
 import com.github.hazork.mysouls.data.lang.Lang;
 import com.github.hazork.mysouls.guis.GuiDB;
@@ -23,7 +21,7 @@ public class MySouls extends JavaPlugin {
     private CommandHandler command;
     private SoulListener soulListener;
     private GuiListener guiListener;
-    private APICoordinator apiCoordinator;
+    private APIController apiController;
 
     public MySouls() {
 	if (instance != null) {
@@ -36,8 +34,7 @@ public class MySouls extends JavaPlugin {
 	command = new CommandHandler("mysouls", Lang.MENU_COMMAND.getText());
 	soulListener = new SoulListener(this);
 	guiListener = new GuiListener(this);
-	apiCoordinator = new APICoordinator();
-	apiCoordinator.registerApi(new BStatsAPI(), new PlaceholderAPI());
+	apiController = new APIController();
     }
 
     @Override
@@ -48,13 +45,13 @@ public class MySouls extends JavaPlugin {
 	command.registerFor(this);
 	soulListener.register();
 	guiListener.register();
-	apiCoordinator.enable();
+	apiController.enable();
 	log(Level.INFO, "Plugin enabled successfully!");
     }
 
     @Override
     public void onDisable() {
-	apiCoordinator.disable();
+
 	guidb.close();
 	soulsdb.close();
 	log(Level.INFO, "Plugin disabled successfully!");

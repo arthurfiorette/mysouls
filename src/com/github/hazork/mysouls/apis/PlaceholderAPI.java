@@ -1,4 +1,4 @@
-package com.github.hazork.mysouls.apis.implementations;
+package com.github.hazork.mysouls.apis;
 
 import java.util.Arrays;
 
@@ -6,25 +6,22 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import com.github.hazork.mysouls.MySouls;
-import com.github.hazork.mysouls.apis.MySoulsAPI;
 import com.github.hazork.mysouls.souls.SoulWallet;
-import com.github.hazork.mysouls.utils.Utils;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 
-public class PlaceholderAPI extends PlaceholderExpansion implements MySoulsAPI {
+public class PlaceholderAPI extends PlaceholderExpansion {
 
     @Override
     public String onPlaceholderRequest(Player player, @NotNull String params) {
-	if (player == null) {
-	    return null;
-	}
+	if (player == null) return null;
 
+	Object result = null;
 	String[] arr = params.split("_");
 	String[] args = Arrays.copyOfRange(arr, 1, arr.length);
-	Object result = null;
 	SoulWallet wallet = MySouls.getDB().from(player);
 
 	switch (arr[0]) {
@@ -53,11 +50,6 @@ public class PlaceholderAPI extends PlaceholderExpansion implements MySoulsAPI {
     }
 
     @Override
-    public boolean canRegister() {
-	return Utils.hasPlugin("PlaceholderAPI");
-    }
-
-    @Override
     public boolean persist() {
 	return true;
     }
@@ -69,11 +61,16 @@ public class PlaceholderAPI extends PlaceholderExpansion implements MySoulsAPI {
 
     @Override
     public String getIdentifier() {
-	return MySouls.get().getName().toLowerCase();
+	return getRequiredPlugin().toLowerCase();
     }
 
     @Override
     public String getVersion() {
 	return MySouls.getVersion();
+    }
+
+    @Override
+    public @Nullable String getRequiredPlugin() {
+	return MySouls.get().getName();
     }
 }
