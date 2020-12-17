@@ -9,6 +9,7 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.logging.Level;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -42,11 +43,9 @@ public final class SoulsDB extends CacheDB<UUID, SoulWallet> {
 	    if (Objects.isNull(connection) || connection.isClosed()) {
 		Class.forName("org.sqlite.JDBC");
 		connection = DriverManager.getConnection("jdbc:sqlite:" + file.getAbsolutePath());
-		MySouls.log(Level.INFO, "Conexão com a database aberta.");
 		PreparedStatement ps = connection.prepareStatement(table);
 		ps.execute();
 		ps.close();
-		MySouls.log(Level.INFO, "Conexão com a tabela concluída.");
 		return true;
 	    }
 	} catch (Exception exc) {
@@ -60,12 +59,14 @@ public final class SoulsDB extends CacheDB<UUID, SoulWallet> {
 	try {
 	    String sql = "INSERT OR REPLACE INTO 'wallets' (uuid, wallet) VALUES (?, ?)";
 	    PreparedStatement ps = connection.prepareStatement(sql);
-	    ps.setString(1, sw.ownerId.toString());
+	    ps.setString(1, sw.getOwnerId().toString());
 	    ps.setString(2, JSoulWallet.from(sw).getJson());
 	    ps.executeUpdate();
 	    ps.close();
 	} catch (Exception exc) {
-	    treatException(exc);
+	    MySouls.treatException(getClass(), "An error occurred while saving the user " + sw.asPlayer().getName()
+		    + " in the database and it was returned to the cache.", exc);
+	    Bukkit.getScheduler().scheduleSyncDelayedTask(MySouls.get(), () -> getMap().put(sw.getOwnerId(), sw));
 	}
     }
 
@@ -92,6 +93,7 @@ public final class SoulsDB extends CacheDB<UUID, SoulWallet> {
     public boolean close() {
 	try {
 	    if (Objects.nonNull(connection)) {
+		getMap().close();
 		connection.close();
 		MySouls.log(Level.INFO, "Conexão com a database fachada.");
 		return true;

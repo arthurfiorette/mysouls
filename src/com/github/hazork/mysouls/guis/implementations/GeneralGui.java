@@ -1,17 +1,16 @@
 package com.github.hazork.mysouls.guis.implementations;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.function.UnaryOperator;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.Sound;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -21,7 +20,7 @@ import com.github.hazork.mysouls.data.config.Config;
 import com.github.hazork.mysouls.data.lang.Lang;
 import com.github.hazork.mysouls.guis.Gui;
 import com.github.hazork.mysouls.guis.GuiListener;
-import com.github.hazork.mysouls.souls.SoulWallet;
+import com.github.hazork.mysouls.souls.SoulComunicator;
 import com.github.hazork.mysouls.utils.ItemBuilder;
 import com.github.hazork.mysouls.utils.ItemBuilder.Properties;
 import com.github.hazork.mysouls.utils.Utils;
@@ -76,7 +75,7 @@ public class GeneralGui extends Gui {
     }
 
     private void drawItens() {
-	for (int i = 12; i <= 43; i = slotFunc.apply(i + 1)) {
+	for(int i = 12; i <= 43; i = slotFunc.apply(i + 1)) {
 	    if (!emptyBuilder.build().equals(inventory.getItem(i))) {
 		inventory.setItem(i, emptyBuilder.build());
 	    }
@@ -86,16 +85,10 @@ public class GeneralGui extends Gui {
 	walletHolders.put("{souls}", getWallet().soulsCount() + "");
 	walletHolders.put("{players}", getWallet().playerCount() + "");
 	walletHolders.put("{average}", String.format("%.2f", Double.isNaN(ratio) ? 0 : ratio));
-	walletHolders.put("{more-souls}", getWallet().entrySet(set -> {
-	    if (!set.isEmpty()) {
-		UUID uuid = Collections.max(set, Map.Entry.comparingByValue()).getKey();
-		OfflinePlayer offplayer = Bukkit.getOfflinePlayer(uuid);
-		if (offplayer != null) {
-		    return offplayer.getName();
-		}
-	    }
-	    return "§7?";
-	}));
+	Entry<UUID, Integer> entry = getWallet().biggestEntry();
+	if (entry != null) {
+	    walletHolders.put("{more-souls}", Bukkit.getPlayer(entry.getKey()).getName());
+	}
 
 	int walletSlot = 10;
 	ItemBuilder walletBuilder = ItemBuilder.ofHead(getOfflinePlayer(), true);
@@ -146,7 +139,7 @@ public class GeneralGui extends Gui {
 
     private void drawPageableItems(List<UUID> list) {
 	int i = 12;
-	for (UUID soul : list) {
+	for(UUID soul: list) {
 	    i = slotFunc.apply(i);
 	    inventory.setItem(i, soulToItem(soul, getWallet().soulsCount(soul)));
 	    i++;
@@ -177,34 +170,19 @@ public class GeneralGui extends Gui {
 		Utils.closeInventory(getPlayer());
 		getPlayer().sendMessage(Lang.SOUL_CHAT_MESSAGE.getText());
 		GuiListener.setChatAction(getOwnerId(), msg -> {
-		    Lang message = null;
-		    if (Utils.hasEmptySlot(getPlayer())) {
-			String[] args = msg.split(" ");
-			if (getWallet().canRemoveSoul(SoulWallet.ANY, 1)) {
-			    if (args[0].equalsIgnoreCase("*")) {
-				ItemStack is = getWallet().withdrawSoul(SoulWallet.ANY);
-				getPlayer().getInventory().addItem(is);
-				message = Lang.SOUL_REMOVED;
-				Utils.playSound(Sound.ORB_PICKUP, getPlayer());
-			    } else {
-				@SuppressWarnings("deprecation")
-				OfflinePlayer player = Bukkit.getOfflinePlayer(args[0]);
-				if (player != null && getWallet().canRemoveSoul(player.getUniqueId(), 1)) {
-				    ItemStack is = getWallet().withdrawSoul(player.getUniqueId());
-				    getPlayer().getInventory().addItem(is);
-				    message = Lang.SOUL_REMOVED;
-				    Utils.playSound(Sound.ORB_PICKUP, getPlayer());
-				} else {
-				    message = Lang.DONT_HAVE_SOUL;
-				}
-			    }
+		    String[] args = msg.split(" ");
+		    UUID soul = null;
+		    if (!args[0].equalsIgnoreCase("*")) {
+			@SuppressWarnings("deprecation")
+			OfflinePlayer player = Bukkit.getOfflinePlayer(args[0]);
+			if (player != null) {
+			    soul = player.getUniqueId();
 			} else {
-			    message = Lang.DONT_HAVE_SOULS;
+			    getPlayer().sendMessage(Lang.DONT_HAVE_SOULS.getText());
+			    return;
 			}
-		    } else {
-			message = Lang.INVENTORY_FULL;
 		    }
-		    getPlayer().sendMessage(message.getText());
+		    SoulComunicator.of(getPlayer()).withdrawSoul(soul);
 		});
 		break;
 
@@ -213,26 +191,11 @@ public class GeneralGui extends Gui {
 		getPlayer().sendMessage(Lang.COIN_CHAT_MESSAGE.getText());
 		GuiListener.setChatAction(getOwnerId(), msg -> {
 		    String[] args = msg.split(" ");
-		    Lang message = null;
 		    try {
 			int amount = Integer.parseInt(args[0]);
-			UUID soul = SoulWallet.ANY;
-			if (Utils.hasEmptySlot(getPlayer())) {
-			    if (getWallet().canRemoveSoul(soul, amount)) {
-				ItemStack is = getWallet().withdrawCoins(amount);
-				getPlayer().getInventory().addItem(is);
-				Utils.playSound(Sound.ORB_PICKUP, getPlayer());
-				message = Lang.COINS_REMOVED;
-			    } else {
-				message = Lang.DONT_HAVE_SOULS;
-			    }
-			} else {
-			    message = Lang.INVENTORY_FULL;
-			}
-			getPlayer().sendMessage(message.getText());
+			SoulComunicator.of(getPlayer()).withdrawCoins(amount);
 		    } catch (NumberFormatException e) {
 			getPlayer().sendMessage(Lang.NOT_A_NUMBER.getText("{text}", args[0]));
-			return;
 		    }
 		});
 		break;
