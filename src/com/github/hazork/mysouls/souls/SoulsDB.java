@@ -103,6 +103,6 @@ public final class SoulsDB extends CacheDB<UUID, SoulWallet> {
     }
 
     private void treatException(Exception exc) {
-	MySouls.treatException(getClass(), "Ocorreu um erro com a conectividade da WalletDB", exc);
+	MySouls.treatException(getClass(), "Ocorreu um erro com a conectividade da WalletDB: " + exc.getMessage(), exc);
     }
 }
