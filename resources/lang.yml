@@ -45,8 +45,7 @@ messages:
     soul-removed: "&eDone! &7Soul removed."
     coins-removed: "&eDone! &7Withdrawn coins."
     soul-64-limit: "&4Oops! &7You can only have 64 souls per player."
-    dont-have-soul: "&4Oops! &7You don't have this player's soul."
-    dont-have-souls: "&4Oops! &7Insufficient coins."
+    dont-have-souls: "&4Oops! &7Insufficient souls."
 
     death-message: "&4Oops! &7You died and one of your souls went to: &f{player}&7."
     death-message-fail: "&4Ah! &7You died but did not lose souls because you had none."
@@ -109,8 +108,6 @@ itens:
       - "&fcollected again, but it can also"
       - "&fbe used as a block and a "
       - "&fcommercial item."
-      - ""
-      - "&fWithdrawer: &e{wallet}"
       - ""
       - "&cBe careful! When placing the soul"
       - "&con the floor, its value will be lost."
