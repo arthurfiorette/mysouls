@@ -174,7 +174,7 @@ public class GeneralGui extends Gui {
 		break;
 
 	    case 49: // souls
-		getPlayer().closeInventory();
+		Utils.closeInventory(getPlayer());
 		getPlayer().sendMessage(Lang.SOUL_CHAT_MESSAGE.getText());
 		GuiListener.setChatAction(getOwnerId(), msg -> {
 		    Lang message = null;
@@ -209,7 +209,7 @@ public class GeneralGui extends Gui {
 		break;
 
 	    case 51: // coins
-		getPlayer().closeInventory();
+		Utils.closeInventory(getPlayer());
 		getPlayer().sendMessage(Lang.COIN_CHAT_MESSAGE.getText());
 		GuiListener.setChatAction(getOwnerId(), msg -> {
 		    String[] args = msg.split(" ");

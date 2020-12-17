@@ -10,7 +10,10 @@ import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
+
+import com.github.hazork.mysouls.MySouls;
 
 public class Utils {
 
@@ -24,6 +27,10 @@ public class Utils {
 
     public static boolean isMinecraftPack(int amount) {
 	return (amount <= 64 && amount >= 1);
+    }
+
+    public static void closeInventory(HumanEntity entity) {
+	Bukkit.getScheduler().runTask(MySouls.get(), () -> entity.closeInventory());
     }
 
     public static <R> List<R> listMapper(List<String> list, Function<String, R> mapper) {
