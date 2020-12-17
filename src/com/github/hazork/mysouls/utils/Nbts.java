@@ -35,10 +35,14 @@ public class Nbts {
 
     private static String getValue(ItemStack item, String keyName) {
 	NBTTagCompound nbt = getNbt(item);
-	if (nbt.getBoolean(Nbts.name)) {
+	if (isNbtsItem(item)) {
 	    return nbt.getString(getKey(keyName));
 	}
-	return new String();
+	return null;
+    }
+
+    public static boolean isNbtsItem(ItemStack item) {
+	return getNbt(item).getBoolean(Nbts.name);
     }
 
     private static ItemStack saveValues(ItemStack source, Map<String, String> values) {
