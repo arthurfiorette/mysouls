@@ -41,8 +41,8 @@ public class Utils {
 	return list.stream().map(mapper).filter(predicate).collect(Collectors.toList());
     }
 
-    public static void playSound(Player player, Sound sound) {
-	player.playSound(player.getLocation(), sound, 3.0F, 0.5F);
+    public static void playSound(Sound sound, Player... players) {
+	for (Player p : players) p.playSound(p.getLocation(), sound, 3.0F, 0.5F);
     }
 
     public static boolean nonNull(Object... objects) {

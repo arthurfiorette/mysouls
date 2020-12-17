@@ -185,7 +185,7 @@ public class GeneralGui extends Gui {
 				ItemStack is = getWallet().withdrawSoul(SoulWallet.ANY);
 				getPlayer().getInventory().addItem(is);
 				message = Lang.SOUL_REMOVED;
-				Utils.playSound(getPlayer(), Sound.ORB_PICKUP);
+				Utils.playSound(Sound.ORB_PICKUP, getPlayer());
 			    } else {
 				@SuppressWarnings("deprecation")
 				OfflinePlayer player = Bukkit.getOfflinePlayer(args[0]);
@@ -193,7 +193,7 @@ public class GeneralGui extends Gui {
 				    ItemStack is = getWallet().withdrawSoul(player.getUniqueId());
 				    getPlayer().getInventory().addItem(is);
 				    message = Lang.SOUL_REMOVED;
-				    Utils.playSound(getPlayer(), Sound.ORB_PICKUP);
+				    Utils.playSound(Sound.ORB_PICKUP, getPlayer());
 				} else {
 				    message = Lang.DONT_HAVE_SOUL;
 				}
@@ -221,6 +221,7 @@ public class GeneralGui extends Gui {
 			    if (getWallet().canRemoveSoul(soul, amount)) {
 				ItemStack is = getWallet().withdrawCoins(amount);
 				getPlayer().getInventory().addItem(is);
+				Utils.playSound(Sound.ORB_PICKUP, getPlayer());
 				message = Lang.COINS_REMOVED;
 			    } else {
 				message = Lang.DONT_HAVE_SOULS;

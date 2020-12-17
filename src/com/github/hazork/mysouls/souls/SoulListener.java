@@ -3,6 +3,7 @@ package com.github.hazork.mysouls.souls;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -40,6 +41,7 @@ public class SoulListener implements Listener {
 	    if (wallet.reportDeath(soulsDb.from(killer))) {
 		kMessage = Lang.KILL_MESSAGE.getText("{player}", event.getEntity().getName());
 		eMessage = Lang.DEATH_MESSAGE.getText("{player}", killer.getName());
+		Utils.playSound(Sound.CLICK, killer, entity);
 	    } else {
 		kMessage = Lang.KILL_MESSAGE_FAIL.getText();
 		eMessage = Lang.DEATH_MESSAGE_FAIL.getText();
@@ -80,6 +82,7 @@ public class SoulListener implements Listener {
 					sw.addSoul(soul);
 				    }
 				    player.setItemInHand(null);
+				    Utils.playSound(Sound.ORB_PICKUP, player);
 				    message = Lang.SOULS_ADDED;
 				} else {
 				    message = Lang.SOUL_64_LIMIT;
@@ -92,6 +95,7 @@ public class SoulListener implements Listener {
 				    } else {
 					player.setItemInHand(null);
 				    }
+				    Utils.playSound(Sound.ORB_PICKUP, player);
 				    message = Lang.SOUL_ADDED;
 				} else {
 				    message = Lang.SOUL_64_LIMIT;

@@ -61,7 +61,7 @@ public class SoulWallet {
 	return Utils.isMinecraftPack(amount) && soulsCount(soul) >= amount;
     }
 
-    UUID removeSoul(@Nullable UUID soul) {
+    private UUID removeSoul(@Nullable UUID soul) {
 	if (canRemoveSoul(soul, 1)) {
 	    if (soul == null) {
 		soul = Utils.getRandom(new ArrayList<>(souls.keySet()));
