@@ -87,7 +87,7 @@ public class GeneralGui extends Gui {
 	walletHolders.put("{average}", String.format("%.2f", Double.isNaN(ratio) ? 0 : ratio));
 	Entry<UUID, Integer> entry = getWallet().biggestEntry();
 	if (entry != null) {
-	    walletHolders.put("{more-souls}", Bukkit.getPlayer(entry.getKey()).getName());
+	    walletHolders.put("{more-souls}", Bukkit.getOfflinePlayer(entry.getKey()).getName());
 	}
 
 	int walletSlot = 10;
