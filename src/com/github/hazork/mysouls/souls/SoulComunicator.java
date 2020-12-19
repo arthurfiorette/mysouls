@@ -129,12 +129,12 @@ public class SoulComunicator {
 	return Bukkit.getOfflinePlayer(ownerId).isOnline();
     }
 
-    public static ItemStack coinToItem(int amount) {
-	ItemBuilder builder = ItemBuilder.ofHeadUrl(Config.COIN_HEAD_URL.getText(), true);
-	builder.setName(Lang.COIN_NAME.getText());
-	builder.setLore(Lang.COIN_LORE.getList());
-	builder.setAmount(amount);
-	return Nbts.saveValue(builder.build(), SoulWallet.COIN_ID, null);
+    private static ItemStack coin = ItemBuilder.ofHeadUrl(Config.COIN_HEAD_URL.getText(), true)
+	    .setName(Lang.COIN_NAME.getText()).setLore(Lang.COIN_LORE.getList()).build();
+
+    public synchronized static ItemStack coinToItem(int amount) {
+	coin.setAmount(amount);
+	return Nbts.saveValue(coin, SoulWallet.COIN_ID, null);
     }
 
     public static ItemStack soulToItem(UUID soul) {
