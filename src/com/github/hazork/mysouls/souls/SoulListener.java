@@ -5,9 +5,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 
 import com.github.hazork.mysouls.MySouls;
 import com.github.hazork.mysouls.data.lang.Lang;
@@ -36,18 +36,17 @@ public class SoulListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onInteract(PlayerInteractEvent event) {
-	if (event.hasItem()) {
-	    switch (Nbts.getIdValue(event.getItem())) {
+    public void onBlockPlace(BlockPlaceEvent event) {
+	ItemStack item = event.getItemInHand();
+	if (Nbts.isNbtsItem(item)) {
+	    switch (Nbts.getIdValue(item)) {
 		case SoulWallet.COIN_ID:
-		    if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-			event.getPlayer().sendMessage(Lang.CANNOT_USE.getText());
-			event.setCancelled(true);
-		    }
+		    event.setCancelled(true);
+		    event.getPlayer().sendMessage(Lang.CANNOT_USE.getText());
 		    break;
 
 		case SoulWallet.SOUL_ID:
-		    SoulComunicator.of(event.getPlayer()).collectSouls(event.getItem());
+		    SoulComunicator.of(event.getPlayer()).collectSouls(item);
 		    break;
 	    }
 	}
