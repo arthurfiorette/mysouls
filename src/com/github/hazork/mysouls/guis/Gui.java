@@ -33,6 +33,7 @@ public abstract class Gui {
 
     public void onClick(InventoryClickEvent event) {
 	event.setCancelled(true);
+	load();
     }
 
     public void open(boolean load) {

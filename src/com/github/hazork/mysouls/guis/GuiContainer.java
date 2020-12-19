@@ -52,8 +52,8 @@ public class GuiContainer {
 
     public void open(String name) {
 	getPlayer().ifPresent(player -> {
-	    getGui(name).ifPresent(gui -> gui.open(true));
-	    player.updateInventory();
+	    getGui(name).ifPresent(gui -> gui.open(false));
+
 	});
     }
 
