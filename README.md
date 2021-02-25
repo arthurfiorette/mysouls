@@ -161,9 +161,7 @@ Licensed under the **GNU General Public License v3.0**. See `License` for more i
 
 
 ## Contact
-- Twitter: [@Hazork]([twitter-url])
-- Discord: **Hazork#1227**
-- Steam: [/id/HazorkBR]([steam-url])
+See my contact information on my [GitHub Profile Page](https://github.com/ArthurFiorette).
 
 
 ## Status
