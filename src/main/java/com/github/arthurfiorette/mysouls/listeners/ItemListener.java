@@ -29,7 +29,6 @@ public class ItemListener extends SinkListener {
   }
 
   @Override
-  @SuppressWarnings("deprecation")
   @EventHandler(priority = EventPriority.LOWEST)
   public void onPlayerInteract(final PlayerInteractEvent event) {
     final ItemStack item = event.getItem();

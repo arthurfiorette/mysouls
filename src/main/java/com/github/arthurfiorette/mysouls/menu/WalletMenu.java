@@ -32,7 +32,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class WalletMenu extends PageableMenu {
 
-  public static ItemStack empty = new ItemBuilder(Material.GLASS_PANE)
+  public static ItemStack empty = new ItemBuilder(Material.STAINED_GLASS_PANE)
     .setItemFlags()
     .setName(" ")
     .remove(ItemProperty.LORE)
