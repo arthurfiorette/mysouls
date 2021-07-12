@@ -1,18 +1,16 @@
 package com.github.arthurfiorette.mysouls.commands;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import com.github.arthurfiorette.mysouls.menu.MenuList;
 import com.github.arthurfiorette.mysouls.menu.MenusStorage;
 import com.github.arthurfiorette.mysouls.menu.WalletMenu;
 import com.github.arthurfiorette.sinklibrary.command.BaseCommand;
 import com.github.arthurfiorette.sinklibrary.command.wrapper.CommandInfo.CommandInfoBuilder;
 import com.github.arthurfiorette.sinklibrary.interfaces.BasePlugin;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class SoulsCommand implements BaseCommand {
 
