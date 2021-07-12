@@ -1,17 +1,15 @@
 package com.github._hazork.oldmysouls.commands;
 
+import com.github._hazork.oldmysouls.commands.commands.InfoCommand;
+import com.github._hazork.oldmysouls.commands.commands.MenuCommand;
+import com.github._hazork.oldmysouls.data.lang.Lang;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import com.github._hazork.oldmysouls.commands.commands.InfoCommand;
-import com.github._hazork.oldmysouls.commands.commands.MenuCommand;
-import com.github._hazork.oldmysouls.data.lang.Lang;
 
 public class CommandHandler implements CommandExecutor {
 
@@ -31,19 +29,28 @@ public class CommandHandler implements CommandExecutor {
   }
 
   private void addCommand(final MySoulsCommand... mscs) {
-    Arrays.stream(mscs).filter(ms -> !this.commandMap.containsKey(ms.getName()))
-        .forEach(ms -> this.commandMap.put(ms.getName(), ms));
+    Arrays
+      .stream(mscs)
+      .filter(ms -> !this.commandMap.containsKey(ms.getName()))
+      .forEach(ms -> this.commandMap.put(ms.getName(), ms));
   }
 
   @Override
-  public boolean onCommand(final CommandSender sender, final Command command, final String label,
-      final String[] args) {
+  public boolean onCommand(
+    final CommandSender sender,
+    final Command command,
+    final String label,
+    final String[] args
+  ) {
     final String arg0 = args.length == 0 ? this.defaultArgument : args[0];
     final MySoulsCommand msc = this.commandMap.get(arg0);
-    if (((msc != null) && msc.predicate(sender))
-        && (!msc.getPermission().isPresent() || sender.hasPermission(msc.getPermission().get()))) {
-      final String[] arguments = args.length == 0 ? new String[0]
-          : Arrays.copyOfRange(args, 1, args.length);
+    if (
+      ((msc != null) && msc.predicate(sender)) &&
+      (!msc.getPermission().isPresent() || sender.hasPermission(msc.getPermission().get()))
+    ) {
+      final String[] arguments = args.length == 0
+        ? new String[0]
+        : Arrays.copyOfRange(args, 1, args.length);
       msc.handle(sender, arguments, label);
       return true;
     }

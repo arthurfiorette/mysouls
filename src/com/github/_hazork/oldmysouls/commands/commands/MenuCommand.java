@@ -1,12 +1,11 @@
 package com.github._hazork.oldmysouls.commands.commands;
 
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import com.github._hazork.oldmysouls.MySouls;
 import com.github._hazork.oldmysouls.commands.MySoulsCommand;
 import com.github._hazork.oldmysouls.data.lang.Lang;
 import com.github._hazork.oldmysouls.guis.implementations.GeneralGui;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class MenuCommand implements MySoulsCommand {
 

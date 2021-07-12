@@ -1,19 +1,17 @@
 package com.github._hazork.oldmysouls.souls;
 
-import java.util.Objects;
-import java.util.UUID;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Sound;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
 import com.github._hazork.oldmysouls.MySouls;
 import com.github._hazork.oldmysouls.data.config.Config;
 import com.github._hazork.oldmysouls.data.lang.Lang;
 import com.github._hazork.oldmysouls.utils.ItemBuilder;
 import com.github._hazork.oldmysouls.utils.Nbts;
 import com.github._hazork.oldmysouls.utils.Utils;
+import java.util.Objects;
+import java.util.UUID;
+import org.bukkit.Bukkit;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public class SoulComunicator {
 
@@ -66,8 +64,9 @@ public class SoulComunicator {
   }
 
   public void collectSouls(final ItemStack coin) {
-    if ((Nbts.isNbtsItem(coin) && this.isOnline())
-        && Nbts.getIdValue(coin).equals(SoulWallet.SOUL_ID)) {
+    if (
+      (Nbts.isNbtsItem(coin) && this.isOnline()) && Nbts.getIdValue(coin).equals(SoulWallet.SOUL_ID)
+    ) {
       Lang message = null;
       final SoulWallet wallet = this.getWallet();
       final UUID soul = UUID.fromString(Nbts.getValue(coin));
@@ -127,8 +126,11 @@ public class SoulComunicator {
     return Bukkit.getOfflinePlayer(this.ownerId).isOnline();
   }
 
-  private static ItemStack coin = ItemBuilder.ofHeadUrl(Config.COIN_HEAD_URL.getText(), true)
-      .setName(Lang.COIN_NAME.getText()).setLore(Lang.COIN_LORE.getList()).build();
+  private static ItemStack coin = ItemBuilder
+    .ofHeadUrl(Config.COIN_HEAD_URL.getText(), true)
+    .setName(Lang.COIN_NAME.getText())
+    .setLore(Lang.COIN_LORE.getList())
+    .build();
 
   public static ItemStack coinToItem(final int amount) {
     SoulComunicator.coin.setAmount(amount);
@@ -161,5 +163,4 @@ public class SoulComunicator {
     }
     return true;
   }
-
 }

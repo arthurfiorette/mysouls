@@ -44,5 +44,4 @@ public class PlayerSoul {
   public UUID getOwnerId() {
     return this.owner;
   }
-
 }

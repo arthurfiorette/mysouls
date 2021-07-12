@@ -1,18 +1,16 @@
 package com.github._hazork.oldmysouls.guis;
 
+import com.github._hazork.oldmysouls.guis.implementations.GeneralGui;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.jetbrains.annotations.Nullable;
-
-import com.github._hazork.oldmysouls.guis.implementations.GeneralGui;
 
 public class GuiContainer {
 
@@ -25,7 +23,7 @@ public class GuiContainer {
   }
 
   private void addGuis(final Gui... guis) {
-    for(final Gui gui: guis) {
+    for (final Gui gui : guis) {
       this.guiMap.put(gui.getName(), gui);
     }
   }
@@ -36,7 +34,7 @@ public class GuiContainer {
 
   @Nullable
   public Optional<Gui> getGui(final Inventory inv) {
-    for(final Gui gui: this.guiMap.values()) {
+    for (final Gui gui : this.guiMap.values()) {
       if (gui.getInventory().equals(inv)) {
         return Optional.of(gui);
       }
@@ -50,10 +48,12 @@ public class GuiContainer {
   }
 
   public void open(final String name) {
-    this.getPlayer().ifPresent(player -> {
-      this.getGui(name).ifPresent(gui -> gui.open(false));
-
-    });
+    this.getPlayer()
+      .ifPresent(
+        player -> {
+          this.getGui(name).ifPresent(gui -> gui.open(false));
+        }
+      );
   }
 
   public UUID getOwnerId() {

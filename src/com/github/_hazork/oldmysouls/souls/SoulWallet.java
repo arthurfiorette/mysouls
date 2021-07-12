@@ -1,5 +1,7 @@
 package com.github._hazork.oldmysouls.souls;
 
+import com.github._hazork.oldmysouls.data.config.Config;
+import com.github._hazork.oldmysouls.utils.Utils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -7,13 +9,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
-
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.Nullable;
-
-import com.github._hazork.oldmysouls.data.config.Config;
-import com.github._hazork.oldmysouls.utils.Utils;
 
 public class SoulWallet {
 
@@ -69,7 +67,7 @@ public class SoulWallet {
   }
 
   public UUID getRemoveableSoul(final SoulWallet winner, final int amount) {
-    for(final UUID uuid: this.souls.keySet()) {
+    for (final UUID uuid : this.souls.keySet()) {
       if (this.canChangeSoul(winner, uuid, amount)) {
         return uuid;
       }
@@ -140,5 +138,4 @@ public class SoulWallet {
   private UUID getRandom() {
     return Utils.getRandom(new ArrayList<>(this.souls.keySet()));
   }
-
 }

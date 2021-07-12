@@ -1,5 +1,7 @@
 package com.github._hazork.oldmysouls.souls;
 
+import com.github._hazork.oldmysouls.MySouls;
+import com.github._hazork.oldmysouls.utils.db.CacheDB;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,18 +10,15 @@ import java.sql.ResultSet;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.logging.Level;
-
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.github._hazork.oldmysouls.MySouls;
-import com.github._hazork.oldmysouls.utils.db.CacheDB;
-
 public final class SoulsDB extends CacheDB<UUID, SoulWallet> {
 
   private final File file;
-  private final String table = "CREATE TABLE IF NOT EXISTS 'wallets' ('uuid' TEXT UNIQUE NOT NULL, 'wallet' BLOB)";
+  private final String table =
+    "CREATE TABLE IF NOT EXISTS 'wallets' ('uuid' TEXT UNIQUE NOT NULL, 'wallet' BLOB)";
 
   private Connection connection;
 
@@ -64,10 +63,16 @@ public final class SoulsDB extends CacheDB<UUID, SoulWallet> {
       ps.executeUpdate();
       ps.close();
     } catch (final Exception exc) {
-      MySouls.treatException(this.getClass(), "An error occurred while saving the user "
-          + sw.asPlayer().getName() + " in the database and it was returned to the cache.", exc);
-      Bukkit.getScheduler().scheduleSyncDelayedTask(MySouls.get(),
-          () -> this.getMap().put(sw.getOwnerId(), sw));
+      MySouls.treatException(
+        this.getClass(),
+        "An error occurred while saving the user " +
+        sw.asPlayer().getName() +
+        " in the database and it was returned to the cache.",
+        exc
+      );
+      Bukkit
+        .getScheduler()
+        .scheduleSyncDelayedTask(MySouls.get(), () -> this.getMap().put(sw.getOwnerId(), sw));
     }
   }
 
@@ -106,7 +111,10 @@ public final class SoulsDB extends CacheDB<UUID, SoulWallet> {
   }
 
   private void treatException(final Exception exc) {
-    MySouls.treatException(this.getClass(),
-        "Ocorreu um erro com a conectividade da WalletDB: " + exc.getMessage(), exc);
+    MySouls.treatException(
+      this.getClass(),
+      "Ocorreu um erro com a conectividade da WalletDB: " + exc.getMessage(),
+      exc
+    );
   }
 }

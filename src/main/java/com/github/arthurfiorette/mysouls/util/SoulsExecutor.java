@@ -1,5 +1,9 @@
 package com.github.arthurfiorette.mysouls.util;
 
+import com.github.arthurfiorette.sinklibrary.executor.BukkitExecutor;
+import com.github.arthurfiorette.sinklibrary.executor.TaskContext;
+import com.github.arthurfiorette.sinklibrary.interfaces.BaseComponent;
+import com.github.arthurfiorette.sinklibrary.interfaces.BasePlugin;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -8,11 +12,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-
-import com.github.arthurfiorette.sinklibrary.executor.BukkitExecutor;
-import com.github.arthurfiorette.sinklibrary.executor.TaskContext;
-import com.github.arthurfiorette.sinklibrary.interfaces.BaseComponent;
-import com.github.arthurfiorette.sinklibrary.interfaces.BasePlugin;
 
 public class SoulsExecutor implements BaseComponent, ExecutorService {
 

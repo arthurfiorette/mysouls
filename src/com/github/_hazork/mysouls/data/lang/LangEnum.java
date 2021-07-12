@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public enum LangEnum {
-
   BACKWARD("messages.backward"),
   CANNOT_USE("messages.cannot-use"),
   COIN_CHAT_MESSAGE("messages.coin-chat-message"),
@@ -67,5 +66,4 @@ public enum LangEnum {
   public List<String> getList(final Replacer replacer) {
     return this.getList().stream().map(replacer::replace).collect(Collectors.toList());
   }
-
 }

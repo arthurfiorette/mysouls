@@ -1,15 +1,13 @@
 package com.github._hazork.oldmysouls.data.lang;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import org.bukkit.ChatColor;
-
 import com.github._hazork.oldmysouls.MySouls;
 import com.github._hazork.oldmysouls.data.YamlFile;
 import com.github._hazork.oldmysouls.utils.Utils;
 import com.google.common.collect.Lists;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import org.bukkit.ChatColor;
 
 public class LangFile extends YamlFile {
 
@@ -23,8 +21,9 @@ public class LangFile extends YamlFile {
   }
 
   public static LangFile get() {
-    return (LangFile.instance == null) ? (LangFile.instance = new LangFile(MySouls.get()))
-        : (LangFile.instance);
+    return (LangFile.instance == null)
+      ? (LangFile.instance = new LangFile(MySouls.get()))
+      : (LangFile.instance);
   }
 
   public static String getString(final Lang lang) {
@@ -58,8 +57,10 @@ public class LangFile extends YamlFile {
   }
 
   public static List<String> getList(final Lang lang, final Map<String, String> placeholders) {
-    return Utils.listMapper(LangFile.getList(lang),
-        str -> LangFile.setInternalPlaceholders(str, placeholders));
+    return Utils.listMapper(
+      LangFile.getList(lang),
+      str -> LangFile.setInternalPlaceholders(str, placeholders)
+    );
   }
 
   /* PRIVATE */
@@ -68,9 +69,11 @@ public class LangFile extends YamlFile {
     return ChatColor.translateAlternateColorCodes('&', text);
   }
 
-  private static String setInternalPlaceholders(String text,
-      final Map<String, String> placeholders) {
-    for(final Entry<String, String> entry: placeholders.entrySet()) {
+  private static String setInternalPlaceholders(
+    String text,
+    final Map<String, String> placeholders
+  ) {
+    for (final Entry<String, String> entry : placeholders.entrySet()) {
       if (text.contains(entry.getKey())) {
         text = text.replace(entry.getKey(), entry.getValue());
       }
@@ -79,7 +82,10 @@ public class LangFile extends YamlFile {
   }
 
   private static void warnNPE(final Lang cause) {
-    MySouls.treatException(Lang.class,
-        String.format("%s is returning null, see it on lang.yml", cause.getPath()), null);
+    MySouls.treatException(
+      Lang.class,
+      String.format("%s is returning null, see it on lang.yml", cause.getPath()),
+      null
+    );
   }
 }

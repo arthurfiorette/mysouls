@@ -1,10 +1,10 @@
 package com.github._hazork.oldmysouls.guis;
 
+import com.github._hazork.oldmysouls.MySouls;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.Consumer;
-
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,8 +12,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-
-import com.github._hazork.oldmysouls.MySouls;
 
 public class GuiListener implements Listener {
 
@@ -46,7 +44,10 @@ public class GuiListener implements Listener {
   public void onInventory(final InventoryClickEvent event) {
     final GuiDB guiDb = MySouls.getGuiDB();
     final Player player = (Player) event.getWhoClicked();
-    guiDb.fromCache(player.getUniqueId()).ifPresent(
-        container -> container.getGui(event.getInventory()).ifPresent(gui -> gui.onClick(event)));
+    guiDb
+      .fromCache(player.getUniqueId())
+      .ifPresent(
+        container -> container.getGui(event.getInventory()).ifPresent(gui -> gui.onClick(event))
+      );
   }
 }

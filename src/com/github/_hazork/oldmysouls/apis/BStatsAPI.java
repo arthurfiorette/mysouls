@@ -1,10 +1,8 @@
 package com.github._hazork.oldmysouls.apis;
 
-import java.util.function.Consumer;
-
-import org.bstats.bukkit.Metrics;
-
 import com.github._hazork.oldmysouls.MySouls;
+import java.util.function.Consumer;
+import org.bstats.bukkit.Metrics;
 
 public class BStatsAPI {
 
@@ -18,5 +16,4 @@ public class BStatsAPI {
   public void metrics(final Consumer<Metrics> metrics) {
     metrics.accept(this.metrics);
   }
-
 }

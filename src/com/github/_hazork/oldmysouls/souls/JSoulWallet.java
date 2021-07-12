@@ -1,12 +1,11 @@
 package com.github._hazork.oldmysouls.souls;
 
+import com.google.gson.Gson;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
-import com.google.gson.Gson;
 
 public class JSoulWallet {
 
@@ -22,7 +21,10 @@ public class JSoulWallet {
     final JSoulWallet jsw = new JSoulWallet();
     jsw.obj = wallet;
     jsw.uuid = wallet.getOwnerId().toString();
-    jsw.souls = wallet.souls.entrySet().stream()
+    jsw.souls =
+      wallet.souls
+        .entrySet()
+        .stream()
         .collect(Collectors.toMap(e -> e.getKey().toString(), Entry::getValue));
     return jsw;
   }
@@ -40,7 +42,9 @@ public class JSoulWallet {
       return this.obj;
     }
     final SoulWallet wallet = new SoulWallet(UUID.fromString(this.uuid));
-    wallet.souls = this.souls.entrySet().stream()
+    wallet.souls =
+      this.souls.entrySet()
+        .stream()
         .collect(Collectors.toMap(e -> UUID.fromString(e.getKey()), Entry::getValue));
     return this.obj = wallet;
   }

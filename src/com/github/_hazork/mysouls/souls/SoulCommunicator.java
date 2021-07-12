@@ -1,13 +1,5 @@
 package com.github._hazork.mysouls.souls;
 
-import java.util.UUID;
-
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.Sound;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
 import com.github._hazork.mysouls.SoulsPlugin;
 import com.github._hazork.mysouls.data.lang.LangEnum;
 import com.github._hazork.mysouls.utils.Nbts;
@@ -15,6 +7,12 @@ import com.github._hazork.mysouls.utils.Utils;
 import com.github._hazork.oldmysouls.data.config.Config;
 import com.github.arthurfiorette.sinklibrary.item.ItemBuilders;
 import com.github.arthurfiorette.sinklibrary.replacer.Replacer;
+import java.util.UUID;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public class SoulCommunicator {
 
@@ -39,8 +37,8 @@ public class SoulCommunicator {
       String eMessage = LangEnum.DEATH_MESSAGE_FAIL.getText();
       final SoulAccount kAcc = SoulsPlugin.get().getStorage().get(killer.getUniqueId());
       if (acc.tradeSoul(kAcc)) {
-        kMessage = LangEnum.KILL_MESSAGE
-            .getText(new Replacer().add("{player}", this.getPlayer().getName()));
+        kMessage =
+          LangEnum.KILL_MESSAGE.getText(new Replacer().add("{player}", this.getPlayer().getName()));
         eMessage = LangEnum.DEATH_MESSAGE.getText(new Replacer().add("{player}", killer.getName()));
       }
       this.sendMessage(eMessage);
@@ -68,18 +66,19 @@ public class SoulCommunicator {
   }
 
   public void collectSouls(final ItemStack soul) {
-    if ((Nbts.isNbtsItem(soul) && this.isOnline())
-        && Nbts.getIdValue(soul).equals(SoulAccount.SOUL_ID)) {
-
-    }
+    if (
+      (Nbts.isNbtsItem(soul) && this.isOnline()) &&
+      Nbts.getIdValue(soul).equals(SoulAccount.SOUL_ID)
+    ) {}
   }
 
-  public void withdrawSoul(final UUID soul) {
+  public void withdrawSoul(final UUID soul) {}
 
-  }
-
-  private static ItemStack coin = ItemBuilders.ofHeadUrl(Config.COIN_HEAD_URL.getText())
-      .setName(LangEnum.COIN_NAME.getText()).setLore(LangEnum.COIN_LORE.getList()).build();
+  private static ItemStack coin = ItemBuilders
+    .ofHeadUrl(Config.COIN_HEAD_URL.getText())
+    .setName(LangEnum.COIN_NAME.getText())
+    .setLore(LangEnum.COIN_LORE.getList())
+    .build();
 
   public static ItemStack coinToItem(final int amount) {
     SoulCommunicator.coin.setAmount(amount);
@@ -88,8 +87,11 @@ public class SoulCommunicator {
 
   public static ItemStack soulToItem(final UUID soul) {
     final ItemBuilder builder = ItemBuilders.ofHead(Bukkit.getOfflinePlayer(soul));
-    builder.setName(LangEnum.SOUL_NAME
-        .getText(new Replacer().add("{player}", Bukkit.getOfflinePlayer(soul).getName())));
+    builder.setName(
+      LangEnum.SOUL_NAME.getText(
+        new Replacer().add("{player}", Bukkit.getOfflinePlayer(soul).getName())
+      )
+    );
     builder.setLore(LangEnum.SOUL_LORE.getList());
     return Nbts.saveValue(builder.build(), SoulAccount.SOUL_ID, soul.toString());
   }
@@ -114,5 +116,4 @@ public class SoulCommunicator {
   public boolean isOnline() {
     return Bukkit.getOfflinePlayer(this.ownerId).isOnline();
   }
-
 }

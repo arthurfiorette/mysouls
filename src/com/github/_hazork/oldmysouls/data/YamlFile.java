@@ -1,11 +1,9 @@
 package com.github._hazork.oldmysouls.data;
 
+import com.github._hazork.oldmysouls.MySouls;
 import java.io.File;
-
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-
-import com.github._hazork.oldmysouls.MySouls;
 
 public abstract class YamlFile {
 

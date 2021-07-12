@@ -1,5 +1,10 @@
 package com.github.arthurfiorette.mysouls.storage;
 
+import com.github.arthurfiorette.mysouls.MySouls;
+import com.github.arthurfiorette.sinklibrary.data.database.Database;
+import com.github.arthurfiorette.sinklibrary.executor.TaskContext;
+import com.github.arthurfiorette.sinklibrary.interfaces.BasePlugin;
+import com.github.arthurfiorette.sinklibrary.uuid.FastUuid;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,12 +15,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
-
-import com.github.arthurfiorette.mysouls.MySouls;
-import com.github.arthurfiorette.sinklibrary.data.database.Database;
-import com.github.arthurfiorette.sinklibrary.executor.TaskContext;
-import com.github.arthurfiorette.sinklibrary.interfaces.BasePlugin;
-import com.github.arthurfiorette.sinklibrary.uuid.FastUuid;
 
 public class WalletDatabase implements Database<UUID, String> {
 

@@ -1,5 +1,9 @@
 package com.github._hazork.oldmysouls.souls;
 
+import com.github._hazork.oldmysouls.MySouls;
+import com.github._hazork.oldmysouls.data.lang.Lang;
+import com.github._hazork.oldmysouls.utils.Nbts;
+import com.github._hazork.oldmysouls.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -9,11 +13,6 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-
-import com.github._hazork.oldmysouls.MySouls;
-import com.github._hazork.oldmysouls.data.lang.Lang;
-import com.github._hazork.oldmysouls.utils.Nbts;
-import com.github._hazork.oldmysouls.utils.Utils;
 
 public class SoulListener implements Listener {
 

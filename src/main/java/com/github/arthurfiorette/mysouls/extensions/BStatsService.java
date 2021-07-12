@@ -1,11 +1,5 @@
 package com.github.arthurfiorette.mysouls.extensions;
 
-import java.util.Collection;
-import java.util.concurrent.Callable;
-
-import org.bstats.bukkit.Metrics;
-import org.bstats.charts.SingleLineChart;
-
 import com.github.arthurfiorette.mysouls.MySouls;
 import com.github.arthurfiorette.mysouls.model.Wallet;
 import com.github.arthurfiorette.mysouls.storage.WalletDatabase;
@@ -13,6 +7,10 @@ import com.github.arthurfiorette.mysouls.storage.WalletStorage;
 import com.github.arthurfiorette.sinklibrary.components.ManagerState;
 import com.github.arthurfiorette.sinklibrary.interfaces.BasePlugin;
 import com.github.arthurfiorette.sinklibrary.interfaces.BaseService;
+import java.util.Collection;
+import java.util.concurrent.Callable;
+import org.bstats.bukkit.Metrics;
+import org.bstats.charts.SingleLineChart;
 
 public class BStatsService implements BaseService {
 

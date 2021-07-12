@@ -1,12 +1,10 @@
 package com.github._hazork.mysouls.commands;
 
-import java.util.List;
-
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import com.github._hazork.mysouls.SoulsPlugin;
 import com.github._hazork.mysouls.menu.SoulsMenu;
+import java.util.List;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class MenuArgument implements Argument {
 
@@ -26,5 +24,4 @@ public class MenuArgument implements Argument {
   public String getName() {
     return "menu";
   }
-
 }

@@ -1,17 +1,15 @@
 package com.github._hazork.oldmysouls.guis;
 
+import com.github._hazork.oldmysouls.MySouls;
+import com.github._hazork.oldmysouls.souls.SoulWallet;
+import com.github._hazork.oldmysouls.souls.SoulsDB;
 import java.util.UUID;
-
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.jetbrains.annotations.Nullable;
-
-import com.github._hazork.oldmysouls.MySouls;
-import com.github._hazork.oldmysouls.souls.SoulWallet;
-import com.github._hazork.oldmysouls.souls.SoulsDB;
 
 public abstract class Gui {
 

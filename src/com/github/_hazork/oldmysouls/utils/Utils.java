@@ -1,5 +1,6 @@
 package com.github._hazork.oldmysouls.utils;
 
+import com.github._hazork.oldmysouls.MySouls;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -7,13 +8,10 @@ import java.util.Random;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
-
-import com.github._hazork.oldmysouls.MySouls;
 
 public class Utils {
 
@@ -37,13 +35,16 @@ public class Utils {
     return list.stream().map(mapper).collect(Collectors.toList());
   }
 
-  public static <R> List<R> listMapperFilter(final List<String> list,
-      final Function<String, R> mapper, final Predicate<R> predicate) {
+  public static <R> List<R> listMapperFilter(
+    final List<String> list,
+    final Function<String, R> mapper,
+    final Predicate<R> predicate
+  ) {
     return list.stream().map(mapper).filter(predicate).collect(Collectors.toList());
   }
 
   public static void playSound(final Sound sound, final Player... players) {
-    for(final Player p: players) {
+    for (final Player p : players) {
       p.playSound(p.getLocation(), sound, 3.0F, 0.5F);
     }
   }

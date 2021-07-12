@@ -12,8 +12,9 @@ public class LangFile extends LanguageFile<LangEnum> {
   }
 
   public static LangFile get() {
-    return (LangFile.instance == null) ? LangFile.instance = new LangFile(SoulsPlugin.get())
-        : LangFile.instance;
+    return (LangFile.instance == null)
+      ? LangFile.instance = new LangFile(SoulsPlugin.get())
+      : LangFile.instance;
   }
 
   @Override
@@ -21,5 +22,4 @@ public class LangFile extends LanguageFile<LangEnum> {
     this.asList(lang, replacer -> replacer.add("", "").add("", ""));
     return lang.getPath();
   }
-
 }

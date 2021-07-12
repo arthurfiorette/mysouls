@@ -1,5 +1,9 @@
 package com.github._hazork.mysouls.souls;
 
+import com.github._hazork.mysouls.data.lang.LangEnum;
+import com.github._hazork.mysouls.utils.Nbts;
+import com.github.arthurfiorette.sinklibrary.components.SinkPlugin;
+import com.github.arthurfiorette.sinklibrary.listener.SinkListener;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -7,11 +11,6 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-
-import com.github._hazork.mysouls.data.lang.LangEnum;
-import com.github._hazork.mysouls.utils.Nbts;
-import com.github.arthurfiorette.sinklibrary.components.SinkPlugin;
-import com.github.arthurfiorette.sinklibrary.listener.SinkListener;
 
 public class SoulListener extends SinkListener {
 
@@ -50,5 +49,4 @@ public class SoulListener extends SinkListener {
       event.getPlayer().sendMessage(LangEnum.CANNOT_USE.getText());
     }
   }
-
 }

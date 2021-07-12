@@ -1,11 +1,9 @@
 package com.github._hazork.oldmysouls.utils;
 
+import com.google.common.collect.Maps;
 import java.util.Map;
 import java.util.function.Consumer;
-
 import org.bukkit.inventory.ItemStack;
-
-import com.google.common.collect.Maps;
 
 public class Nbts {
 
@@ -43,10 +41,13 @@ public class Nbts {
   }
 
   private static ItemStack saveValues(final ItemStack source, final Map<String, String> values) {
-    return Nbts.setNbt(source, nbt -> {
-      nbt.setBoolean(Nbts.name, true);
-      values.forEach((k, v) -> nbt.setString(Nbts.getKey(k), v));
-    });
+    return Nbts.setNbt(
+      source,
+      nbt -> {
+        nbt.setBoolean(Nbts.name, true);
+        values.forEach((k, v) -> nbt.setString(Nbts.getKey(k), v));
+      }
+    );
   }
 
   private static ItemStack setNbt(final ItemStack source, final Consumer<NBTTagCompound> nbt) {

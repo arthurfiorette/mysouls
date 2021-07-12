@@ -1,5 +1,9 @@
 package com.github._hazork.mysouls.data;
 
+import com.github._hazork.mysouls.SoulsPlugin;
+import com.github.arthurfiorette.sinklibrary.data.database.Database;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,17 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import com.github._hazork.mysouls.SoulsPlugin;
-import com.github.arthurfiorette.sinklibrary.data.database.Database;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
 public class SoulsDatabase implements Database<JsonObject> {
 
   public static final JsonObject EMPTY = new JsonObject();
 
   private final File file;
-  private final String table = "CREATE TABLE IF NOT EXISTS accounts (ownerId TEXT UNIQUE NOT NULL, account TEXT)";
+  private final String table =
+    "CREATE TABLE IF NOT EXISTS accounts (ownerId TEXT UNIQUE NOT NULL, account TEXT)";
 
   private final SoulsPlugin plugin;
 
@@ -42,9 +42,11 @@ public class SoulsDatabase implements Database<JsonObject> {
         ps.close();
       }
     } catch (SQLException | ClassNotFoundException exc) {
-      this.plugin.treatException(this.getClass(), exc,
-          "An error occurred while trying to open the database.");
-
+      this.plugin.treatException(
+          this.getClass(),
+          exc,
+          "An error occurred while trying to open the database."
+        );
     }
   }
 
@@ -56,8 +58,11 @@ public class SoulsDatabase implements Database<JsonObject> {
         this.connection = null;
       }
     } catch (final Exception exc) {
-      this.plugin.treatException(this.getClass(), exc,
-          "An error occurred while trying to close the database.");
+      this.plugin.treatException(
+          this.getClass(),
+          exc,
+          "An error occurred while trying to close the database."
+        );
     }
   }
 
@@ -72,9 +77,12 @@ public class SoulsDatabase implements Database<JsonObject> {
         ps.executeUpdate();
         ps.close();
       } catch (final Exception exc) {
-        this.plugin.treatException(this.getClass(), exc,
+        this.plugin.treatException(
+            this.getClass(),
+            exc,
             "An error occurred while saving an account to the database for the key: %s\nTake care of this error so as not to lose user data.",
-            key);
+            key
+          );
       }
     }
   }
@@ -92,9 +100,12 @@ public class SoulsDatabase implements Database<JsonObject> {
         return null;
       }
     } catch (final Exception exc) {
-      this.plugin.treatException(this.getClass(), exc,
+      this.plugin.treatException(
+          this.getClass(),
+          exc,
           "An error occurred while reading an account from the database for the key: %s\nTake care of this error so as not to lose user data.",
-          key);
+          key
+        );
       return new JsonObject();
     }
   }
@@ -114,10 +125,12 @@ public class SoulsDatabase implements Database<JsonObject> {
         all.add(this.parse(set.getString(1)));
       }
     } catch (final Exception exc) {
-      this.plugin.treatException(this.getClass(), exc,
-          "An error occurred while reading all accounts from the database\nTake care of this error so as not to lose user data.");
+      this.plugin.treatException(
+          this.getClass(),
+          exc,
+          "An error occurred while reading all accounts from the database\nTake care of this error so as not to lose user data."
+        );
     }
     return all;
   }
-
 }

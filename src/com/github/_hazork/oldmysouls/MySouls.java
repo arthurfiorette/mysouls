@@ -1,9 +1,5 @@
 package com.github._hazork.oldmysouls;
 
-import java.util.logging.Level;
-
-import org.bukkit.plugin.java.JavaPlugin;
-
 import com.github._hazork.oldmysouls.apis.APIController;
 import com.github._hazork.oldmysouls.commands.CommandHandler;
 import com.github._hazork.oldmysouls.data.lang.Lang;
@@ -11,6 +7,8 @@ import com.github._hazork.oldmysouls.guis.GuiDB;
 import com.github._hazork.oldmysouls.guis.GuiListener;
 import com.github._hazork.oldmysouls.souls.SoulListener;
 import com.github._hazork.oldmysouls.souls.SoulsDB;
+import java.util.logging.Level;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class MySouls extends JavaPlugin {
 
@@ -78,10 +76,19 @@ public class MySouls extends JavaPlugin {
     MySouls.get().getLogger().log(level, message);
   }
 
-  public static void treatException(final Class<?> clazz, final String message,
-      final Throwable throwable) {
-    MySouls.log(Level.SEVERE, String.format(
-        "Oops! Ocorreu um erro na classe %s. Veja o aviso: \n%s", clazz.getSimpleName(), message));
+  public static void treatException(
+    final Class<?> clazz,
+    final String message,
+    final Throwable throwable
+  ) {
+    MySouls.log(
+      Level.SEVERE,
+      String.format(
+        "Oops! Ocorreu um erro na classe %s. Veja o aviso: \n%s",
+        clazz.getSimpleName(),
+        message
+      )
+    );
     if (throwable != null) {
       throwable.printStackTrace();
     }

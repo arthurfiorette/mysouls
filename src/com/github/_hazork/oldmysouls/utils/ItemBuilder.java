@@ -1,5 +1,6 @@
 package com.github._hazork.oldmysouls.utils;
 
+import com.github._hazork.oldmysouls.MySouls;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Base64;
@@ -9,7 +10,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
-
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.enchantments.Enchantment;
@@ -18,8 +18,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.material.MaterialData;
-
-import com.github._hazork.oldmysouls.MySouls;
 
 public class ItemBuilder {
 
@@ -34,8 +32,10 @@ public class ItemBuilder {
   }
 
   public static ItemBuilder ofHead(final OfflinePlayer player, final boolean allItemFlags) {
-    return ItemBuilder.ofSkullGameProfile(new GameProfile(player.getUniqueId(), player.getName()),
-        allItemFlags);
+    return ItemBuilder.ofSkullGameProfile(
+      new GameProfile(player.getUniqueId(), player.getName()),
+      allItemFlags
+    );
   }
 
   public static ItemBuilder ofHead(final String playername) {
@@ -44,11 +44,13 @@ public class ItemBuilder {
 
   public static ItemBuilder ofHead(final String playername, final boolean allItemFlags) {
     final ItemBuilder builder = new ItemBuilder(Material.SKULL_ITEM, true).setDurability(3);
-    return builder.addCustomMeta(im -> {
-      final SkullMeta sm = (SkullMeta) im;
-      sm.setOwner(playername);
-      return sm;
-    });
+    return builder.addCustomMeta(
+      im -> {
+        final SkullMeta sm = (SkullMeta) im;
+        sm.setOwner(playername);
+        return sm;
+      }
+    );
   }
 
   public static ItemBuilder ofHeadUrl(final String url) {
@@ -57,8 +59,9 @@ public class ItemBuilder {
 
   public static ItemBuilder ofHeadUrl(final String url, final boolean allItemFlags) {
     final GameProfile profile = new GameProfile(UUID.randomUUID(), null);
-    final byte[] encodedData = Base64
-        .encodeBase64(String.format("{textures:{SKIN:{url:\"%s\"}}}", url).getBytes());
+    final byte[] encodedData = Base64.encodeBase64(
+      String.format("{textures:{SKIN:{url:\"%s\"}}}", url).getBytes()
+    );
     profile.getProperties().put("textures", new Property("textures", new String(encodedData)));
     return ItemBuilder.ofSkullGameProfile(profile, true);
   }
@@ -69,19 +72,24 @@ public class ItemBuilder {
 
   public static ItemBuilder ofSkullGameProfile(final GameProfile gp, final boolean allItemFlags) {
     final ItemBuilder builder = new ItemBuilder(Material.SKULL_ITEM, allItemFlags).setDurability(3);
-    builder.addCustomMeta(meta -> {
-      try {
-        final SkullMeta headMeta = (SkullMeta) meta;
-        final Field profileField = headMeta.getClass().getDeclaredField("profile");
-        profileField.setAccessible(true);
-        profileField.set(headMeta, gp);
-        return headMeta;
-      } catch (IllegalAccessException | NoSuchFieldException exc) {
-        MySouls.treatException(ItemBuilder.class,
-            "Error when trying to load custom head via GameProfile", exc);
-        return meta;
+    builder.addCustomMeta(
+      meta -> {
+        try {
+          final SkullMeta headMeta = (SkullMeta) meta;
+          final Field profileField = headMeta.getClass().getDeclaredField("profile");
+          profileField.setAccessible(true);
+          profileField.set(headMeta, gp);
+          return headMeta;
+        } catch (IllegalAccessException | NoSuchFieldException exc) {
+          MySouls.treatException(
+            ItemBuilder.class,
+            "Error when trying to load custom head via GameProfile",
+            exc
+          );
+          return meta;
+        }
       }
-    });
+    );
     return builder;
   }
 
@@ -117,8 +125,10 @@ public class ItemBuilder {
   }
 
   public ItemBuilder setName(final String name) {
-    return this.addProperties(Properties.NAME,
-        is -> ItemBuilder.setItemMeta(is, im -> im.setDisplayName(name)));
+    return this.addProperties(
+        Properties.NAME,
+        is -> ItemBuilder.setItemMeta(is, im -> im.setDisplayName(name))
+      );
   }
 
   public ItemBuilder setItemFlags() {
@@ -126,15 +136,24 @@ public class ItemBuilder {
   }
 
   public ItemBuilder setItemFlags(final ItemFlag... itemFlags) {
-    return this.addProperties(Properties.ITEM_FLAG, is -> ItemBuilder.setItemMeta(is, im -> {
-      im.removeItemFlags(ItemFlag.values());
-      im.addItemFlags(itemFlags);
-    }));
+    return this.addProperties(
+        Properties.ITEM_FLAG,
+        is ->
+          ItemBuilder.setItemMeta(
+            is,
+            im -> {
+              im.removeItemFlags(ItemFlag.values());
+              im.addItemFlags(itemFlags);
+            }
+          )
+      );
   }
 
   public ItemBuilder addItemFlags(final ItemFlag... itemFlags) {
-    return this.addProperties(Properties.ITEM_FLAG,
-        is -> ItemBuilder.setItemMeta(is, im -> im.addItemFlags(itemFlags)));
+    return this.addProperties(
+        Properties.ITEM_FLAG,
+        is -> ItemBuilder.setItemMeta(is, im -> im.addItemFlags(itemFlags))
+      );
   }
 
   public ItemBuilder setLores(final String... lorelines) {
@@ -142,8 +161,10 @@ public class ItemBuilder {
   }
 
   public ItemBuilder setLore(final List<String> lore) {
-    return this.addProperties(Properties.LORE,
-        is -> ItemBuilder.setItemMeta(is, im -> im.setLore(lore)));
+    return this.addProperties(
+        Properties.LORE,
+        is -> ItemBuilder.setItemMeta(is, im -> im.setLore(lore))
+      );
   }
 
   public ItemBuilder addLores(final String... lorelines) {
@@ -152,15 +173,19 @@ public class ItemBuilder {
 
   public ItemBuilder addLore(final List<String> lore) {
     if (this.properties.containsKey(Properties.LORE)) {
-      return this.addProperties(Properties.LORE,
-          is -> ItemBuilder.setItemMeta(is, im -> im.getLore().addAll(lore)));
+      return this.addProperties(
+          Properties.LORE,
+          is -> ItemBuilder.setItemMeta(is, im -> im.getLore().addAll(lore))
+        );
     }
     return this.setLore(lore);
   }
 
   public ItemBuilder addCustomMeta(final UnaryOperator<ItemMeta> customMeta) {
-    return this.addProperties(Properties.CUSTOM_META,
-        is -> is.setItemMeta(customMeta.apply(is.getItemMeta())));
+    return this.addProperties(
+        Properties.CUSTOM_META,
+        is -> is.setItemMeta(customMeta.apply(is.getItemMeta()))
+      );
   }
 
   public ItemStack build() {

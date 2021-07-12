@@ -1,16 +1,14 @@
 package com.github._hazork.oldmysouls.guis;
 
+import com.github._hazork.oldmysouls.data.lang.Lang;
+import com.github._hazork.oldmysouls.utils.db.HashMapDB;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.UUID;
-
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-
-import com.github._hazork.oldmysouls.data.lang.Lang;
-import com.github._hazork.oldmysouls.utils.db.HashMapDB;
 
 public final class GuiDB extends HashMapDB<UUID, GuiContainer> {
 
@@ -41,7 +39,7 @@ public final class GuiDB extends HashMapDB<UUID, GuiContainer> {
   }
 
   public void close() {
-    for(final Entry<UUID, GuiContainer> entry: this.getMap().entrySet()) {
+    for (final Entry<UUID, GuiContainer> entry : this.getMap().entrySet()) {
       final OfflinePlayer op = Bukkit.getOfflinePlayer(entry.getKey());
       if ((op != null) && op.isOnline()) {
         final Player player = (Player) op;

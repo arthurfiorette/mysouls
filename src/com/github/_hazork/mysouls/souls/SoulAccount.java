@@ -7,7 +7,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.Nullable;
@@ -37,7 +36,7 @@ public class SoulAccount {
   }
 
   public Optional<UUID> getTradeableUuid(final SoulAccount other, final int amount) {
-    for(final PlayerSoul soul: this.wallet.values()) {
+    for (final PlayerSoul soul : this.wallet.values()) {
       final UUID uuid = soul.getOwnerId();
       if (other.containsSoul(uuid)) {
         final PlayerSoul othersoul = other.getSoul(uuid);
@@ -81,7 +80,7 @@ public class SoulAccount {
 
   public void clean() {
     final Set<Entry<UUID, PlayerSoul>> set = this.wallet.entrySet();
-    for(final Entry<UUID, PlayerSoul> entry: set) {
+    for (final Entry<UUID, PlayerSoul> entry : set) {
       if (entry.getValue().amount() == 0) {
         set.remove(entry);
       }
@@ -105,7 +104,7 @@ public class SoulAccount {
       return null;
     }
     PlayerSoul biggest = this.wallet.values().iterator().next();
-    for(final PlayerSoul soul: this.wallet.values()) {
+    for (final PlayerSoul soul : this.wallet.values()) {
       if ((soul != biggest) && (soul.amount() > biggest.amount())) {
         biggest = soul;
       }
@@ -131,5 +130,4 @@ public class SoulAccount {
   public double soulsRatio() {
     return (double) this.soulsCount(null) / this.playerCount();
   }
-
 }

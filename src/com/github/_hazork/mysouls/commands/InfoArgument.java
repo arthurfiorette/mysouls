@@ -1,16 +1,15 @@
 package com.github._hazork.mysouls.commands;
 
-import java.util.List;
-
-import org.bukkit.command.CommandSender;
-
 import com.github._hazork.mysouls.SoulsPlugin;
+import java.util.List;
+import org.bukkit.command.CommandSender;
 
 public class InfoArgument implements Argument {
 
   public static final String[] INFO = {
-      "§6This server is running: §5MySouls §c- §d" + SoulsPlugin.getVersion(),
-      "§fPowered by: §l§eHazork §c-  §e§nGithub.com/Hazork" };
+    "§6This server is running: §5MySouls §c- §d" + SoulsPlugin.getVersion(),
+    "§fPowered by: §l§eHazork §c-  §e§nGithub.com/Hazork",
+  };
 
   @Override
   public boolean test(final CommandSender t) {
@@ -28,5 +27,4 @@ public class InfoArgument implements Argument {
   public String getName() {
     return "info";
   }
-
 }

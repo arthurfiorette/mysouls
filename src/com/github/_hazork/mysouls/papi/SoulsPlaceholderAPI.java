@@ -1,17 +1,14 @@
 package com.github._hazork.mysouls.papi;
 
+import com.github._hazork.mysouls.SoulsPlugin;
+import com.github._hazork.mysouls.souls.SoulAccount;
 import java.util.Arrays;
-
+import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import com.github._hazork.mysouls.SoulsPlugin;
-import com.github._hazork.mysouls.souls.SoulAccount;
-
-import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 
 public class SoulsPlaceholderAPI extends PlaceholderExpansion {
 
@@ -36,15 +33,12 @@ public class SoulsPlaceholderAPI extends PlaceholderExpansion {
         }
         result = account.soulsCount(null);
         break;
-
       case "playercount":
         result = account.playerCount();
         break;
-
       case "soulsratio":
         result = account.soulsRatio();
         break;
-
       default:
         return null;
     }

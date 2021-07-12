@@ -7,5 +7,4 @@ public class ConfigYml extends ConfigFile {
   public ConfigYml(final SinkPlugin plugin) {
     super(plugin);
   }
-
 }

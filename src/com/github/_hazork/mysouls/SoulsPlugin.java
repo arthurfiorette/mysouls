@@ -1,9 +1,5 @@
 package com.github._hazork.mysouls;
 
-import java.util.logging.Level;
-
-import org.bstats.bukkit.Metrics;
-
 import com.github._hazork.mysouls.commands.InfoArgument;
 import com.github._hazork.mysouls.data.SoulsDatabase;
 import com.github._hazork.mysouls.menu.MenuDatabase;
@@ -12,6 +8,8 @@ import com.github._hazork.mysouls.souls.SoulListener;
 import com.github._hazork.mysouls.souls.SoulsStorage;
 import com.github._hazork.oldmysouls.utils.Utils;
 import com.github.arthurfiorette.sinklibrary.components.SinkPlugin;
+import java.util.logging.Level;
+import org.bstats.bukkit.Metrics;
 
 public class SoulsPlugin extends SinkPlugin {
 
@@ -45,9 +43,7 @@ public class SoulsPlugin extends SinkPlugin {
   }
 
   @Override
-  public void onDisable() {
-
-  }
+  public void onDisable() {}
 
   private void setupCommands() {
     this.command = new CommandBase(this, "mysouls");
@@ -86,5 +82,4 @@ public class SoulsPlugin extends SinkPlugin {
   public static SoulsPlugin get() {
     return SoulsPlugin.instance;
   }
-
 }

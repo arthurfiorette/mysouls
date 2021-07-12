@@ -24,5 +24,4 @@ public class APIController {
   public BStatsAPI getBStatsAPI() {
     return this.bstats;
   }
-
 }

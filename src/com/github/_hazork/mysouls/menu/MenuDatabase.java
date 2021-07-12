@@ -1,10 +1,8 @@
 package com.github._hazork.mysouls.menu;
 
-import java.util.UUID;
-
-import org.bukkit.entity.Player;
-
 import com.github.arthurfiorette.sinklibrary.data.database.MemoryDatabase;
+import java.util.UUID;
+import org.bukkit.entity.Player;
 
 public class MenuDatabase extends MemoryDatabase<SoulsMenu> {
 

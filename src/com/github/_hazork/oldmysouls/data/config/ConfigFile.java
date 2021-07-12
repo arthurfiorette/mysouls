@@ -13,8 +13,9 @@ public class ConfigFile extends YamlFile {
   }
 
   public static ConfigFile get() {
-    return (ConfigFile.instance == null) ? (ConfigFile.instance = new ConfigFile(MySouls.get()))
-        : (ConfigFile.instance);
+    return (ConfigFile.instance == null)
+      ? (ConfigFile.instance = new ConfigFile(MySouls.get()))
+      : (ConfigFile.instance);
   }
 
   public static String getText(final Config config) {

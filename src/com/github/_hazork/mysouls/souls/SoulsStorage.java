@@ -1,10 +1,5 @@
 package com.github._hazork.mysouls.souls;
 
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
 import com.github._hazork.mysouls.data.SoulsDatabase;
 import com.github.arthurfiorette.sinklibrary.data.database.Database;
 import com.github.arthurfiorette.sinklibrary.data.database.MemoryDatabase;
@@ -12,11 +7,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 public class SoulsStorage extends CacheStorage<SoulAccount> {
 
   public static void main(final String[] args) {
-
     final SoulsStorage storage = new SoulsStorage(new MemoryDatabase<>());
 
     final SoulAccount acc = new SoulAccount(UUID.randomUUID());
@@ -35,7 +33,6 @@ public class SoulsStorage extends CacheStorage<SoulAccount> {
 
     System.out.println(SoulsStorage.gson.toJson(acc.wallet));
     System.out.println(SoulsStorage.gson.toJson(deserial.wallet));
-
   }
 
   // private Gson gson = new Gson();
@@ -66,10 +63,12 @@ public class SoulsStorage extends CacheStorage<SoulAccount> {
   @Override
   public SoulAccount deserialize(final JsonObject raw) {
     final UUID uuid = FastUUID.parseUUID(raw.get(SoulsStorage.ID_NAME).getAsString());
-    final JsonArray soulsArray = new Gson().fromJson(raw.get(SoulsStorage.SOULS_NAME),
-        JsonArray.class);
+    final JsonArray soulsArray = new Gson()
+      .fromJson(raw.get(SoulsStorage.SOULS_NAME), JsonArray.class);
     final SoulAccount acc = new SoulAccount(uuid);
-    acc.wallet = StreamSupport.stream(soulsArray.spliterator(), false)
+    acc.wallet =
+      StreamSupport
+        .stream(soulsArray.spliterator(), false)
         .map(e -> SoulsStorage.gson.fromJson(e, PlayerSoul.class))
         .collect(Collectors.toMap(PlayerSoul::getOwnerId, e -> e));
     return acc;
