@@ -12,22 +12,26 @@
 #
 # --------------------------------------------------------------------------
 #
-#  Release: 1.1.0
-# 
-#  About:
+#  Release: 2.0.0
+#
 #  Spigot: https://www.spigotmc.org/resources/my-souls.86749/
-#  Github: https://github.com/Hazork/MySouls
-#  Twitter: https://twitter.com/Hazork_
+#  Github: https://github.com/arthurfiorette/mysouls
+#  Twitter: https://twitter.com/arthurfiorette
 #  Steam: https://steamcommunity.com/profiles/76561198850668121
 #  
 #  In any use of this plugin, I would love it if I had any credit
 #  relating to the plugin. Good game!
-#  
 #
-#  This file contains all the messages that a player can receive,
-#  usually, customizing it demonstrates a server designed for 
-#  the player.
+#  This file contains the general settings of the plugin, 
+#  customizing it makes the game rules of the plugin
+#  different from the others.
 #
+
+
+admin:
+  reload-success: "&aYay! &7Plugin reloaded"
+  reload-fail: "&4Ah! &7Plugin cannot reload now"
+  unnown-error: "&4Ah! &7We have an unknown error"
 
 commands:
   unknown-argument: "&4Oops! &7Unknown argument."
@@ -47,9 +51,9 @@ messages:
     soul-64-limit: "&4Oops! &7You can only have 64 souls per player."
     dont-have-souls: "&4Oops! &7Insufficient souls."
 
-    death-message: "&4Oops! &7You died and one of your souls went to: &f{player}&7."
+    death-message: "&4Oops! &7You died and one of your souls went to: &f{killer}&7."
     death-message-fail: "&4Ah! &7You died but did not lose souls because you had none."
-    kill-message: "&aYay! &7You killed the player: &f{player}&7 and won a soul."
+    kill-message: "&aYay! &7You killed the player: &f{victim}&7 and won a soul."
     kill-message-fail: "&4Ah! &7The player you killed doesn't have enough souls to transfer you."
 
     soul-chat-message: "\n&eWrite in chat, the &fPlayer Name&e to remove or &f*&e to any soul.\n "

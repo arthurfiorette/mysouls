@@ -12,17 +12,15 @@
 #
 # --------------------------------------------------------------------------
 #
-#  Release: 1.1.0
+#  Release: 2.0.0
 #
-#  About:
 #  Spigot: https://www.spigotmc.org/resources/my-souls.86749/
-#  Github: https://github.com/Hazork/MySouls
-#  Twitter: https://twitter.com/Hazork_
+#  Github: https://github.com/arthurfiorette/mysouls
+#  Twitter: https://twitter.com/arthurfiorette
 #  Steam: https://steamcommunity.com/profiles/76561198850668121
 #  
 #  In any use of this plugin, I would love it if I had any credit
 #  relating to the plugin. Good game!
-#  
 #
 #  This file contains the general settings of the plugin, 
 #  customizing it makes the game rules of the plugin
