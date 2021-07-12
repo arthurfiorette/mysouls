@@ -3,15 +3,19 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.github.arthurfiorette</groupId>
-	<artifactId>mysouls</artifactId>
-	<version>v2.0.0</version>
-	<name>mysouls</name>
+  <groupId>com.github.arthurfiorette</groupId>
+  <artifactId>mysouls</artifactId>
+  <packaging>jar</packaging>
+  <version>v2.0.0</version>
 
-	<properties>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-	</properties>
+  <name>mysouls</name>
+  <description>Creates a finite currency from your players deaths.</description>
+  <url>https://github.com/arthurfiorette/my-souls</url>
+
+  <properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+  </properties>
 
 	<repositories>
 		<!-- PlaceholderAPI -->
@@ -88,16 +92,16 @@
 			<version>1.8.8-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
-
 	</dependencies>
 
 	<build>
 		<plugins>
+
+			<!-- Relocate bStats dependency -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
 				<version>3.1.0</version>
-				
 				<configuration>
 					<relocations>
 						<relocation>
@@ -106,7 +110,6 @@
 						</relocation>
 					</relocations>
 				</configuration>
-				
 				<executions>
 					<execution>
 						<phase>package</phase>
