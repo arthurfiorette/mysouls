@@ -21,4 +21,4 @@ hs_ err_pid*
 /.settings
 
 # Old code that i'm refactoring :)
-/src/com/github/_hazork/*
+/src/main/java/com/github/_hazork/*

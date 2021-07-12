@@ -95,11 +95,11 @@ This plugin has it's own placeholders to you use with the rest of your server. H
 
 ### Configuration files
 
-#### [Config.yml](/resources/config.yml)
+#### [Config.yml](/src/main/resources/config.yml)
 
 The general configuration file, where you can change textures, numbers and etc.
 
-#### [Lang.yml](/resources/lang.yml)
+#### [Lang.yml](/src/main/resources/lang.yml)
 
 The translation file, where all the messages are included.
 
