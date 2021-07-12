@@ -49,8 +49,8 @@ public class DeathListener extends SinkListener {
         killerMessage = Lang.KILL_MESSAGE;
       }
 
-      final ReplacerFunction replacer = r -> r.add("{victim}", victim.getName()).add("{killer}",
-          killer.getName());
+      final ReplacerFunction replacer = r ->
+        r.add("{victim}", victim.getName()).add("{killer}", killer.getName());
 
       victim.sendMessage(this.lang.getString(victimMessage, replacer));
       killer.sendMessage(this.lang.getString(killerMessage, replacer));

@@ -33,7 +33,7 @@ public class BStatsService implements BaseService {
       BStatsService.CHART_ID,
       this.singleLineChartCallable()
     );
-    
+
     this.metrics.addCustomChart(chart);
   }
 
