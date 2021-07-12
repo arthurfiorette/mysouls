@@ -15,5 +15,4 @@ public class LangFile extends CustomConfig implements EnumConfig<Lang> {
     // TODO Auto-generated method stub
     return EnumConfig.super.getString(path);
   }
-
 }

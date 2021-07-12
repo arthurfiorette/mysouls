@@ -1,15 +1,13 @@
 package com.github.arthurfiorette.mysouls.model;
 
+import com.github.arthurfiorette.mysouls.lang.Lang;
 import java.util.Collections;
 import java.util.Map.Entry;
 import java.util.UUID;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-
-import com.github.arthurfiorette.mysouls.lang.Lang;
 
 public class WalletUtils {
 
@@ -18,8 +16,10 @@ public class WalletUtils {
       return null;
     }
 
-    return Collections.max(wallet.getSouls().entrySet(),
-        (a, b) -> a.getValue().compareTo(b.getValue()));
+    return Collections.max(
+      wallet.getSouls().entrySet(),
+      (a, b) -> a.getValue().compareTo(b.getValue())
+    );
   }
 
   public static double soulsRatio(final Wallet wallet) {
@@ -50,7 +50,6 @@ public class WalletUtils {
   }
 
   public static Lang withdrawCoins(final Wallet wallet, final int amount) {
-
     final Player player = Bukkit.getPlayer(wallet.getUniqueId());
 
     if (player == null) {

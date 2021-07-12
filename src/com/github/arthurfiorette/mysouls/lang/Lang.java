@@ -3,7 +3,6 @@ package com.github.arthurfiorette.mysouls.lang;
 import com.github.arthurfiorette.sinklibrary.config.addons.PathResolver;
 
 public enum Lang implements PathResolver {
-
   BACKWARD("messages.backward"),
   CANNOT_USE("messages.cannot-use"),
   COIN_CHAT_MESSAGE("messages.coin-chat-message"),
@@ -55,5 +54,4 @@ public enum Lang implements PathResolver {
   public String getPath() {
     return this.path;
   }
-
 }

@@ -1,14 +1,5 @@
 package com.github.arthurfiorette.mysouls.listeners;
 
-import java.util.UUID;
-
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
-
 import com.github.arthurfiorette.mysouls.lang.Lang;
 import com.github.arthurfiorette.mysouls.lang.LangFile;
 import com.github.arthurfiorette.mysouls.model.Wallet;
@@ -18,6 +9,13 @@ import com.github.arthurfiorette.mysouls.storage.WalletStorage;
 import com.github.arthurfiorette.sinklibrary.core.BasePlugin;
 import com.github.arthurfiorette.sinklibrary.listener.SinkListener;
 import com.github.arthurfiorette.sinklibrary.uuid.FastUuid;
+import java.util.UUID;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class ItemListener extends SinkListener {
 
@@ -78,7 +76,6 @@ public class ItemListener extends SinkListener {
 
     // If it isn't sneaking, add only one soul.
     if (!player.isSneaking()) {
-
       if (itemAmount > 1) {
         item.setAmount(itemAmount - 1);
       } else {

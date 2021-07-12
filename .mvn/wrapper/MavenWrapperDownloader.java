@@ -27,15 +27,19 @@ public class MavenWrapperDownloader {
    * Default URL to download the maven-wrapper.jar from, if no 'downloadUrl' is
    * provided.
    */
-  private static final String DEFAULT_DOWNLOAD_URL = "https://repo.maven.apache.org/maven2/io/takari/maven-wrapper/"
-      + MavenWrapperDownloader.WRAPPER_VERSION + "/maven-wrapper-"
-      + MavenWrapperDownloader.WRAPPER_VERSION + ".jar";
+  private static final String DEFAULT_DOWNLOAD_URL =
+    "https://repo.maven.apache.org/maven2/io/takari/maven-wrapper/" +
+    MavenWrapperDownloader.WRAPPER_VERSION +
+    "/maven-wrapper-" +
+    MavenWrapperDownloader.WRAPPER_VERSION +
+    ".jar";
 
   /**
    * Path to the maven-wrapper.properties file, which might contain a
    * downloadUrl property to use instead of the default one.
    */
-  private static final String MAVEN_WRAPPER_PROPERTIES_PATH = ".mvn/wrapper/maven-wrapper.properties";
+  private static final String MAVEN_WRAPPER_PROPERTIES_PATH =
+    ".mvn/wrapper/maven-wrapper.properties";
 
   /**
    * Path where the maven-wrapper.jar will be saved to.
@@ -56,8 +60,10 @@ public class MavenWrapperDownloader {
     // If the maven-wrapper.properties exists, read it and check if it contains
     // a custom
     // wrapperUrl parameter.
-    final File mavenWrapperPropertyFile = new File(baseDirectory,
-        MavenWrapperDownloader.MAVEN_WRAPPER_PROPERTIES_PATH);
+    final File mavenWrapperPropertyFile = new File(
+      baseDirectory,
+      MavenWrapperDownloader.MAVEN_WRAPPER_PROPERTIES_PATH
+    );
     String url = MavenWrapperDownloader.DEFAULT_DOWNLOAD_URL;
     if (mavenWrapperPropertyFile.exists()) {
       FileInputStream mavenWrapperPropertyFileInputStream = null;
@@ -65,11 +71,12 @@ public class MavenWrapperDownloader {
         mavenWrapperPropertyFileInputStream = new FileInputStream(mavenWrapperPropertyFile);
         final Properties mavenWrapperProperties = new Properties();
         mavenWrapperProperties.load(mavenWrapperPropertyFileInputStream);
-        url = mavenWrapperProperties.getProperty(MavenWrapperDownloader.PROPERTY_NAME_WRAPPER_URL,
-            url);
+        url =
+          mavenWrapperProperties.getProperty(MavenWrapperDownloader.PROPERTY_NAME_WRAPPER_URL, url);
       } catch (final IOException e) {
         System.out.println(
-            "- ERROR loading '" + MavenWrapperDownloader.MAVEN_WRAPPER_PROPERTIES_PATH + "'");
+          "- ERROR loading '" + MavenWrapperDownloader.MAVEN_WRAPPER_PROPERTIES_PATH + "'"
+        );
       } finally {
         try {
           if (mavenWrapperPropertyFileInputStream != null) {
@@ -82,11 +89,14 @@ public class MavenWrapperDownloader {
     }
     System.out.println("- Downloading from: " + url);
 
-    final File outputFile = new File(baseDirectory.getAbsolutePath(),
-        MavenWrapperDownloader.MAVEN_WRAPPER_JAR_PATH);
+    final File outputFile = new File(
+      baseDirectory.getAbsolutePath(),
+      MavenWrapperDownloader.MAVEN_WRAPPER_JAR_PATH
+    );
     if (!outputFile.getParentFile().exists() && !outputFile.getParentFile().mkdirs()) {
-      System.out.println("- ERROR creating output directory '"
-          + outputFile.getParentFile().getAbsolutePath() + "'");
+      System.out.println(
+        "- ERROR creating output directory '" + outputFile.getParentFile().getAbsolutePath() + "'"
+      );
     }
     System.out.println("- Downloading to: " + outputFile.getAbsolutePath());
     try {
@@ -101,16 +111,18 @@ public class MavenWrapperDownloader {
   }
 
   private static void downloadFileFromURL(final String urlString, final File destination)
-      throws Exception {
+    throws Exception {
     if ((System.getenv("MVNW_USERNAME") != null) && (System.getenv("MVNW_PASSWORD") != null)) {
       final String username = System.getenv("MVNW_USERNAME");
       final char[] password = System.getenv("MVNW_PASSWORD").toCharArray();
-      Authenticator.setDefault(new Authenticator() {
-        @Override
-        protected PasswordAuthentication getPasswordAuthentication() {
-          return new PasswordAuthentication(username, password);
+      Authenticator.setDefault(
+        new Authenticator() {
+          @Override
+          protected PasswordAuthentication getPasswordAuthentication() {
+            return new PasswordAuthentication(username, password);
+          }
         }
-      });
+      );
     }
     final URL website = new URL(urlString);
     ReadableByteChannel rbc;

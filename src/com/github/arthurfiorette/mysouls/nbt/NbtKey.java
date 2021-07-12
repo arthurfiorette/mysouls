@@ -1,7 +1,6 @@
 package com.github.arthurfiorette.mysouls.nbt;
 
 public enum NbtKey {
-
   COIN("coin"),
   SOUL("soul");
 
@@ -14,5 +13,4 @@ public enum NbtKey {
   public String getName() {
     return this.name;
   }
-
 }

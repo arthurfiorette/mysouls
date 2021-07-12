@@ -8,5 +8,4 @@ public class MenusStorage extends MenuStorage<MenuList> {
   public MenusStorage(final BasePlugin plugin) {
     super(plugin, MenuList.class);
   }
-
 }

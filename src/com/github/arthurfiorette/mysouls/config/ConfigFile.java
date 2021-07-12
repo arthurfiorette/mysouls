@@ -9,5 +9,4 @@ public class ConfigFile extends PluginConfig implements EnumConfig<Config> {
   public ConfigFile(final BasePlugin plugin) {
     super(plugin);
   }
-
 }

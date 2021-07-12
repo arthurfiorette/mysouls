@@ -1,8 +1,5 @@
 package com.github.arthurfiorette.mysouls.storage;
 
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
-
 import com.github.arthurfiorette.mysouls.MySouls;
 import com.github.arthurfiorette.mysouls.config.Config;
 import com.github.arthurfiorette.mysouls.config.ConfigFile;
@@ -15,21 +12,29 @@ import com.github.arthurfiorette.sinklibrary.data.storage.addons.PlayerAdapter;
 import com.github.arthurfiorette.sinklibrary.uuid.UuidAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
-public class WalletStorage extends LoadingStorage<UUID, Wallet, String>
-    implements IdentifiableAdapter<Wallet, String>, PlayerAdapter<Wallet, String> {
+public class WalletStorage
+  extends LoadingStorage<UUID, Wallet, String>
+  implements IdentifiableAdapter<Wallet, String>, PlayerAdapter<Wallet, String> {
 
   private final MySouls plugin;
   private final ConfigFile config;
 
-  private final Gson gson = new GsonBuilder().disableHtmlEscaping()
-      .excludeFieldsWithoutExposeAnnotation().disableInnerClassSerialization()
-      .registerTypeAdapter(UUID.class, new UuidAdapter()).create();
+  private final Gson gson = new GsonBuilder()
+    .disableHtmlEscaping()
+    .excludeFieldsWithoutExposeAnnotation()
+    .disableInnerClassSerialization()
+    .registerTypeAdapter(UUID.class, new UuidAdapter())
+    .create();
 
   public WalletStorage(final MySouls plugin) {
-    super(plugin.getComponent(WalletDatabase.class), plugin.getComponent(SoulsExecutor.class),
-        b -> b.expireAfterAccess(5, TimeUnit.MINUTES).maximumSize(256));
-
+    super(
+      plugin.getComponent(WalletDatabase.class),
+      plugin.getComponent(SoulsExecutor.class),
+      b -> b.expireAfterAccess(5, TimeUnit.MINUTES).maximumSize(256)
+    );
     this.plugin = plugin;
     this.config = plugin.getComponent(ConfigFile.class);
   }
@@ -62,5 +67,4 @@ public class WalletStorage extends LoadingStorage<UUID, Wallet, String>
   public BasePlugin getBasePlugin() {
     return this.plugin;
   }
-
 }

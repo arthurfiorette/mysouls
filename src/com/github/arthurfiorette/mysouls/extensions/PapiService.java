@@ -1,11 +1,10 @@
 package com.github.arthurfiorette.mysouls.extensions;
 
-import java.util.logging.Level;
-
 import com.github.arthurfiorette.mysouls.MySouls;
 import com.github.arthurfiorette.sinklibrary.core.BasePlugin;
 import com.github.arthurfiorette.sinklibrary.interfaces.BaseService;
 import com.github.arthurfiorette.sinklibrary.services.SpigotService;
+import java.util.logging.Level;
 
 public class PapiService implements BaseService {
 
@@ -38,5 +37,4 @@ public class PapiService implements BaseService {
   public BasePlugin getBasePlugin() {
     return this.owner;
   }
-
 }

@@ -14,5 +14,4 @@ public class Commands extends CommandStorage {
   protected BaseCommand[] commands() {
     return new BaseCommand[] { new SoulsCommand(this.basePlugin) };
   }
-
 }

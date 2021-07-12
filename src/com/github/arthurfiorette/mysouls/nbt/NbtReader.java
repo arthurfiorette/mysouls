@@ -1,9 +1,8 @@
 package com.github.arthurfiorette.mysouls.nbt;
 
-import org.bukkit.inventory.ItemStack;
-
 import de.tr7zw.nbtapi.NBTCompound;
 import de.tr7zw.nbtapi.NBTItem;
+import org.bukkit.inventory.ItemStack;
 
 public class NbtReader {
 
@@ -16,5 +15,4 @@ public class NbtReader {
     final NBTCompound compound = NBTItem.convertItemtoNBT(is);
     return compound.getString(key.getName());
   }
-
 }

@@ -1,5 +1,9 @@
 package com.github.arthurfiorette.mysouls.util;
 
+import com.github.arthurfiorette.sinklibrary.core.BasePlugin;
+import com.github.arthurfiorette.sinklibrary.executor.BukkitExecutor;
+import com.github.arthurfiorette.sinklibrary.executor.TaskContext;
+import com.github.arthurfiorette.sinklibrary.interfaces.BaseComponent;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -9,11 +13,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import com.github.arthurfiorette.sinklibrary.core.BasePlugin;
-import com.github.arthurfiorette.sinklibrary.executor.BukkitExecutor;
-import com.github.arthurfiorette.sinklibrary.executor.TaskContext;
-import com.github.arthurfiorette.sinklibrary.interfaces.BaseComponent;
-
 public class SoulsExecutor implements BaseComponent, ExecutorService {
 
   private final ExecutorService service;
@@ -21,8 +20,12 @@ public class SoulsExecutor implements BaseComponent, ExecutorService {
 
   public SoulsExecutor(final BasePlugin plugin) {
     this.plugin = plugin;
-    this.service = BukkitExecutor.newFixedThreadPool(plugin, TaskContext.ASYNC,
-        Runtime.getRuntime().availableProcessors());
+    this.service =
+      BukkitExecutor.newFixedThreadPool(
+        plugin,
+        TaskContext.ASYNC,
+        Runtime.getRuntime().availableProcessors()
+      );
   }
 
   @Override
@@ -57,7 +60,7 @@ public class SoulsExecutor implements BaseComponent, ExecutorService {
 
   @Override
   public boolean awaitTermination(final long timeout, final TimeUnit unit)
-      throws InterruptedException {
+    throws InterruptedException {
     return this.service.awaitTermination(timeout, unit);
   }
 
@@ -78,26 +81,31 @@ public class SoulsExecutor implements BaseComponent, ExecutorService {
 
   @Override
   public <T> List<Future<T>> invokeAll(final Collection<? extends Callable<T>> tasks)
-      throws InterruptedException {
+    throws InterruptedException {
     return this.service.invokeAll(tasks);
   }
 
   @Override
-  public <T> List<Future<T>> invokeAll(final Collection<? extends Callable<T>> tasks,
-      final long timeout, final TimeUnit unit) throws InterruptedException {
+  public <T> List<Future<T>> invokeAll(
+    final Collection<? extends Callable<T>> tasks,
+    final long timeout,
+    final TimeUnit unit
+  ) throws InterruptedException {
     return this.service.invokeAll(tasks, timeout, unit);
   }
 
   @Override
   public <T> T invokeAny(final Collection<? extends Callable<T>> tasks)
-      throws InterruptedException, ExecutionException {
+    throws InterruptedException, ExecutionException {
     return this.service.invokeAny(tasks);
   }
 
   @Override
-  public <T> T invokeAny(final Collection<? extends Callable<T>> tasks, final long timeout,
-      final TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
+  public <T> T invokeAny(
+    final Collection<? extends Callable<T>> tasks,
+    final long timeout,
+    final TimeUnit unit
+  ) throws InterruptedException, ExecutionException, TimeoutException {
     return this.service.invokeAny(tasks, timeout, unit);
   }
-
 }
