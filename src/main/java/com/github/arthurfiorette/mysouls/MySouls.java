@@ -28,22 +28,24 @@ public class MySouls extends SinkPlugin {
   @Override
   protected BaseComponent[] components() {
     return new BaseComponent[] {
-        // Configuration files
-        new LangFile(this), new ConfigFile(this),
-
-        // Async executor
-        new SoulsExecutor(this),
-
-        // Wallet persistence
-        new WalletDatabase(this), new WalletStorage(this),
-
-        // Menus and commands storage
-        new MenusStorage(this), new Commands(this),
-
-        // Listeners
-        new ItemListener(this), new DeathListener(this), new ChatListener(this),
-
-        // Extensions
-        new BStatsService(this), new PapiService(this), };
+      // Configuration files
+      new LangFile(this),
+      new ConfigFile(this),
+      // Async executor
+      new SoulsExecutor(this),
+      // Wallet persistence
+      new WalletDatabase(this),
+      new WalletStorage(this),
+      // Menus and commands storage
+      new MenusStorage(this),
+      new Commands(this),
+      // Listeners
+      new ItemListener(this),
+      new DeathListener(this),
+      new ChatListener(this),
+      // Extensions
+      new BStatsService(this),
+      new PapiService(this),
+    };
   }
 }

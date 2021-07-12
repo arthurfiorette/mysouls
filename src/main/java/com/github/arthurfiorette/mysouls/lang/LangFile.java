@@ -9,5 +9,4 @@ public class LangFile extends CustomConfig implements EnumConfig<Lang> {
   public LangFile(final BasePlugin plugin) {
     super(plugin, "lang.yml", false);
   }
-
 }

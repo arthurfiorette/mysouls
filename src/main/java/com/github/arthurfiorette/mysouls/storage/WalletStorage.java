@@ -37,7 +37,7 @@ public class WalletStorage
     );
     this.plugin = plugin;
   }
-  
+
   @Override
   public void enable() throws Exception {
     super.enable();
