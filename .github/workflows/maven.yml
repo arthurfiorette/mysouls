@@ -34,7 +34,7 @@ jobs:
         # If this is a tag push
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          args: target/my-souls*.jar
+          args: target/mysouls*.jar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -44,4 +44,4 @@ jobs:
           name: build-result
           if-no-files-found: error
           path: |
-            target/my-souls*.jar
+            target/mysouls*.jar

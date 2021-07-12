@@ -3,6 +3,7 @@ Mains.java
 
 # Maven
 !.mvn/wrapper/maven-wrapper.jar
+/dependency-reduced-pom.xml
 target/
 pom.xml.*
 
