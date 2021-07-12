@@ -4,6 +4,5 @@
 
 - [ ] Mini statistics for SoulWallet
 - [ ] Custom events
-- [ ] Ranking on MySouls Gui.
-- [ ] More versions. 1.16?
-- [ ] SinkLibrary implementation.
+- [ ] Ranking on WalletMenu.
+- [ ] Multiple version support.

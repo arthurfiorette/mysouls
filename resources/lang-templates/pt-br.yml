@@ -29,28 +29,29 @@
 
 
 admin:
-  reload-success: "&aYay! &7Plugin reloaded"
-  reload-fail: "&4Ah! &7Plugin cannot reload now"
-  unknown-error: "&4Ah! &7We have an unknown error"
+  reload-success: "&aYay! &7Plugin recarregado"
+  reload-fail: "&4Ah! &7Plugin não pode ser recarregado agora"
+  unknown-error: "&4Ah! &7Tivemos um erro desconhecido"
 
 commands:
-  unknown-argument: "&4Oops! &7Unknown argument."
+  unknown-argument: "&4Oops! &7Argumento desconhecido"
   menu-command: "menu"
 
 messages:
-    page: "&7Page"
-    credits: "&dCredits:"
+    page: "&7Página"
+    credits: "&dCréditos"
 
-    forward: "&aForward"
-    backward: "&cBackward"
+    forward: "&aAvançar"
+    backward: "&cVoltar"
 
-    soul-added: "&aYay! &7Soul added."
-    souls-added: "&aYay! &7Souls added."
-    soul-removed: "&eDone! &7Soul removed."
-    coins-removed: "&eDone! &7Withdrawn coins."
-    soul-64-limit: "&4Oops! &7You can only have 64 souls per player."
-    dont-have-souls: "&4Oops! &7Insufficient souls."
+    soul-added: "&aYay! &7Alma adicionada."
+    souls-added: "&aYay! &7Almas adicionadas."
+    soul-removed: "&eDone! &7Alma removida."
+    coins-removed: "&eDone! &7Moedas removidas"
+    soul-64-limit: "&4Oops! &7Você só pode ter 64 almas por jogador."
+    dont-have-souls: "&4Oops! &7Almas insuficientes."
 
+    # TODO: Continue translation.
     death-message: "&4Oops! &7You died and one of your souls went to: &f{killer}&7."
     death-message-fail: "&4Ah! &7You died but did not lose souls because you had none."
     kill-message: "&aYay! &7You killed the player: &f{victim}&7 and won a soul."
