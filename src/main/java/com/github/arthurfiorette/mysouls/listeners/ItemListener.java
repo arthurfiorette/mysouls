@@ -19,16 +19,11 @@ import org.bukkit.inventory.ItemStack;
 
 public class ItemListener extends SinkListener {
 
-  private WalletStorage storage;
-  private LangFile lang;
+  private final WalletStorage storage;
+  private final LangFile lang;
 
   public ItemListener(final BasePlugin basePlugin) {
     super(basePlugin);
-  }
-
-  @Override
-  public void enable() {
-    super.enable();
     this.storage = basePlugin.getComponent(WalletStorage.class);
     this.lang = basePlugin.getComponent(LangFile.class);
   }

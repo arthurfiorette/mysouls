@@ -20,7 +20,7 @@ public class WalletStorage
   implements IdentifiableAdapter<Wallet, String>, PlayerAdapter<Wallet, String> {
 
   private final MySouls plugin;
-  private ConfigFile config;
+  private final ConfigFile config;
 
   private final Gson gson = new GsonBuilder()
     .disableHtmlEscaping()
@@ -36,12 +36,12 @@ public class WalletStorage
       b -> b.expireAfterAccess(5, TimeUnit.MINUTES).maximumSize(256)
     );
     this.plugin = plugin;
+    this.config = plugin.getComponent(ConfigFile.class);
   }
 
   @Override
   public void enable() throws Exception {
     super.enable();
-    this.config = plugin.getComponent(ConfigFile.class);
   }
 
   public void setJson(final UUID id, final String value) {

@@ -15,16 +15,11 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 
 public class DeathListener extends SinkListener {
 
-  private WalletStorage storage;
-  private LangFile lang;
+  private final WalletStorage storage;
+  private final LangFile lang;
 
   public DeathListener(final BasePlugin basePlugin) {
     super(basePlugin);
-  }
-
-  @Override
-  public void enable() {
-    super.enable();
     this.storage = basePlugin.getComponent(WalletStorage.class);
     this.lang = basePlugin.getComponent(LangFile.class);
   }
@@ -54,8 +49,8 @@ public class DeathListener extends SinkListener {
         killerMessage = Lang.KILL_MESSAGE;
       }
 
-      final ReplacerFunction replacer = r ->
-        r.add("{victim}", victim.getName()).add("{killer}", killer.getName());
+      final ReplacerFunction replacer = r -> r.add("{victim}", victim.getName()).add("{killer}",
+          killer.getName());
 
       victim.sendMessage(this.lang.getString(victimMessage, replacer));
       killer.sendMessage(this.lang.getString(killerMessage, replacer));
