@@ -7,4 +7,4 @@ website: https://github.com/arthurfiorette/mysouls
 load: POSTWORLD
 softdepend: [PlaceholderAPI]
 depend: [NBTAPI]
-prefix: mysouls
+prefix: MySouls
