@@ -2,7 +2,7 @@ package com.github.arthurfiorette.mysouls.commands;
 
 import com.github.arthurfiorette.sinklibrary.command.BaseCommand;
 import com.github.arthurfiorette.sinklibrary.command.CommandStorage;
-import com.github.arthurfiorette.sinklibrary.core.BasePlugin;
+import com.github.arthurfiorette.sinklibrary.interfaces.BasePlugin;
 
 public class Commands extends CommandStorage {
 

@@ -1,0 +1,10 @@
+main: com.github.arthurfiorette.mysouls.MySouls
+name: MySouls
+version: v2.0.0
+description: Manage a complete new currency about you player lives!
+author: Arthur Fiorette
+website: https://github.com/arthurfiorette/mysouls
+load: POSTWORLD
+softdepend: [PlaceholderAPI]
+depend: [NBTAPI]
+prefix: mysouls

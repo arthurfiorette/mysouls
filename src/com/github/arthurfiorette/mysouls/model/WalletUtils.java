@@ -1,13 +1,15 @@
 package com.github.arthurfiorette.mysouls.model;
 
-import com.github.arthurfiorette.mysouls.lang.Lang;
 import java.util.Collections;
 import java.util.Map.Entry;
 import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import com.github.arthurfiorette.mysouls.lang.Lang;
 
 public class WalletUtils {
 

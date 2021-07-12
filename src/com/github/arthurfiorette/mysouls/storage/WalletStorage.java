@@ -1,19 +1,20 @@
 package com.github.arthurfiorette.mysouls.storage;
 
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+
 import com.github.arthurfiorette.mysouls.MySouls;
 import com.github.arthurfiorette.mysouls.config.Config;
 import com.github.arthurfiorette.mysouls.config.ConfigFile;
 import com.github.arthurfiorette.mysouls.model.Wallet;
 import com.github.arthurfiorette.mysouls.util.SoulsExecutor;
-import com.github.arthurfiorette.sinklibrary.core.BasePlugin;
 import com.github.arthurfiorette.sinklibrary.data.storage.LoadingStorage;
 import com.github.arthurfiorette.sinklibrary.data.storage.addons.IdentifiableAdapter;
 import com.github.arthurfiorette.sinklibrary.data.storage.addons.PlayerAdapter;
+import com.github.arthurfiorette.sinklibrary.interfaces.BasePlugin;
 import com.github.arthurfiorette.sinklibrary.uuid.UuidAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 public class WalletStorage
   extends LoadingStorage<UUID, Wallet, String>

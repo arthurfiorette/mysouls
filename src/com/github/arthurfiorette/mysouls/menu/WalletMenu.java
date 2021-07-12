@@ -1,5 +1,19 @@
 package com.github.arthurfiorette.mysouls.menu;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.NoSuchElementException;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
 import com.github.arthurfiorette.mysouls.config.Config;
 import com.github.arthurfiorette.mysouls.config.ConfigFile;
 import com.github.arthurfiorette.mysouls.lang.Lang;
@@ -8,8 +22,8 @@ import com.github.arthurfiorette.mysouls.listeners.ChatListener;
 import com.github.arthurfiorette.mysouls.model.Wallet;
 import com.github.arthurfiorette.mysouls.model.WalletUtils;
 import com.github.arthurfiorette.mysouls.storage.WalletStorage;
-import com.github.arthurfiorette.sinklibrary.core.BasePlugin;
 import com.github.arthurfiorette.sinklibrary.executor.TaskContext;
+import com.github.arthurfiorette.sinklibrary.interfaces.BasePlugin;
 import com.github.arthurfiorette.sinklibrary.item.ItemBuilder;
 import com.github.arthurfiorette.sinklibrary.item.ItemBuilders;
 import com.github.arthurfiorette.sinklibrary.item.ItemProperty;
@@ -17,18 +31,6 @@ import com.github.arthurfiorette.sinklibrary.menu.PageableMenu;
 import com.github.arthurfiorette.sinklibrary.menu.item.BuilderStack;
 import com.github.arthurfiorette.sinklibrary.menu.item.MenuItem;
 import com.github.arthurfiorette.sinklibrary.replacer.ReplacerFunction;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.NoSuchElementException;
-import java.util.UUID;
-import java.util.stream.Collectors;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 public class WalletMenu extends PageableMenu {
 

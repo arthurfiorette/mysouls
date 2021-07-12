@@ -1,21 +1,23 @@
 package com.github.arthurfiorette.mysouls.listeners;
 
-import com.github.arthurfiorette.mysouls.lang.Lang;
-import com.github.arthurfiorette.mysouls.lang.LangFile;
-import com.github.arthurfiorette.mysouls.model.Wallet;
-import com.github.arthurfiorette.mysouls.nbt.NbtKey;
-import com.github.arthurfiorette.mysouls.nbt.NbtReader;
-import com.github.arthurfiorette.mysouls.storage.WalletStorage;
-import com.github.arthurfiorette.sinklibrary.core.BasePlugin;
-import com.github.arthurfiorette.sinklibrary.listener.SinkListener;
-import com.github.arthurfiorette.sinklibrary.uuid.FastUuid;
 import java.util.UUID;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+
+import com.github.arthurfiorette.mysouls.lang.Lang;
+import com.github.arthurfiorette.mysouls.lang.LangFile;
+import com.github.arthurfiorette.mysouls.model.Wallet;
+import com.github.arthurfiorette.mysouls.nbt.NbtKey;
+import com.github.arthurfiorette.mysouls.nbt.NbtReader;
+import com.github.arthurfiorette.mysouls.storage.WalletStorage;
+import com.github.arthurfiorette.sinklibrary.interfaces.BasePlugin;
+import com.github.arthurfiorette.sinklibrary.listener.SinkListener;
+import com.github.arthurfiorette.sinklibrary.uuid.FastUuid;
 
 public class ItemListener extends SinkListener {
 

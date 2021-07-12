@@ -7,7 +7,6 @@
 
   <groupId>com.github.arthurfiorette</groupId>
   <artifactId>mysouls</artifactId>
-  <packaging>jar</packaging>
   <version>v2.0.0</version>
 
   <name>mysouls</name>
@@ -69,14 +68,6 @@
 			<artifactId>placeholderapi</artifactId>
 			<version>2.10.10</version>
 			<scope>provided</scope>
-		</dependency>
-
-		<!-- Spigot anotations -->
-		<!-- TODO: Replace with https://github.com/HexagonMC/Spigot-Annotations -->
-		<dependency>
-			<groupId>org.spigotmc</groupId>
-			<artifactId>plugin-annotations</artifactId>
-			<version>1.2.3-SNAPSHOT</version>
 		</dependency>
 
 		<!-- Nbt api to support multiversion -->

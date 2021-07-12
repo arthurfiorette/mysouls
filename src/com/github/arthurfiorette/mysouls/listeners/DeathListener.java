@@ -1,17 +1,19 @@
 package com.github.arthurfiorette.mysouls.listeners;
 
-import com.github.arthurfiorette.mysouls.lang.Lang;
-import com.github.arthurfiorette.mysouls.lang.LangFile;
-import com.github.arthurfiorette.mysouls.model.Wallet;
-import com.github.arthurfiorette.mysouls.storage.WalletStorage;
-import com.github.arthurfiorette.sinklibrary.core.BasePlugin;
-import com.github.arthurfiorette.sinklibrary.listener.SinkListener;
-import com.github.arthurfiorette.sinklibrary.replacer.ReplacerFunction;
 import java.util.UUID;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.PlayerDeathEvent;
+
+import com.github.arthurfiorette.mysouls.lang.Lang;
+import com.github.arthurfiorette.mysouls.lang.LangFile;
+import com.github.arthurfiorette.mysouls.model.Wallet;
+import com.github.arthurfiorette.mysouls.storage.WalletStorage;
+import com.github.arthurfiorette.sinklibrary.interfaces.BasePlugin;
+import com.github.arthurfiorette.sinklibrary.listener.SinkListener;
+import com.github.arthurfiorette.sinklibrary.replacer.ReplacerFunction;
 
 public class DeathListener extends SinkListener {
 
