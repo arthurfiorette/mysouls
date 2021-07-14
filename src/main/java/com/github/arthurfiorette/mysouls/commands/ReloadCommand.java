@@ -1,12 +1,14 @@
 package com.github.arthurfiorette.mysouls.commands;
 
-import com.github.arthurfiorette.sinklibrary.command.BaseCommand;
-import com.github.arthurfiorette.sinklibrary.command.wrapper.CommandInfo.CommandInfoBuilder;
-import com.github.arthurfiorette.sinklibrary.interfaces.BasePlugin;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
 import org.bukkit.command.CommandSender;
+
+import com.github.arthurfiorette.sinklibrary.command.BaseCommand;
+import com.github.arthurfiorette.sinklibrary.command.wrapper.CommandInfo.CommandInfoBuilder;
+import com.github.arthurfiorette.sinklibrary.interfaces.BasePlugin;
 
 public class ReloadCommand implements BaseCommand {
 

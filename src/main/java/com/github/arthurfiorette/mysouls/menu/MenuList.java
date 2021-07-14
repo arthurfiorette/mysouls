@@ -1,9 +1,10 @@
 package com.github.arthurfiorette.mysouls.menu;
 
+import org.bukkit.entity.Player;
+
 import com.github.arthurfiorette.sinklibrary.interfaces.BasePlugin;
 import com.github.arthurfiorette.sinklibrary.menu.BaseMenu;
 import com.github.arthurfiorette.sinklibrary.menu.management.MenuFactory;
-import org.bukkit.entity.Player;
 
 public enum MenuList implements MenuFactory {
   WALLET(WalletMenu::new);
