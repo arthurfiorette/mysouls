@@ -1,12 +1,10 @@
 package com.github.arthurfiorette.mysouls.extensions;
 
+import com.github.arthurfiorette.mysouls.MySouls;
+import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import com.github.arthurfiorette.mysouls.MySouls;
-
-import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 
 public class PapiExpansion extends PlaceholderExpansion {
 

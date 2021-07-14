@@ -1,13 +1,12 @@
 package com.github.arthurfiorette.mysouls.model;
 
+import com.github.arthurfiorette.sinklibrary.interfaces.Identifiable;
+import com.github.arthurfiorette.sinklibrary.services.SpigotService;
+import com.google.gson.annotations.Expose;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-
-import com.github.arthurfiorette.sinklibrary.interfaces.Identifiable;
-import com.github.arthurfiorette.sinklibrary.services.SpigotService;
-import com.google.gson.annotations.Expose;
 
 // TODO: Refactor old wallet code.
 public class Wallet implements Identifiable {
@@ -74,7 +73,7 @@ public class Wallet implements Identifiable {
   }
 
   public UUID getRemoveableSoul(final Wallet wallet, final int amount) {
-    for(final UUID uuid: this.souls.keySet()) {
+    for (final UUID uuid : this.souls.keySet()) {
       if (this.canSendSoul(wallet, uuid, amount)) {
         return uuid;
       }

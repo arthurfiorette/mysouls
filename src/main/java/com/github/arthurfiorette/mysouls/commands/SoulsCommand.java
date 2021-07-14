@@ -1,18 +1,16 @@
 package com.github.arthurfiorette.mysouls.commands;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import com.github.arthurfiorette.mysouls.menu.MenuList;
 import com.github.arthurfiorette.mysouls.menu.MenusStorage;
 import com.github.arthurfiorette.mysouls.menu.WalletMenu;
 import com.github.arthurfiorette.sinklibrary.command.BaseCommand;
 import com.github.arthurfiorette.sinklibrary.command.wrapper.CommandInfo.CommandInfoBuilder;
 import com.github.arthurfiorette.sinklibrary.interfaces.BasePlugin;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class SoulsCommand implements BaseCommand {
 
@@ -42,7 +40,8 @@ public class SoulsCommand implements BaseCommand {
     info.name("souls");
     info.alias("ms").alias("mysouls");
     info.description(
-        "The principal and only command from this plugin.\nYou can use /souls reload to reload our configuration.");
+      "The principal and only command from this plugin.\nYou can use /souls reload to reload our configuration."
+    );
     info.usage("/souls [reload]");
     info.permission("mysouls.menu");
   }
