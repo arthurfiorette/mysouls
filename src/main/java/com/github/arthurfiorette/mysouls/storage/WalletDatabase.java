@@ -57,11 +57,19 @@ public class WalletDatabase implements Database<UUID, String> {
       ps.executeUpdate();
       ps.close();
     } catch (final SQLException exc) {
-      this.plugin.treatThrowable(this.getClass(), exc,
-          "An error occurred while saving the id: '%s', returning it to the cache...", id);
-      TaskContext.BUKKIT.runLater(this.plugin, () -> {
-        this.plugin.getComponent(WalletStorage.class).loadJson(key, value);
-      }, 1);
+      this.plugin.treatThrowable(
+          this.getClass(),
+          exc,
+          "An error occurred while saving the id: '%s', returning it to the cache...",
+          id
+        );
+      TaskContext.BUKKIT.runLater(
+        this.plugin,
+        () -> {
+          this.plugin.getComponent(WalletStorage.class).loadJson(key, value);
+        },
+        1
+      );
     }
   }
 
@@ -81,8 +89,12 @@ public class WalletDatabase implements Database<UUID, String> {
 
       rs.close();
     } catch (final SQLException e) {
-      this.plugin.treatThrowable(this.getClass(), e,
-          "An error occurred while fetching the id: '%s', returning a new entity...", id);
+      this.plugin.treatThrowable(
+          this.getClass(),
+          e,
+          "An error occurred while fetching the id: '%s', returning a new entity...",
+          id
+        );
     }
 
     return null;
@@ -96,7 +108,7 @@ public class WalletDatabase implements Database<UUID, String> {
     try {
       final PreparedStatement ps = this.connection.prepareStatement(sql);
       int index = 1;
-      for(final UUID id: keys) {
+      for (final UUID id : keys) {
         ps.setString(index++, FastUuid.toString(id));
       }
 
@@ -108,10 +120,16 @@ public class WalletDatabase implements Database<UUID, String> {
 
       rs.close();
     } catch (final SQLException e) {
-      final String keyArr = String.join(",",
-          keys.stream().map(FastUuid::toString).toArray(String[]::new));
-      this.plugin.treatThrowable(this.getClass(), e,
-          "An error occurred while fetching the id list: '%s'.", keyArr);
+      final String keyArr = String.join(
+        ",",
+        keys.stream().map(FastUuid::toString).toArray(String[]::new)
+      );
+      this.plugin.treatThrowable(
+          this.getClass(),
+          e,
+          "An error occurred while fetching the id list: '%s'.",
+          keyArr
+        );
     }
 
     return list;
@@ -131,8 +149,12 @@ public class WalletDatabase implements Database<UUID, String> {
 
       rs.close();
     } catch (final SQLException e) {
-      this.plugin.treatThrowable(this.getClass(), e,
-          "An error occurred while fetching all accounts: '%s'.", e.getMessage());
+      this.plugin.treatThrowable(
+          this.getClass(),
+          e,
+          "An error occurred while fetching all accounts: '%s'.",
+          e.getMessage()
+        );
     }
 
     return list;

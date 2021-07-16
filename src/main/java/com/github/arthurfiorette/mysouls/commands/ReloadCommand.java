@@ -24,7 +24,8 @@ public class ReloadCommand implements BaseCommand {
 
     if (manager.getState() != ManagerState.ENABLED) {
       sender.sendMessage(
-          "§cI cannot be reloaded if my status is " + manager.getState().toString().toLowerCase());
+        "§cI cannot be reloaded if my status is " + manager.getState().toString().toLowerCase()
+      );
       return;
     }
 

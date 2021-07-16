@@ -3,7 +3,6 @@ package com.github.arthurfiorette.mysouls.config;
 import com.github.arthurfiorette.sinklibrary.config.addons.PathResolver;
 
 public enum Config implements PathResolver {
-
   // Rules
   INITIAL_SOULS("rules.souls.initial"),
 
@@ -16,9 +15,7 @@ public enum Config implements PathResolver {
   CACHE_MAX_ENTITIES("internal.cache.max-entities"),
   CACHE_CONCURRENCY_LEVEL("internal.cache.concurrency-level"),
   CACHE_EVICTION_UNIT("internal.cache.eviction.unit"),
-  CACHE_EVICTION_DURATION("internal.cache.eviction.duration"),
-
-  ;
+  CACHE_EVICTION_DURATION("internal.cache.eviction.duration");
 
   private String path;
 
