@@ -3,10 +3,22 @@ package com.github.arthurfiorette.mysouls.config;
 import com.github.arthurfiorette.sinklibrary.config.addons.PathResolver;
 
 public enum Config implements PathResolver {
-  INITIAL_SOULS("souls.initial-souls"),
-  COIN_HEAD_URL("itens.coin-head-url"),
-  SOUL_HEAD_URL("itens.soul-head-url"),
-  TROPHY_HEAD_URL("itens.trophy-head-url");
+
+  // Rules
+  INITIAL_SOULS("rules.souls.initial"),
+
+  // Customization
+  COIN_HEAD_URL("customization.heads.coin"),
+  SOUL_HEAD_URL("customization.heads.soul"),
+  TROPHY_HEAD_URL("customization.heads.trophy"),
+
+  // Internal
+  CACHE_MAX_ENTITIES("internal.cache.max-entities"),
+  CACHE_CONCURRENCY_LEVEL("internal.cache.concurrency-level"),
+  CACHE_EVICTION_UNIT("internal.cache.eviction.unit"),
+  CACHE_EVICTION_DURATION("internal.cache.eviction.duration"),
+
+  ;
 
   private String path;
 

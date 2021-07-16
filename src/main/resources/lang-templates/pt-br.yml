@@ -29,96 +29,96 @@
 
 
 admin:
-  reload-success: "&aYay! &7Plugin recarregado"
-  reload-fail: "&4Ah! &7Plugin não pode ser recarregado agora"
-  unknown-error: "&4Ah! &7Tivemos um erro desconhecido"
+  reload-success: "§aYay! §7Plugin recarregado"
+  reload-fail: "§4Ah! §7Plugin não pode ser recarregado agora"
+  unknown-error: "§4Ah! §7Tivemos um erro desconhecido"
 
 commands:
-  unknown-argument: "&4Oops! &7Argumento desconhecido"
+  unknown-argument: "§4Oops! §7Argumento desconhecido"
   menu-command: "menu"
 
 messages:
-    page: "&7Página"
-    credits: "&dCréditos"
+    page: "§7Página"
+    credits: "§dCréditos"
 
-    forward: "&aAvançar"
-    backward: "&cVoltar"
+    forward: "§aAvançar"
+    backward: "§cVoltar"
 
-    soul-added: "&aYay! &7Alma adicionada."
-    souls-added: "&aYay! &7Almas adicionadas."
-    soul-removed: "&eDone! &7Alma removida."
-    coins-removed: "&eDone! &7Moedas removidas"
-    soul-64-limit: "&4Oops! &7Você só pode ter 64 almas por jogador."
-    dont-have-souls: "&4Oops! &7Almas insuficientes."
+    soul-added: "§aYay! §7Alma adicionada."
+    souls-added: "§aYay! §7Almas adicionadas."
+    soul-removed: "§eDone! §7Alma removida."
+    coins-removed: "§eDone! §7Moedas removidas"
+    soul-64-limit: "§4Oops! §7Você só pode ter 64 almas por jogador."
+    dont-have-souls: "§4Oops! §7Almas insuficientes."
 
     # TODO: Continue translation.
-    death-message: "&4Oops! &7You died and one of your souls went to: &f{killer}&7."
-    death-message-fail: "&4Ah! &7You died but did not lose souls because you had none."
-    kill-message: "&aYay! &7You killed the player: &f{victim}&7 and won a soul."
-    kill-message-fail: "&4Ah! &7The player you killed doesn't have enough souls to transfer you."
+    death-message: "§4Oops! §7You died and one of your souls went to: §f{killer}§7."
+    death-message-fail: "§4Ah! §7You died but did not lose souls because you had none."
+    kill-message: "§aYay! §7You killed the player: §f{victim}§7 and won a soul."
+    kill-message-fail: "§4Ah! §7The player you killed doesn't have enough souls to transfer you."
 
-    soul-chat-message: "\n&eWrite in chat, the &fPlayer Name&e to remove or &f*&e to any soul.\n "
-    coin-chat-message: "\n&eWrite in the chat the amount of the soul to be withdrawn in coins:\n "
+    soul-chat-message: "\n§eWrite in chat, the §fPlayer Name§e to remove or §f*§e to any soul.\n "
+    coin-chat-message: "\n§eWrite in the chat the amount of the soul to be withdrawn in coins:\n "
 
-    not-a-number: "&4Oops! &7{text} isn't a number."
-    cannot-use: "&4Oops! &7You can't put the coin on the floor."
-    inventory-full: "&4Oops! &7Your inventory is full."
-    player-not-found: "&4Oops! &7Player not found."
-    inventory-database-closed: "&4Oops! &7Closed inventory due to database shutdown."
+    not-a-number: "§4Oops! §7{text} isn't a number."
+    cannot-use: "§4Oops! §7You can't put the coin on the floor."
+    inventory-full: "§4Oops! §7Your inventory is full."
+    player-not-found: "§4Oops! §7Player not found."
+    inventory-database-closed: "§4Oops! §7Closed inventory due to database shutdown."
 
 menus:
   ranking:
-    name: "&6Ranking"
+    name: "§6Ranking"
     lore:
-      - "&7Soul's ranking:"
+      - "§7Soul's ranking:"
       - ""
-      - "&cComing soon..."
-#      - "&71st: &f{first}"
-#      - "&72nd: &f{second}"
-#      - "&73rd: &f{third}"
+      - "§cComing soon..."
+#      - "§71st: §f{first}"
+#      - "§72nd: §f{second}"
+#      - "§73rd: §f{third}"
 
   your-wallet:
-    name: "&6Your Wallet."
+    name: "§6Your Wallet."
     lore:
-      - "&eThis inventory represents"
-      - "&eYour souls wallet."
+      - "§eThis inventory represents"
+      - "§eYour souls wallet."
       - ""
-      - "&eSouls: &f{souls}"
-      - "&ePlayers: &f{players}"
-      - "&eAverage: &f{average}"
-      - "&eMore souls from: &f{more-souls}" 
+      - "§eSouls: §f{souls}"
+      - "§ePlayers: §f{players}"
+      - "§eAverage: §f{average}"
+      - "§eMore souls from: §f{more-souls}" 
 
   withdraw-souls:
-    name: "&7Withdraw soul"
+    name: "§7Withdraw soul"
     lore:
-      - "&fClick here to collect"
-      - "&fa soul in a soul head"
+      - "§fClick here to collect"
+      - "§fa soul in a soul head"
 
   withdraw-coins:
-    name: "&7Withdraw coins"
+    name: "§7Withdraw coins"
     lore:
-      - "&fClick here to collect"
-      - "&fa soul in a coin head"
+      - "§fClick here to collect"
+      - "§fa soul in a coin head"
 
   inventory-soul:
-    name: "&e{player}"
+    name: "§e{player}"
     lore:
-      -  "&7 * &fPlayer's soul &7* "
+      -  "§7 * §fPlayer's soul §7* "
 
 itens:
   soul:
-    name: "&6{player}'s soul"
+    name: "§6{player}'s soul"
     lore:
-      - "&fThis item is a soul that can be"
-      - "&fcollected again, but it can also"
-      - "&fbe used as a block and a "
-      - "&fcommercial item."
+      - "§fThis item is a soul that can be"
+      - "§fcollected again, but it can also"
+      - "§fbe used as a block and a "
+      - "§fcommercial item."
       - ""
-      - "&cBe careful! When placing the soul"
-      - "&con the floor, its value will be lost."
+      - "§cBe careful! When placing the soul"
+      - "§con the floor, its value will be lost."
 
   coin:
-    name: "&6Soul Coin"
+    name: "§6Soul Coin"
     lore:
-      - "&eThis coin was a soul and now"
-      - "&ecan be only used as tradable item"
+      - "§eThis coin was a soul and now"
+      - "§ecan be only used as tradable item"

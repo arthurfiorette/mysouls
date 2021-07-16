@@ -27,12 +27,30 @@
 #  different from the others.
 #
 
-souls:
-  initial-souls: 2
-  
-itens:
-  coin-head-url: "http://textures.minecraft.net/texture/77b9dfd281deaef2628ad5840d45bcda436d6626847587f3ac76498a51c861"
-  
-  soul-head-url: "http://textures.minecraft.net/texture/35b116dc769d6d5726f12a24f3f186f839427321e82f4138775a4c40367a49"
-  
-  trophy-head-url: "http://textures.minecraft.net/texture/e34a592a79397a8df3997c43091694fc2fb76c883a76cce89f0227e5c9f1dfe"
+# All business rules
+rules:
+  souls:
+    initial: 2
+
+# Plugin customization, changing this values does not alter the final behaviour
+customization:
+  heads:
+  coin: http://textures.minecraft.net/texture/35b116dc769d6d5726f12a24f3f186f839427321e82f4138775a4c40367a49
+  soul: http://textures.minecraft.net/texture/35b116dc769d6d5726f12a24f3f186f839427321e82f4138775a4c40367a49
+  trophy: http://textures.minecraft.net/texture/e34a592a79397a8df3997c43091694fc2fb76c883a76cce89f0227e5c9f1dfe
+
+# Internal plugin configuration.
+internal:
+  cache:
+    # The max amount of entities in the cache, once this number is passes, the last item is evicted.
+    max-entities: 256
+
+    # The amount of partitions between this cache. Do not change.
+    concurrency-level: 4
+
+    # Time to persist the entity after it's read.
+    eviction:
+      # Choose between NANOSECONDS, MICROSECONDS, MILLISECONDS, SECONDS, MINUTES, HOURS, DAYS 
+      unit: SECONDS
+      # The unit duration, example 5 Seconds
+      duration: 5

@@ -33,7 +33,7 @@ public class ItemListener extends SinkListener {
   public void onPlayerInteract(final PlayerInteractEvent event) {
     final ItemStack item = event.getItem();
 
-    if (!event.hasBlock() || (item.getAmount() < 1)) {
+    if (!event.hasItem() || (item.getAmount() < 1)) {
       return;
     }
 

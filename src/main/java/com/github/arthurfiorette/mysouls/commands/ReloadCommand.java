@@ -2,6 +2,8 @@ package com.github.arthurfiorette.mysouls.commands;
 
 import com.github.arthurfiorette.sinklibrary.command.BaseCommand;
 import com.github.arthurfiorette.sinklibrary.command.wrapper.CommandInfo.CommandInfoBuilder;
+import com.github.arthurfiorette.sinklibrary.components.ComponentManager;
+import com.github.arthurfiorette.sinklibrary.components.ManagerState;
 import com.github.arthurfiorette.sinklibrary.interfaces.BasePlugin;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,8 +20,20 @@ public class ReloadCommand implements BaseCommand {
 
   @Override
   public void handle(final CommandSender sender, final Collection<String> args) {
-    // TODO Auto-generated method stub
+    ComponentManager manager = this.basePlugin.getManager();
 
+    if (manager.getState() != ManagerState.ENABLED) {
+      sender.sendMessage(
+          "§cI cannot be reloaded if my status is " + manager.getState().toString().toLowerCase());
+      return;
+    }
+
+    sender.sendMessage("§cReloading...");
+
+    manager.disableServices();
+    manager.enableServices();
+
+    sender.sendMessage("§aReloaded");
   }
 
   @Override

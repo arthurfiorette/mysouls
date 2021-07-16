@@ -14,25 +14,31 @@ import com.google.gson.GsonBuilder;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-public class WalletStorage
-  extends LoadingStorage<UUID, Wallet, String>
-  implements IdentifiableAdapter<Wallet, String>, PlayerAdapter<Wallet, String> {
+public class WalletStorage extends LoadingStorage<UUID, Wallet, String>
+    implements IdentifiableAdapter<Wallet, String>, PlayerAdapter<Wallet, String> {
 
   private final MySouls plugin;
   private final ConfigFile config;
 
-  private final Gson gson = new GsonBuilder()
-    .disableHtmlEscaping()
-    .excludeFieldsWithoutExposeAnnotation()
-    .disableInnerClassSerialization()
-    .registerTypeAdapter(UUID.class, new UuidAdapter())
-    .create();
+  private final Gson gson = new GsonBuilder().disableHtmlEscaping()
+      .excludeFieldsWithoutExposeAnnotation().disableInnerClassSerialization()
+      .registerTypeAdapter(UUID.class, new UuidAdapter()).create();
 
   public WalletStorage(final MySouls plugin) {
-    super(
-      plugin.getComponent(WalletDatabase.class),
-      b -> b.expireAfterAccess(5, TimeUnit.MINUTES).maximumSize(256)
-    );
+    super(plugin.getComponent(WalletDatabase.class), b -> {
+      ConfigFile file = plugin.getComponent(ConfigFile.class);
+
+      TimeUnit unit = TimeUnit.valueOf(file.getString(Config.CACHE_EVICTION_UNIT).toUpperCase());
+      long duration = file.getLong(Config.CACHE_EVICTION_DURATION);
+      long maximumSize = file.getLong(Config.CACHE_MAX_ENTITIES);
+      int concurrencyLevel = file.getInt(Config.CACHE_CONCURRENCY_LEVEL);
+
+      b.expireAfterWrite(duration, unit);
+      b.maximumSize(maximumSize);
+      b.concurrencyLevel(concurrencyLevel);
+
+      return b;
+    });
     this.plugin = plugin;
     this.config = plugin.getComponent(ConfigFile.class);
   }
@@ -42,7 +48,7 @@ public class WalletStorage
     super.enable();
   }
 
-  public void setJson(final UUID id, final String value) {
+  public void loadJson(final UUID id, final String value) {
     this.cache.put(id, this.deserialize(value));
   }
 

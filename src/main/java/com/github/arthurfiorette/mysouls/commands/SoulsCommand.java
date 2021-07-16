@@ -40,8 +40,7 @@ public class SoulsCommand implements BaseCommand {
     info.name("souls");
     info.alias("ms").alias("mysouls");
     info.description(
-      "The principal and only command from this plugin.\nYou can use /souls reload to reload our configuration."
-    );
+        "The principal and only command from this plugin.\nYou can use /souls reload to reload our configuration.");
     info.usage("/souls [reload]");
     info.permission("mysouls.menu");
   }
@@ -49,6 +48,11 @@ public class SoulsCommand implements BaseCommand {
   @Override
   public boolean test(final CommandSender sender) {
     return sender instanceof Player;
+  }
+
+  @Override
+  public BaseCommand[] subCommands() {
+    return new BaseCommand[] { new ReloadCommand(this.basePlugin) };
   }
 
   @Override
