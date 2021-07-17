@@ -56,9 +56,7 @@ My Souls</h1>
 
 **You can get the latest version jar in the latest [Github](https://github.com/ArthurFiorette/mysouls/releases) release.**
 
-Just download the generated jar and put it into the plugins folder. But you will need some dependencies, here are the complete list:
-
-- **NBTAPI** is used to add custom meta tags to our items, you can download it [here](https://www.spigotmc.org/resources/7939/)
+Just download the generated jar and put it into the plugins folder,as we does not require any dependency.
 
 > If you want the latest development build, go to [actions](https://github.com/ArthurFiorette/mysouls/actions/workflows/maven.yml?query=branch%3Amain),
 > click in the latest workflow run with a green mark. At the artifacts session, download the **build-result** zip and extract it, remember that it a development version, and may result in bugs and fails, that you can report [here](https://github.com/ArthurFiorette/mysouls/issues).

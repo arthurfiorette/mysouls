@@ -18,7 +18,7 @@ public class PapiService implements BaseService {
   @Override
   public void enable() throws Exception {
     if (!SpigotService.hasPlugin("PlaceholderAPI")) {
-      this.owner.log(Level.INFO, "PlaceholderAPI not found.");
+      this.owner.log(Level.WARNING, "PlaceholderAPI could not be found, ignoring this service.");
       return;
     }
 

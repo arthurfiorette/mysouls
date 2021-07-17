@@ -6,5 +6,4 @@ author: Arthur Fiorette
 website: https://github.com/arthurfiorette/mysouls
 load: POSTWORLD
 softdepend: [PlaceholderAPI]
-depend: [NBTAPI]
 prefix: MySouls

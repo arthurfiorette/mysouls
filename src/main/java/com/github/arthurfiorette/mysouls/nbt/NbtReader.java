@@ -1,8 +1,9 @@
 package com.github.arthurfiorette.mysouls.nbt;
 
-import de.tr7zw.nbtapi.NBTCompound;
-import de.tr7zw.nbtapi.NBTItem;
 import org.bukkit.inventory.ItemStack;
+
+import de.tr7zw.changeme.nbtapi.NBTCompound;
+import de.tr7zw.changeme.nbtapi.NBTItem;
 
 public class NbtReader {
 
