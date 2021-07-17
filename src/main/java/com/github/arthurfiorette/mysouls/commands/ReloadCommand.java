@@ -1,19 +1,16 @@
 package com.github.arthurfiorette.mysouls.commands;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import org.bukkit.command.CommandSender;
-
 import com.github.arthurfiorette.mysouls.MySouls;
 import com.github.arthurfiorette.sinklibrary.command.BaseCommand;
 import com.github.arthurfiorette.sinklibrary.command.wrapper.CommandInfo.CommandInfoBuilder;
 import com.github.arthurfiorette.sinklibrary.components.ComponentManager;
 import com.github.arthurfiorette.sinklibrary.components.ManagerState;
-
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.bukkit.command.CommandSender;
 
 @RequiredArgsConstructor
 public class ReloadCommand implements BaseCommand {
@@ -27,7 +24,8 @@ public class ReloadCommand implements BaseCommand {
 
     if (manager.getState() != ManagerState.ENABLED) {
       sender.sendMessage(
-          "§cI cannot be reloaded if my status is " + manager.getState().toString().toLowerCase());
+        "§cI cannot be reloaded if my status is " + manager.getState().toString().toLowerCase()
+      );
       return;
     }
 
@@ -56,5 +54,4 @@ public class ReloadCommand implements BaseCommand {
     // Everyone can use it
     return true;
   }
-
 }

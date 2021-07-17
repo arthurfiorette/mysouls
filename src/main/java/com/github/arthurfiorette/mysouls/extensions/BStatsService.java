@@ -1,20 +1,17 @@
 package com.github.arthurfiorette.mysouls.extensions;
 
-import java.util.Collection;
-import java.util.concurrent.Callable;
-
-import org.bstats.bukkit.Metrics;
-import org.bstats.charts.SingleLineChart;
-
 import com.github.arthurfiorette.mysouls.MySouls;
 import com.github.arthurfiorette.mysouls.model.Wallet;
 import com.github.arthurfiorette.mysouls.storage.WalletDatabase;
 import com.github.arthurfiorette.mysouls.storage.WalletStorage;
 import com.github.arthurfiorette.sinklibrary.components.ManagerState;
 import com.github.arthurfiorette.sinklibrary.interfaces.BaseService;
-
+import java.util.Collection;
+import java.util.concurrent.Callable;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.bstats.bukkit.Metrics;
+import org.bstats.charts.SingleLineChart;
 
 @RequiredArgsConstructor
 public class BStatsService implements BaseService {
@@ -32,8 +29,10 @@ public class BStatsService implements BaseService {
   public void enable() throws Exception {
     this.metrics = new Metrics(this.basePlugin, BStatsService.PLUGIN_ID);
 
-    final SingleLineChart chart = new SingleLineChart(BStatsService.CHART_ID,
-        this.singleLineChartCallable());
+    final SingleLineChart chart = new SingleLineChart(
+      BStatsService.CHART_ID,
+      this.singleLineChartCallable()
+    );
 
     this.metrics.addCustomChart(chart);
   }
@@ -44,7 +43,11 @@ public class BStatsService implements BaseService {
   }
 
   private boolean isReady() {
-    return ((this.basePlugin != null) && (this.basePlugin.getManager().getState() == ManagerState.ENABLED) && this.basePlugin.isEnabled());
+    return (
+      (this.basePlugin != null) &&
+      (this.basePlugin.getManager().getState() == ManagerState.ENABLED) &&
+      this.basePlugin.isEnabled()
+    );
   }
 
   private Callable<Integer> singleLineChartCallable() {

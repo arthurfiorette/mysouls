@@ -1,12 +1,10 @@
 package com.github.arthurfiorette.mysouls.model;
 
 import com.github.arthurfiorette.mysouls.lang.Lang;
-
-import lombok.experimental.UtilityClass;
-
 import java.util.Collections;
 import java.util.Map.Entry;
 import java.util.UUID;
+import lombok.experimental.UtilityClass;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -20,8 +18,10 @@ public class WalletUtils {
       return null;
     }
 
-    return Collections.max(wallet.getSouls().entrySet(),
-        (a, b) -> a.getValue().compareTo(b.getValue()));
+    return Collections.max(
+      wallet.getSouls().entrySet(),
+      (a, b) -> a.getValue().compareTo(b.getValue())
+    );
   }
 
   public double soulsRatio(final Wallet wallet) {

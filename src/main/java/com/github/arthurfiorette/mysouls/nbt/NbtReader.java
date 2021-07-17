@@ -3,7 +3,6 @@ package com.github.arthurfiorette.mysouls.nbt;
 import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import lombok.experimental.UtilityClass;
-
 import org.bukkit.inventory.ItemStack;
 
 @UtilityClass

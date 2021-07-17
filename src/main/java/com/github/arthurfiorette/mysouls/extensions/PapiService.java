@@ -3,10 +3,8 @@ package com.github.arthurfiorette.mysouls.extensions;
 import com.github.arthurfiorette.mysouls.MySouls;
 import com.github.arthurfiorette.sinklibrary.interfaces.BaseService;
 import com.github.arthurfiorette.sinklibrary.services.SpigotService;
-
-import lombok.Getter;
-
 import java.util.logging.Level;
+import lombok.Getter;
 
 public class PapiService implements BaseService {
 
@@ -23,8 +21,10 @@ public class PapiService implements BaseService {
   @Override
   public void enable() throws Exception {
     if (!SpigotService.hasPlugin("PlaceholderAPI")) {
-      this.basePlugin.log(Level.WARNING,
-          "PlaceholderAPI could not be found, ignoring this service.");
+      this.basePlugin.log(
+          Level.WARNING,
+          "PlaceholderAPI could not be found, ignoring this service."
+        );
       return;
     }
 
