@@ -16,7 +16,7 @@ import org.bukkit.inventory.ItemStack;
 public class WalletUtils {
 
   public Entry<UUID, Integer> biggestEntry(final Wallet wallet) {
-    if (wallet.getPlayerCount() == 0) {
+    if (wallet.getSouls().size() == 0) {
       return null;
     }
 
@@ -25,7 +25,7 @@ public class WalletUtils {
   }
 
   public double soulsRatio(final Wallet wallet) {
-    return ((double) wallet.getPlayerCount()) / wallet.getSoulCount();
+    return ((double) wallet.getSouls().size()) / wallet.size();
   }
 
   public Lang withdrawSoul(final Wallet wallet, final UUID soul) {

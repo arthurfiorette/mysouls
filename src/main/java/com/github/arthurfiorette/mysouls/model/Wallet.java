@@ -1,31 +1,30 @@
 package com.github.arthurfiorette.mysouls.model;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 import com.github.arthurfiorette.sinklibrary.interfaces.Identifiable;
 import com.github.arthurfiorette.sinklibrary.services.SpigotService;
 import com.google.gson.annotations.Expose;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 // TODO: Refactor old wallet code.
+@ToString
+@Getter
+@EqualsAndHashCode
+@RequiredArgsConstructor
 public class Wallet implements Identifiable {
 
-  @Getter
   @Expose
   private final UUID uniqueId;
 
-  @Getter
   @Expose
-  private final Map<UUID, Integer> souls;
-
-  public Wallet(final UUID uuid) {
-    this.uniqueId = uuid;
-    this.souls = new HashMap<>();
-  }
+  private final Map<UUID, Integer> souls = new HashMap<>();
 
   public boolean canAddSoul(final UUID soul, final int amount) {
     if ((soul == null) || !SpigotService.isMinecraftPack(amount)) {
@@ -60,7 +59,7 @@ public class Wallet implements Identifiable {
       return false;
     }
 
-    return this.getSoulCount(soul) >= amount;
+    return this.sizeOf(soul) >= amount;
   }
 
   public UUID removeSoul(final UUID soul, final int amount) {
@@ -72,7 +71,7 @@ public class Wallet implements Identifiable {
     return null;
   }
 
-  public UUID getRemoveableSoul(final Wallet wallet, final int amount) {
+  public UUID getCommonSoul(final Wallet wallet, final int amount) {
     for(final UUID uuid: this.souls.keySet()) {
       if (this.canSendSoul(wallet, uuid, amount)) {
         return uuid;
@@ -83,26 +82,22 @@ public class Wallet implements Identifiable {
   }
 
   public boolean canSendSoul(final Wallet wallet) {
-    return this.canSendSoul(wallet, this.getRemoveableSoul(wallet, 1), 1);
+    return this.canSendSoul(wallet, this.getCommonSoul(wallet, 1), 1);
   }
 
   public boolean canSendSoul(final Wallet wallet, final UUID soul, final int amount) {
     return this.canRemoveSoul(soul, amount) && wallet.canAddSoul(soul, amount);
   }
 
-  public Set<UUID> getKeySet() {
-    return this.souls.keySet();
-  }
-
-  public int getPlayerCount() {
-    return this.souls.size();
-  }
-
-  public int getSoulCount() {
+  /**
+   * @return the total amount of souls, reducing the souls map.
+   */
+  public int size() {
     return this.souls.values().stream().reduce(0, Integer::sum);
   }
 
-  public int getSoulCount(final UUID uuid) {
-    return this.souls.containsKey(uuid) ? this.souls.get(uuid) : 0;
+  public int sizeOf(final UUID uuid) {
+    Integer size = this.souls.get(uuid);
+    return size == null ? 0 : size;
   }
 }

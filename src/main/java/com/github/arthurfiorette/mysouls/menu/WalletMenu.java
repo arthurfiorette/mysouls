@@ -215,8 +215,8 @@ public class WalletMenu extends PageableMenu {
   private void updateReplacer() {
     final Entry<UUID, Integer> biggestEntry = WalletUtils.biggestEntry(this.getWallet());
     this.replacer = r -> {
-      r.add("{souls}", this.getWallet().getSoulCount() + "");
-      r.add("{players}", this.getWallet().getPlayerCount() + "");
+      r.add("{souls}", this.getWallet().size() + "");
+      r.add("{players}", this.getWallet().getSouls().size() + "");
       r.add("{average}", WalletUtils.soulsRatio(this.getWallet()) + "");
       r.add("{more-souls}",
           biggestEntry != null ? Bukkit.getOfflinePlayer(biggestEntry.getKey()).getName()

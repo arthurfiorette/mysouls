@@ -25,6 +25,7 @@ public class BStatsService implements BaseService {
   @Getter
   private final MySouls basePlugin;
 
+  @Getter
   private Metrics metrics = null;
 
   @Override
@@ -42,23 +43,20 @@ public class BStatsService implements BaseService {
     this.metrics = null;
   }
 
+  private boolean isReady() {
+    return !(this.basePlugin == null
+        || (this.basePlugin.getManager().getState() != ManagerState.ENABLED)
+        || !this.basePlugin.isEnabled());
+  }
+
   private Callable<Integer> singleLineChartCallable() {
     return () -> {
       // Plugin isn't ready
-      if ((this.basePlugin == null)
-          || (this.basePlugin.getManager().getState() != ManagerState.ENABLED)
-          || !this.basePlugin.isEnabled()) {
-        return -1;
-      }
+      if (!isReady()) return -1;
 
       final WalletStorage storage = this.basePlugin.getComponent(WalletStorage.class);
-
-      // We can use sync operations because this whole execution is
-      // asynchronous.
       final Collection<Wallet> wallets = storage.operationSync(d -> ((WalletDatabase) d).getAll());
-
-      return wallets.parallelStream().reduce(0, (acc, wallet) -> acc + wallet.getSoulCount(),
-          Integer::sum);
+      return wallets.parallelStream().reduce(0, (acc, wallet) -> acc + wallet.size(), Integer::sum);
     };
   }
 }

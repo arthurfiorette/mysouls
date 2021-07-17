@@ -35,7 +35,7 @@ public class DeathListener extends SinkListener {
       final Wallet killerWallet = this.storage.getSync(killer);
 
       // Find a common soul
-      final UUID soul = victimWallet.getRemoveableSoul(killerWallet, 1);
+      final UUID soul = victimWallet.getCommonSoul(killerWallet, 1);
 
       // Init this message with the error one
       Lang victimMessage = Lang.DEATH_MESSAGE_FAIL;
