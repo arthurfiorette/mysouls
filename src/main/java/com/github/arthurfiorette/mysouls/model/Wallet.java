@@ -27,7 +27,7 @@ public class Wallet implements Identifiable {
   private final Map<UUID, Integer> souls = new HashMap<>();
 
   public boolean canAddSoul(final UUID soul, final int amount) {
-    if ((soul == null) || !SpigotService.isMinecraftPack(amount)) {
+    if (soul == null || !SpigotService.isMinecraftPack(amount)) {
       return false;
     }
 
@@ -37,7 +37,7 @@ public class Wallet implements Identifiable {
       return true;
     }
 
-    return (existing + amount) <= 64;
+    return existing + amount <= 64;
   }
 
   public void addSoul(final UUID soul, final int amount) {
@@ -97,7 +97,7 @@ public class Wallet implements Identifiable {
   }
 
   public int sizeOf(final UUID uuid) {
-    Integer size = this.souls.get(uuid);
+    final Integer size = this.souls.get(uuid);
     return size == null ? 0 : size;
   }
 }

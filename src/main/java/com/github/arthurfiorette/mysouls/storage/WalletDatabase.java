@@ -40,7 +40,7 @@ public class WalletDatabase implements Database<UUID, String> {
 
   @Override
   public void enable() throws Exception {
-    if ((this.connection == null) || this.connection.isClosed()) {
+    if (this.connection == null || this.connection.isClosed()) {
       Class.forName("org.sqlite.JDBC");
       this.connection = DriverManager.getConnection("jdbc:sqlite:" + this.file.getAbsolutePath());
       final PreparedStatement ps = this.connection.prepareStatement(SqlList.CREATE_TABLE);

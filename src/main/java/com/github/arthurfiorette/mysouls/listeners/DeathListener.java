@@ -30,7 +30,7 @@ public class DeathListener extends SinkListener {
     final Player victim = event.getEntity();
     final Player killer = victim.getKiller();
 
-    if ((victim != null) && (killer != null)) {
+    if (victim != null && killer != null) {
       final Wallet victimWallet = this.storage.getSync(victim);
       final Wallet killerWallet = this.storage.getSync(killer);
 

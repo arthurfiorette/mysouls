@@ -25,7 +25,7 @@ public class WalletUtils {
   }
 
   public double soulsRatio(final Wallet wallet) {
-    return ((double) wallet.getSouls().size()) / wallet.size();
+    return (double) wallet.getSouls().size() / wallet.size();
   }
 
   public Lang withdrawSoul(final Wallet wallet, final UUID soul) {
@@ -66,7 +66,7 @@ public class WalletUtils {
 
     final Entry<UUID, Integer> entry = WalletUtils.biggestEntry(wallet);
 
-    if ((entry == null) || (entry.getValue() < amount)) {
+    if (entry == null || entry.getValue() < amount) {
       return Lang.DONT_HAVE_SOULS;
     }
 

@@ -91,7 +91,7 @@ public class WalletMenu extends PageableMenu {
 
     this.soulsHashcode = souls.hashCode();
 
-    return (this.items = souls.entrySet().stream().map(entry -> {
+    return this.items = souls.entrySet().stream().map(entry -> {
       final OfflinePlayer player = Bukkit.getOfflinePlayer(entry.getKey());
       final ReplacerFunction replacer = this.replacer.add("{player}", player.getName());
 
@@ -100,7 +100,7 @@ public class WalletMenu extends PageableMenu {
           .setLore(this.lang.getStringList(Lang.INVENTORY_SOUL_LORE, replacer));
 
       return new BuilderStack(builder);
-    }).collect(Collectors.toList()));
+    }).collect(Collectors.toList());
   }
 
   @Override

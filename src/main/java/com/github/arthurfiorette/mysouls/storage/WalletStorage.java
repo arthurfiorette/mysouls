@@ -34,7 +34,8 @@ public class WalletStorage extends LoadingStorage<UUID, Wallet, String>
     super(plugin.getComponent(WalletDatabase.class), b -> {
       final ConfigFile file = plugin.getComponent(ConfigFile.class);
 
-      final TimeUnit unit = TimeUnit.valueOf(file.getString(Config.CACHE_EVICTION_UNIT).toUpperCase());
+      final TimeUnit unit = TimeUnit
+          .valueOf(file.getString(Config.CACHE_EVICTION_UNIT).toUpperCase());
       final long duration = file.getLong(Config.CACHE_EVICTION_DURATION);
       final long maximumSize = file.getLong(Config.CACHE_MAX_ENTITIES);
       final int concurrencyLevel = file.getInt(Config.CACHE_CONCURRENCY_LEVEL);

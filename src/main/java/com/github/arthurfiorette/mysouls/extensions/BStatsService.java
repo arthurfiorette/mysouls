@@ -44,15 +44,15 @@ public class BStatsService implements BaseService {
   }
 
   private boolean isReady() {
-    return !(this.basePlugin == null
-        || (this.basePlugin.getManager().getState() != ManagerState.ENABLED)
-        || !this.basePlugin.isEnabled());
+    return ((this.basePlugin != null) && (this.basePlugin.getManager().getState() == ManagerState.ENABLED) && this.basePlugin.isEnabled());
   }
 
   private Callable<Integer> singleLineChartCallable() {
     return () -> {
       // Plugin isn't ready
-      if (!isReady()) return -1;
+      if (!this.isReady()) {
+        return -1;
+      }
 
       final WalletStorage storage = this.basePlugin.getComponent(WalletStorage.class);
       final Collection<Wallet> wallets = storage.operationSync(d -> ((WalletDatabase) d).getAll());

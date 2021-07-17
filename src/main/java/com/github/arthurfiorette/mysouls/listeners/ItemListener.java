@@ -33,14 +33,14 @@ public class ItemListener extends SinkListener {
   public void onPlayerInteract(final PlayerInteractEvent event) {
     final ItemStack item = event.getItem();
 
-    if (!event.hasItem() || (item.getAmount() < 1)) {
+    if (!event.hasItem() || item.getAmount() < 1) {
       return;
     }
 
     final String id = NbtReader.getString(item, NbtKey.SOUL);
 
     // Isn't a soul head.
-    if ((id == null) || (id.length() != 36)) {
+    if (id == null || id.length() != 36) {
       return;
     }
 
@@ -62,7 +62,7 @@ public class ItemListener extends SinkListener {
       return;
     }
 
-    if (sneaking || (itemAmount <= 1)) {
+    if (sneaking || itemAmount <= 1) {
       player.setItemInHand(null);
     } else {
       item.setAmount(itemAmount - 1);
