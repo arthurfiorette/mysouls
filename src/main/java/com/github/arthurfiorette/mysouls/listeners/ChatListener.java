@@ -2,6 +2,9 @@ package com.github.arthurfiorette.mysouls.listeners;
 
 import com.github.arthurfiorette.sinklibrary.interfaces.BasePlugin;
 import com.github.arthurfiorette.sinklibrary.listener.SinkListener;
+
+import lombok.Getter;
+
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -13,6 +16,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class ChatListener extends SinkListener {
 
+  @Getter
   private final Map<UUID, Consumer<String>> actions = new ConcurrentHashMap<>();
 
   public ChatListener(final BasePlugin basePlugin) {

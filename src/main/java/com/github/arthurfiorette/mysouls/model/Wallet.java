@@ -3,6 +3,9 @@ package com.github.arthurfiorette.mysouls.model;
 import com.github.arthurfiorette.sinklibrary.interfaces.Identifiable;
 import com.github.arthurfiorette.sinklibrary.services.SpigotService;
 import com.google.gson.annotations.Expose;
+
+import lombok.Getter;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -11,20 +14,17 @@ import java.util.UUID;
 // TODO: Refactor old wallet code.
 public class Wallet implements Identifiable {
 
+  @Getter
   @Expose
-  private final UUID uuid;
+  private final UUID uniqueId;
 
+  @Getter
   @Expose
   private final Map<UUID, Integer> souls;
 
   public Wallet(final UUID uuid) {
-    this.uuid = uuid;
+    this.uniqueId = uuid;
     this.souls = new HashMap<>();
-  }
-
-  @Override
-  public UUID getUniqueId() {
-    return this.uuid;
   }
 
   public boolean canAddSoul(final UUID soul, final int amount) {
@@ -73,7 +73,7 @@ public class Wallet implements Identifiable {
   }
 
   public UUID getRemoveableSoul(final Wallet wallet, final int amount) {
-    for (final UUID uuid : this.souls.keySet()) {
+    for(final UUID uuid: this.souls.keySet()) {
       if (this.canSendSoul(wallet, uuid, amount)) {
         return uuid;
       }
@@ -92,10 +92,6 @@ public class Wallet implements Identifiable {
 
   public Set<UUID> getKeySet() {
     return this.souls.keySet();
-  }
-
-  public Map<UUID, Integer> getSouls() {
-    return this.souls;
   }
 
   public int getPlayerCount() {
