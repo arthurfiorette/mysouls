@@ -59,7 +59,7 @@
     <dependency>
       <groupId>com.github.ArthurFiorette</groupId>
       <artifactId>sink-library</artifactId>
-      <version>v4.3.2</version>
+      <version>4.4.1</version>
       <scope>compile</scope>
     </dependency>
 
