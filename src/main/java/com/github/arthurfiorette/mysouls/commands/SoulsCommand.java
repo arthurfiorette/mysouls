@@ -9,12 +9,10 @@ import com.github.arthurfiorette.sinklibrary.command.wrapper.CommandInfo.Command
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
