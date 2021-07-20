@@ -35,7 +35,7 @@ public class BStatsService implements BaseService {
     );
 
     this.metrics.addCustomChart(chart);
-  }   
+  }
 
   @Override
   public void disable() throws Exception {

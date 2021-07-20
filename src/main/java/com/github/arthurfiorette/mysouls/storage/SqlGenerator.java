@@ -4,7 +4,6 @@ import com.github.arthurfiorette.mysouls.config.Config;
 import com.github.arthurfiorette.mysouls.config.ConfigFile;
 import com.github.arthurfiorette.sinklibrary.interfaces.BaseComponent;
 import com.github.arthurfiorette.sinklibrary.interfaces.BasePlugin;
-
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -30,13 +29,20 @@ public class SqlGenerator implements BaseComponent {
 
   public String createTableSql() {
     return String.format(
-        "CREATE TABLE IF NOT EXISTS %s (%s varchar(36) UNIQUE NOT NULL, %s TEXT NOT NULL)",
-        this.tableName(), this.idColumnName(), this.walletColumnName());
+      "CREATE TABLE IF NOT EXISTS %s (%s varchar(36) UNIQUE NOT NULL, %s TEXT NOT NULL)",
+      this.tableName(),
+      this.idColumnName(),
+      this.walletColumnName()
+    );
   }
 
   public String insertWalletSql() {
-    return String.format("INSERT OR REPLACE INTO %s (%s, %s) VALUES (?, ?)", this.tableName(),
-        this.idColumnName(), this.walletColumnName());
+    return String.format(
+      "INSERT OR REPLACE INTO %s (%s, %s) VALUES (?, ?)",
+      this.tableName(),
+      this.idColumnName(),
+      this.walletColumnName()
+    );
   }
 
   public String selectAllSql() {
@@ -44,17 +50,25 @@ public class SqlGenerator implements BaseComponent {
   }
 
   public String selectSql() {
-    return String.format("SELECT %s FROM %s WHERE %s = ?", this.walletColumnName(), this.tableName(),
-        this.idColumnName());
+    return String.format(
+      "SELECT %s FROM %s WHERE %s = ?",
+      this.walletColumnName(),
+      this.tableName(),
+      this.idColumnName()
+    );
   }
 
   public String selectManySql(final String... keys) {
-    return String.format("SELECT %s FROM %s WHERE %s IN (%s)", this.walletColumnName(), this.tableName(),
-        this.idColumnName(), String.join(", ", keys));
+    return String.format(
+      "SELECT %s FROM %s WHERE %s IN (%s)",
+      this.walletColumnName(),
+      this.tableName(),
+      this.idColumnName(),
+      String.join(", ", keys)
+    );
   }
 
   private ConfigFile getConfig() {
     return this.basePlugin.getComponent(ConfigFile.class);
   }
-
 }
