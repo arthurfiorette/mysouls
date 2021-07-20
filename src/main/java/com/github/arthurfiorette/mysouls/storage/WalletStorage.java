@@ -15,9 +15,8 @@ import java.util.concurrent.TimeUnit;
 import lombok.Getter;
 import lombok.NonNull;
 
-public class WalletStorage
-  extends LoadingStorage<UUID, Wallet, String>
-  implements IdentifiableAdapter<Wallet, String>, PlayerAdapter<Wallet, String> {
+public class WalletStorage extends LoadingStorage<UUID, Wallet, String>
+    implements IdentifiableAdapter<Wallet, String>, PlayerAdapter<Wallet, String> {
 
   @Getter
   @NonNull
@@ -25,33 +24,28 @@ public class WalletStorage
 
   private final ConfigFile config;
 
-  private final Gson gson = new GsonBuilder()
-    .disableHtmlEscaping()
-    .excludeFieldsWithoutExposeAnnotation()
-    .disableInnerClassSerialization()
-    .registerTypeAdapter(UUID.class, new UuidAdapter())
-    .create();
+  private final Gson gson = new GsonBuilder().disableHtmlEscaping()
+      .excludeFieldsWithoutExposeAnnotation().disableInnerClassSerialization()
+      .registerTypeAdapter(UUID.class, new UuidAdapter()).create();
 
   public WalletStorage(final MySouls plugin) {
-    super(
-      plugin.getComponent(WalletDatabase.class),
-      b -> {
-        final ConfigFile file = plugin.getComponent(ConfigFile.class);
+    this(plugin, plugin.getComponent(SqliteDatabase.class), plugin.getComponent(ConfigFile.class));
+  }
 
-        final TimeUnit unit = TimeUnit.valueOf(
-          file.getString(Config.CACHE_EVICTION_UNIT).toUpperCase()
-        );
-        final long duration = file.getLong(Config.CACHE_EVICTION_DURATION);
-        final long maximumSize = file.getLong(Config.CACHE_MAX_ENTITIES);
-        final int concurrencyLevel = file.getInt(Config.CACHE_CONCURRENCY_LEVEL);
+  private WalletStorage(final MySouls plugin, final SqliteDatabase database,
+      final ConfigFile config) {
+    super(database, b -> {
+      
+      final String unit = config.getString(Config.CACHE_EVICTION_UNIT);
+      final long duration = config.getLong(Config.CACHE_EVICTION_DURATION);
+      final long maximumSize = config.getLong(Config.CACHE_MAX_ENTITIES);
+      final int concurrencyLevel = config.getInt(Config.CACHE_CONCURRENCY_LEVEL);
 
-        b.expireAfterWrite(duration, unit);
-        b.maximumSize(maximumSize);
-        b.concurrencyLevel(concurrencyLevel);
+      b.expireAfterWrite(duration, TimeUnit.valueOf(unit.toUpperCase()));
+      b.maximumSize(maximumSize);
+      b.concurrencyLevel(concurrencyLevel);
+    });
 
-        return b;
-      }
-    );
     this.basePlugin = plugin;
     this.config = config;
   }

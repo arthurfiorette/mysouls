@@ -9,10 +9,16 @@ import com.github.arthurfiorette.sinklibrary.command.wrapper.CommandInfo.Command
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class SoulsCommand implements BaseCommand {
 
   @Getter
@@ -23,9 +29,8 @@ public class SoulsCommand implements BaseCommand {
   @NonNull
   private final MenusStorage menusStorage;
 
-  public SoulsCommand(final MySouls souls) {
-    this.basePlugin = souls;
-    this.menusStorage = souls.getComponent(MenusStorage.class);
+  public SoulsCommand(final MySouls plugin) {
+    this(plugin, plugin.getComponent(MenusStorage.class));
   }
 
   @Override

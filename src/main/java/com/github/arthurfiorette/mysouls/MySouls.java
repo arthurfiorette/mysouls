@@ -13,8 +13,6 @@ import com.github.arthurfiorette.mysouls.storage.SqliteDatabase;
 import com.github.arthurfiorette.mysouls.storage.WalletStorage;
 import com.github.arthurfiorette.sinklibrary.components.SinkPlugin;
 import com.github.arthurfiorette.sinklibrary.interfaces.ComponentLoader;
-import java.util.logging.Level;
-import net.md_5.bungee.api.ChatColor;
 
 public class MySouls extends SinkPlugin {
 
@@ -27,7 +25,7 @@ public class MySouls extends SinkPlugin {
       () -> new LangFile(this),
       () -> new ConfigFile(this),
       // Wallet persistence
-      () -> new WalletDatabase(this),
+      () -> new SqliteDatabase(this),
       () -> new WalletStorage(this),
       // Menus and commands storage
       () -> new MenusStorage(this),

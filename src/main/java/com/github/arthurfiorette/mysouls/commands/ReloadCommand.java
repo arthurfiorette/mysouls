@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.command.CommandSender;
 
@@ -16,6 +17,7 @@ import org.bukkit.command.CommandSender;
 public class ReloadCommand implements BaseCommand {
 
   @Getter
+  @NonNull
   private final MySouls basePlugin;
 
   @Override
@@ -49,9 +51,11 @@ public class ReloadCommand implements BaseCommand {
     info.description("Reload this plugin");
   }
 
+  /**
+   * Everyone can use it
+   */
   @Override
   public boolean test(final CommandSender sender) {
-    // Everyone can use it
     return true;
   }
 }
