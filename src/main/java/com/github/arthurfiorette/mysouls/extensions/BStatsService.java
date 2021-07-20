@@ -2,7 +2,7 @@ package com.github.arthurfiorette.mysouls.extensions;
 
 import com.github.arthurfiorette.mysouls.MySouls;
 import com.github.arthurfiorette.mysouls.model.Wallet;
-import com.github.arthurfiorette.mysouls.storage.WalletDatabase;
+import com.github.arthurfiorette.mysouls.storage.SqliteDatabase;
 import com.github.arthurfiorette.mysouls.storage.WalletStorage;
 import com.github.arthurfiorette.sinklibrary.components.ManagerState;
 import com.github.arthurfiorette.sinklibrary.interfaces.BaseService;
@@ -35,7 +35,7 @@ public class BStatsService implements BaseService {
     );
 
     this.metrics.addCustomChart(chart);
-  }
+  }   
 
   @Override
   public void disable() throws Exception {
@@ -58,7 +58,7 @@ public class BStatsService implements BaseService {
       }
 
       final WalletStorage storage = this.basePlugin.getComponent(WalletStorage.class);
-      final Collection<Wallet> wallets = storage.operationSync(d -> ((WalletDatabase) d).getAll());
+      final Collection<Wallet> wallets = storage.operationSync(d -> ((SqliteDatabase) d).getAll());
       return wallets.parallelStream().reduce(0, (acc, wallet) -> acc + wallet.size(), Integer::sum);
     };
   }

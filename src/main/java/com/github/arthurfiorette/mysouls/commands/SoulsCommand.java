@@ -16,19 +16,22 @@ import org.bukkit.entity.Player;
 public class SoulsCommand implements BaseCommand {
 
   @Getter
+  @NonNull
   private final MySouls basePlugin;
 
-  private final MenusStorage menus;
+  @Getter
+  @NonNull
+  private final MenusStorage menusStorage;
 
   public SoulsCommand(final MySouls souls) {
     this.basePlugin = souls;
-    this.menus = this.basePlugin.getComponent(MenusStorage.class);
+    this.menusStorage = souls.getComponent(MenusStorage.class);
   }
 
   @Override
   public void handle(final CommandSender sender, final Collection<String> args) {
     final Player player = (Player) sender;
-    final WalletMenu menu = this.menus.get(player, MenuList.WALLET);
+    final WalletMenu menu = this.menusStorage.get(player, MenuList.WALLET);
     menu.open(true);
   }
 

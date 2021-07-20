@@ -1,11 +1,13 @@
 rules:
   souls:
     initial: 2
+
 customization:
   heads:
     coin: http://textures.minecraft.net/texture/77b9dfd281deaef2628ad5840d45bcda436d6626847587f3ac76498a51c861
     soul: http://textures.minecraft.net/texture/35b116dc769d6d5726f12a24f3f186f839427321e82f4138775a4c40367a49
     trophy: http://textures.minecraft.net/texture/e34a592a79397a8df3997c43091694fc2fb76c883a76cce89f0227e5c9f1dfe
+
 internal:
   cache:
     max-entities: 256
@@ -13,3 +15,16 @@ internal:
     eviction:
       unit: SECONDS
       duration: 5
+
+  database:
+    # Filename used for SQLite, located in this plugin folder.
+    filename: mysouls.db
+
+    # Table information
+    table:
+      name: mySouls
+      columns:
+        # Unique Id column
+        id: uuid
+        # Wallet column
+        wallet: wallet

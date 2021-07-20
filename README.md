@@ -105,6 +105,25 @@ The translation file, where all the messages are included.
 
 <br />
 
+### Common Problems
+
+#### All colored text has a strange character on the front
+
+![example](/docs/assets/cp-1.png 'Title')
+
+To resolve it, make sure that the lang.yml and the server are using the same enconding. All of this files are using UTF-8, and you should too.
+
+To force the server to also use UTF8, add **`-Dfile.encoding=UTF-8`** when starting it. Example:
+
+```sh
+# start.bat
+java -Dfile.encoding=UTF-8 -jar spigot.jar
+```
+
+See more: [Spigot startup parameters](https://www.spigotmc.org/wiki/start-up-parameters/)
+
+<br />
+
 ### License
 
 Licensed under the **MIT**. See [`LICENSE`](LICENSE) for more informations.

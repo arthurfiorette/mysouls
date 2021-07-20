@@ -15,12 +15,18 @@ public enum Config implements PathResolver {
   CACHE_MAX_ENTITIES("internal.cache.max-entities"),
   CACHE_CONCURRENCY_LEVEL("internal.cache.concurrency-level"),
   CACHE_EVICTION_UNIT("internal.cache.eviction.unit"),
-  CACHE_EVICTION_DURATION("internal.cache.eviction.duration");
+  CACHE_EVICTION_DURATION("internal.cache.eviction.duration"),
+
+  DATABASE_FILENAME("internal.database.filename"),
+  DATABASE_TABLE_NAME("internal.database.table.name"),
+
+  DATABASE_COLUMNS_ID("internal.database.table.columns.id"),
+  DATABASE_COLUMNS_WALLET("internal.database.table.columns.wallet");
 
   private String path;
 
   Config(final String path) {
-    this.path = path;
+    this.path = path.toLowerCase();
   }
 
   @Override

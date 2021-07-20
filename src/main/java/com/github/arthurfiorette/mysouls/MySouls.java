@@ -9,7 +9,7 @@ import com.github.arthurfiorette.mysouls.listeners.ChatListener;
 import com.github.arthurfiorette.mysouls.listeners.DeathListener;
 import com.github.arthurfiorette.mysouls.listeners.ItemListener;
 import com.github.arthurfiorette.mysouls.menu.MenusStorage;
-import com.github.arthurfiorette.mysouls.storage.WalletDatabase;
+import com.github.arthurfiorette.mysouls.storage.SqliteDatabase;
 import com.github.arthurfiorette.mysouls.storage.WalletStorage;
 import com.github.arthurfiorette.sinklibrary.components.SinkPlugin;
 import com.github.arthurfiorette.sinklibrary.interfaces.ComponentLoader;
@@ -19,14 +19,6 @@ import net.md_5.bungee.api.ChatColor;
 public class MySouls extends SinkPlugin {
 
   public static final String VERSION = "v2.0.0";
-
-  @Override
-  public void enable() throws Exception {
-    this.log(Level.INFO, ChatColor.BLUE + "Enabling MySouls v2.0.0!");
-  }
-
-  @Override
-  public void disable() throws Exception {}
 
   @Override
   protected ComponentLoader[] components() {

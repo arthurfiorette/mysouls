@@ -53,7 +53,7 @@ public class WalletStorage
       }
     );
     this.basePlugin = plugin;
-    this.config = plugin.getComponent(ConfigFile.class);
+    this.config = config;
   }
 
   public void loadJson(final UUID id, final String value) {
