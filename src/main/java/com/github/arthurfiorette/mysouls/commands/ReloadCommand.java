@@ -1,40 +1,43 @@
 package com.github.arthurfiorette.mysouls.commands;
 
-import com.github.arthurfiorette.mysouls.MySouls;
 import com.github.arthurfiorette.sinklibrary.command.BaseCommand;
 import com.github.arthurfiorette.sinklibrary.command.wrapper.CommandInfo.CommandInfoBuilder;
-import com.github.arthurfiorette.sinklibrary.components.ComponentManager;
-import com.github.arthurfiorette.sinklibrary.components.ManagerState;
+import com.github.arthurfiorette.sinklibrary.component.providers.ComponentProvider;
+import com.github.arthurfiorette.sinklibrary.component.providers.ComponentProvider.State;
+import com.github.arthurfiorette.sinklibrary.core.BasePlugin;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import org.bukkit.command.CommandSender;
+
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.bukkit.command.CommandSender;
 
 @RequiredArgsConstructor
 public class ReloadCommand implements BaseCommand {
 
   @Getter
   @NonNull
-  private final MySouls basePlugin;
+  private final BasePlugin basePlugin;
 
   @Override
   public void handle(final CommandSender sender, final Collection<String> args) {
-    final ComponentManager manager = this.basePlugin.getManager();
+    final ComponentProvider provider = this.basePlugin.getProvider();
 
-    if (manager.getState() != ManagerState.ENABLED) {
+    if (provider.state() != State.ENABLED) {
       sender.sendMessage(
-        "§cI cannot be reloaded if my status is " + manager.getState().toString().toLowerCase()
+        "§cI cannot be reloaded if my status is " + provider.state().toString().toLowerCase()
       );
       return;
     }
 
     sender.sendMessage("§cReloading...");
 
-    manager.disableServices();
-    manager.enableServices();
+    provider.disableAll();
+    provider.enableAll();
 
     sender.sendMessage("§aReloaded");
   }

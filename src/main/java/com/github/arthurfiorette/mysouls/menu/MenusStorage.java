@@ -1,6 +1,6 @@
 package com.github.arthurfiorette.mysouls.menu;
 
-import com.github.arthurfiorette.sinklibrary.interfaces.BasePlugin;
+import com.github.arthurfiorette.sinklibrary.core.BasePlugin;
 import com.github.arthurfiorette.sinklibrary.menu.management.MenuStorage;
 
 public class MenusStorage extends MenuStorage<MenuList> {

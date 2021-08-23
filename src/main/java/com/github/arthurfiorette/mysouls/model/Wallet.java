@@ -1,11 +1,13 @@
 package com.github.arthurfiorette.mysouls.model;
 
+import com.github.arthurfiorette.mysouls.SoulsUtils;
 import com.github.arthurfiorette.sinklibrary.interfaces.Identifiable;
-import com.github.arthurfiorette.sinklibrary.services.SpigotService;
 import com.google.gson.annotations.Expose;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +27,7 @@ public class Wallet implements Identifiable {
   private final Map<UUID, Integer> souls = new HashMap<>();
 
   public boolean canAddSoul(final UUID soul, final int amount) {
-    if (soul == null || !SpigotService.isMinecraftPack(amount)) {
+    if (soul == null || !SoulsUtils.isPack(amount)) {
       return false;
     }
 
@@ -45,7 +47,7 @@ public class Wallet implements Identifiable {
   }
 
   public boolean canRemoveSoul(final UUID soul, final int amount) {
-    if (!SpigotService.isMinecraftPack(amount)) {
+    if (!SoulsUtils.isPack(amount)) {
       return false;
     }
 
@@ -70,7 +72,7 @@ public class Wallet implements Identifiable {
   }
 
   public UUID getCommonSoul(final Wallet wallet, final int amount) {
-    for (final UUID uuid : this.souls.keySet()) {
+    for(final UUID uuid: this.souls.keySet()) {
       if (this.canSendSoul(wallet, uuid, amount)) {
         return uuid;
       }

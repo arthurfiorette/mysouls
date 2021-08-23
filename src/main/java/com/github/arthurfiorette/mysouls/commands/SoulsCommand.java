@@ -1,34 +1,37 @@
 package com.github.arthurfiorette.mysouls.commands;
 
-import com.github.arthurfiorette.mysouls.MySouls;
 import com.github.arthurfiorette.mysouls.menu.MenuList;
 import com.github.arthurfiorette.mysouls.menu.MenusStorage;
 import com.github.arthurfiorette.mysouls.menu.WalletMenu;
 import com.github.arthurfiorette.sinklibrary.command.BaseCommand;
 import com.github.arthurfiorette.sinklibrary.command.wrapper.CommandInfo.CommandInfoBuilder;
+import com.github.arthurfiorette.sinklibrary.core.BasePlugin;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class SoulsCommand implements BaseCommand {
 
   @Getter
   @NonNull
-  private final MySouls basePlugin;
+  private final BasePlugin basePlugin;
 
   @Getter
   @NonNull
   private final MenusStorage menusStorage;
 
-  public SoulsCommand(final MySouls plugin) {
-    this(plugin, plugin.getComponent(MenusStorage.class));
+  public SoulsCommand(final BasePlugin plugin) {
+    this(plugin, plugin.get(MenusStorage.class));
   }
 
   @Override
@@ -53,6 +56,7 @@ public class SoulsCommand implements BaseCommand {
     info.usage("/souls [reload]");
     info.permission("mysouls.menu");
   }
+  
 
   @Override
   public boolean test(final CommandSender sender) {

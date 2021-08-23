@@ -1,12 +1,14 @@
 package com.github.arthurfiorette.mysouls.extensions;
 
 import com.github.arthurfiorette.mysouls.MySouls;
-import com.github.arthurfiorette.sinklibrary.interfaces.BaseService;
-import com.github.arthurfiorette.sinklibrary.services.SpigotService;
-import java.util.logging.Level;
-import lombok.Getter;
+import com.github.arthurfiorette.sinklibrary.component.Service;
+import com.github.arthurfiorette.sinklibrary.util.bukkit.ServerUtils;
 
-public class PapiService implements BaseService {
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
+public class PapiService implements Service {
 
   @Getter
   private final MySouls basePlugin;
@@ -14,15 +16,10 @@ public class PapiService implements BaseService {
   @Getter
   private PapiExpansion expansion;
 
-  public PapiService(final MySouls owner) {
-    this.basePlugin = owner;
-  }
-
   @Override
   public void enable() throws Exception {
-    if (!SpigotService.hasPlugin("PlaceholderAPI")) {
-      this.basePlugin.log(
-          Level.WARNING,
+    if (!ServerUtils.isPluginEnabled("PlaceholderAPI")) {
+      basePlugin.getBaseLogger().warn(
           "PlaceholderAPI could not be found, ignoring this service."
         );
       return;

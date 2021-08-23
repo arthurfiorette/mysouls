@@ -11,32 +11,36 @@ import com.github.arthurfiorette.mysouls.listeners.ItemListener;
 import com.github.arthurfiorette.mysouls.menu.MenusStorage;
 import com.github.arthurfiorette.mysouls.storage.SqliteDatabase;
 import com.github.arthurfiorette.mysouls.storage.WalletStorage;
-import com.github.arthurfiorette.sinklibrary.components.SinkPlugin;
-import com.github.arthurfiorette.sinklibrary.interfaces.ComponentLoader;
+import com.github.arthurfiorette.sinklibrary.component.loaders.ComponentLoader;
+import com.github.arthurfiorette.sinklibrary.core.SinkOptions.Consumer;
+import com.github.arthurfiorette.sinklibrary.core.SinkPlugin;
+import com.github.arthurfiorette.sinklibrary.logging.FilteredConsoleLogger;
+import com.github.arthurfiorette.sinklibrary.logging.Level;
 
 public class MySouls extends SinkPlugin {
 
   public static final String VERSION = "v2.0.0";
 
   @Override
-  protected ComponentLoader[] components() {
-    return new ComponentLoader[] {
-      // Configuration files
-      () -> new LangFile(this),
-      () -> new ConfigFile(this),
-      // Wallet persistence
-      () -> new SqliteDatabase(this),
-      () -> new WalletStorage(this),
-      // Menus and commands storage
-      () -> new MenusStorage(this),
-      () -> new Commands(this),
-      // Listeners
-      () -> new ItemListener(this),
-      () -> new DeathListener(this),
-      () -> new ChatListener(this),
-      // Extensions
-      () -> new BStatsService(this),
-      () -> new PapiService(this),
+  public ComponentLoader[] components() {
+    return ComponentLoader.reflect(this,
+        // Configuration files
+        LangFile.class, ConfigFile.class,
+        // Wallet persistence
+        SqliteDatabase.class, WalletStorage.class,
+        // Menus and commands storage
+        MenusStorage.class, Commands.class,
+        // Listeners
+        ItemListener.class, DeathListener.class, ChatListener.class,
+        // Extensions
+        BStatsService.class, PapiService.class);
+  }
+
+  @Override
+  public Consumer options() {
+    return (builder) -> {
+      builder.baseLogger(new FilteredConsoleLogger(this, Level.ALL));
     };
   }
+
 }

@@ -4,17 +4,20 @@ import com.github.arthurfiorette.mysouls.MySouls;
 import com.github.arthurfiorette.mysouls.model.Wallet;
 import com.github.arthurfiorette.mysouls.storage.SqliteDatabase;
 import com.github.arthurfiorette.mysouls.storage.WalletStorage;
-import com.github.arthurfiorette.sinklibrary.components.ManagerState;
-import com.github.arthurfiorette.sinklibrary.interfaces.BaseService;
+import com.github.arthurfiorette.sinklibrary.component.Service;
+import com.github.arthurfiorette.sinklibrary.component.providers.ComponentProvider.State;
+
 import java.util.Collection;
 import java.util.concurrent.Callable;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SingleLineChart;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
 @RequiredArgsConstructor
-public class BStatsService implements BaseService {
+public class BStatsService implements Service {
 
   private static final int PLUGIN_ID = 9601;
   private static final String CHART_ID = "average_souls_per_player";
@@ -43,11 +46,9 @@ public class BStatsService implements BaseService {
   }
 
   private boolean isReady() {
-    return (
-      (this.basePlugin != null) &&
-      (this.basePlugin.getManager().getState() == ManagerState.ENABLED) &&
-      this.basePlugin.isEnabled()
-    );
+    return this.basePlugin != null &&
+    this.basePlugin.getProvider().state() == State.ENABLED &&
+    this.basePlugin.isEnabled();
   }
 
   private Callable<Integer> singleLineChartCallable() {
@@ -57,7 +58,7 @@ public class BStatsService implements BaseService {
         return -1;
       }
 
-      final WalletStorage storage = this.basePlugin.getComponent(WalletStorage.class);
+      final WalletStorage storage = this.basePlugin.get(WalletStorage.class);
       final Collection<Wallet> wallets = storage.operationSync(d -> ((SqliteDatabase) d).getAll());
       return wallets.parallelStream().reduce(0, (acc, wallet) -> acc + wallet.size(), Integer::sum);
     };

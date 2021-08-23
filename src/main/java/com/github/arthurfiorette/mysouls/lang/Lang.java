@@ -2,7 +2,13 @@ package com.github.arthurfiorette.mysouls.lang;
 
 import com.github.arthurfiorette.sinklibrary.config.addons.PathResolver;
 
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 public enum Lang implements PathResolver {
+  
   BACKWARD("messages.backward"),
   CANNOT_USE("messages.cannot-use"),
   COIN_CHAT_MESSAGE("messages.coin-chat-message"),
@@ -44,14 +50,10 @@ public enum Lang implements PathResolver {
   RELOAD_FAIL("admin.reload-fail"),
   UNKNOWN_ERROR("admin.unknown-error");
 
-  private String path;
+  @Getter
+  @NonNull
+  private final String path;
 
-  Lang(final String path) {
-    this.path = path;
-  }
 
-  @Override
-  public String getPath() {
-    return this.path;
-  }
+
 }

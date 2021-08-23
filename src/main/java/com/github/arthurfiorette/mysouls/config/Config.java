@@ -2,6 +2,11 @@ package com.github.arthurfiorette.mysouls.config;
 
 import com.github.arthurfiorette.sinklibrary.config.addons.PathResolver;
 
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 public enum Config implements PathResolver {
   // Rules
   INITIAL_SOULS("rules.souls.initial"),
@@ -23,14 +28,8 @@ public enum Config implements PathResolver {
   DATABASE_COLUMNS_ID("internal.database.table.columns.id"),
   DATABASE_COLUMNS_WALLET("internal.database.table.columns.wallet");
 
-  private String path;
+  @Getter
+  @NonNull
+  private final String path;
 
-  Config(final String path) {
-    this.path = path.toLowerCase();
-  }
-
-  @Override
-  public String getPath() {
-    return this.path;
-  }
 }

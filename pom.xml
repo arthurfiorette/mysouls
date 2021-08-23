@@ -59,7 +59,9 @@
 		<dependency>
 			<groupId>com.github.ArthurFiorette</groupId>
 			<artifactId>sink-library</artifactId>
-			<version>v4.4.2</version>
+			
+			<!-- Specific hash commit with newer features than v4.7.0 -->
+			<version>ebb1540</version>
 			<scope>compile</scope>
 		</dependency>
 
@@ -126,6 +128,8 @@
 							<shadedPattern>com.github.arthurfiorette.mysouls.libs.tr7zw</shadedPattern>
 						</relocation>
 					</relocations>
+					<createDependencyReducedPom>false</createDependencyReducedPom>
+					<outputFile>C:\Users\arthu\Documentos\Server 1.8.9\plugins\mysouls-v2.0.0.jar</outputFile>
 				</configuration>
 				<executions>
 					<execution>

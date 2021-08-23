@@ -8,22 +8,23 @@ import com.github.arthurfiorette.mysouls.listeners.ChatListener;
 import com.github.arthurfiorette.mysouls.model.Wallet;
 import com.github.arthurfiorette.mysouls.model.WalletUtils;
 import com.github.arthurfiorette.mysouls.storage.WalletStorage;
-import com.github.arthurfiorette.sinklibrary.executor.v2.TaskContext;
-import com.github.arthurfiorette.sinklibrary.interfaces.BasePlugin;
+import com.github.arthurfiorette.sinklibrary.core.BasePlugin;
+import com.github.arthurfiorette.sinklibrary.executor.TaskContext;
 import com.github.arthurfiorette.sinklibrary.item.ItemBuilder;
-import com.github.arthurfiorette.sinklibrary.item.ItemBuilders;
 import com.github.arthurfiorette.sinklibrary.item.ItemProperty;
+import com.github.arthurfiorette.sinklibrary.item.SkullBuilder;
 import com.github.arthurfiorette.sinklibrary.menu.PageableMenu;
 import com.github.arthurfiorette.sinklibrary.menu.item.BuilderStack;
 import com.github.arthurfiorette.sinklibrary.menu.item.MenuItem;
-import com.github.arthurfiorette.sinklibrary.replacer.ReplacerFunction;
+import com.github.arthurfiorette.sinklibrary.replacer.Replacer;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.NoSuchElementException;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -33,12 +34,12 @@ import org.bukkit.inventory.ItemStack;
 public class WalletMenu extends PageableMenu {
 
   public static ItemStack empty = new ItemBuilder(Material.STAINED_GLASS_PANE)
-    .setItemFlags()
-    .setName(" ")
-    .remove(ItemProperty.LORE)
+    .allItemFlags()
+    .name(" ")
+    .clear(ItemProperty.LORE)
     .build();
 
-  private static final MenuItem mhfQuestion = ItemBuilders.ofHead("MHF_Question").asMenuItem();
+  private static final MenuItem mhfQuestion = SkullBuilder.ofHeadName("MHF_Question").asMenuItem();
 
   /**
    * Last pageable items build
@@ -51,24 +52,21 @@ public class WalletMenu extends PageableMenu {
    * @see Wallet#getSouls()
    */
   private int soulsHashcode = -1;
-  private ReplacerFunction replacer;
+  private Replacer.Function replacer;
 
   private final LangFile lang;
   private final ConfigFile config;
   private final ChatListener chatListener;
   private final WalletStorage walletStorage;
 
-  /**
-   * @throws NoSuchElementException if this wallet owner isn't online
-   */
-  public WalletMenu(final BasePlugin plugin, final Player player) throws NoSuchElementException {
+  public WalletMenu(final BasePlugin plugin, final Player player) {
     super(plugin, player, "Almas de " + player.getName(), 6);
     super.setDefaultItem(WalletMenu.empty);
 
-    this.lang = plugin.getComponent(LangFile.class);
-    this.config = plugin.getComponent(ConfigFile.class);
-    this.chatListener = plugin.getComponent(ChatListener.class);
-    this.walletStorage = plugin.getComponent(WalletStorage.class);
+    this.lang = plugin.get(LangFile.class);
+    this.config = plugin.get(ConfigFile.class);
+    this.chatListener = plugin.get(ChatListener.class);
+    this.walletStorage = plugin.get(WalletStorage.class);
   }
 
   @Override
@@ -113,27 +111,25 @@ public class WalletMenu extends PageableMenu {
 
     this.soulsHashcode = souls.hashCode();
 
-    return (
-      this.items =
-        souls
-          .entrySet()
-          .stream()
-          .map(
-            entry -> {
-              final OfflinePlayer player = Bukkit.getOfflinePlayer(entry.getKey());
-              final ReplacerFunction replacer = this.replacer.add("{player}", player.getName());
+    return this.items =
+      souls
+        .entrySet()
+        .stream()
+        .map(
+          entry -> {
+            final OfflinePlayer player = Bukkit.getOfflinePlayer(entry.getKey());
+            final Replacer.Function replacer = this.replacer.add("{player}", player.getName());
 
-              final ItemBuilder builder = ItemBuilders
-                .ofHead(player)
-                .setAmount(entry.getValue())
-                .setName(this.lang.getString(Lang.INVENTORY_SOUL_NAME, replacer))
-                .setLore(this.lang.getStringList(Lang.INVENTORY_SOUL_LORE, replacer));
+            final ItemBuilder builder = SkullBuilder
+              .ofPlayer(player)
+              .amount(entry.getValue())
+              .name(this.lang.getString(Lang.INVENTORY_SOUL_NAME, replacer))
+              .lores(this.lang.getStringList(Lang.INVENTORY_SOUL_LORE, replacer));
 
-              return new BuilderStack(builder);
-            }
-          )
-          .collect(Collectors.toList())
-    );
+            return new BuilderStack(builder);
+          }
+        )
+        .collect(Collectors.toList());
   }
 
   @Override
@@ -143,19 +139,19 @@ public class WalletMenu extends PageableMenu {
 
     map.put(
       (byte) 10,
-      ItemBuilders
-        .ofHead(this.getOwner())
-        .setName(this.lang.getString(Lang.YOUR_WALLET_NAME, this.replacer))
-        .setLore(this.lang.getStringList(Lang.YOUR_WALLET_LORE, this.replacer))
+      SkullBuilder
+        .ofPlayer(this.getOwner())
+        .name(this.lang.getString(Lang.YOUR_WALLET_NAME, this.replacer))
+        .lores(this.lang.getStringList(Lang.YOUR_WALLET_LORE, this.replacer))
         .asMenuItem()
     );
 
     map.put(
       (byte) 19,
-      ItemBuilders
-        .ofHeadUrl(this.config.getString(Config.TROPHY_HEAD_URL))
-        .setName(this.lang.getString(Lang.RANKING_NAME, this.replacer))
-        .setLore(this.lang.getStringList(Lang.RANKING_LORE, this.replacer))
+      SkullBuilder
+        .ofTextureUrl(this.config.getString(Config.TROPHY_HEAD_URL))
+        .name(this.lang.getString(Lang.RANKING_NAME, this.replacer))
+        .lores(this.lang.getStringList(Lang.RANKING_LORE, this.replacer))
         .asMenuItem()
     );
 
@@ -164,8 +160,8 @@ public class WalletMenu extends PageableMenu {
       !this.hasPreviousPage()
         ? null
         : new ItemBuilder(Material.STONE_BUTTON)
-          .setItemFlags()
-          .setName(this.lang.getString(Lang.BACKWARD, this.replacer))
+          .allItemFlags()
+          .name(this.lang.getString(Lang.BACKWARD, this.replacer))
           .asMenuItem(
             (item, action) -> {
               this.previousPage(true);
@@ -178,7 +174,7 @@ public class WalletMenu extends PageableMenu {
       !this.hasNextPage()
         ? null
         : new ItemBuilder(Material.STONE_BUTTON)
-          .setName(this.lang.getString(Lang.FORWARD, this.replacer))
+          .name(this.lang.getString(Lang.FORWARD, this.replacer))
           .asMenuItem(
             (item, action) -> {
               this.nextPage(true);
@@ -190,10 +186,10 @@ public class WalletMenu extends PageableMenu {
 
     map.put(
       (byte) 49,
-      ItemBuilders
-        .ofHeadUrl(this.config.getString(Config.SOUL_HEAD_URL))
-        .setName(this.lang.getString(Lang.WITHDRAW_SOULS_NAME, this.replacer))
-        .setLore(this.lang.getStringList(Lang.WITHDRAW_SOULS_LORE, this.replacer))
+      SkullBuilder
+        .ofTextureUrl(this.config.getString(Config.SOUL_HEAD_URL))
+        .name(this.lang.getString(Lang.WITHDRAW_SOULS_NAME, this.replacer))
+        .lores(this.lang.getStringList(Lang.WITHDRAW_SOULS_LORE, this.replacer))
         .asMenuItem(
           (item, action) -> {
             TaskContext.BUKKIT.run(this.basePlugin, this.owner::closeInventory);
@@ -235,10 +231,10 @@ public class WalletMenu extends PageableMenu {
 
     map.put(
       (byte) 51,
-      ItemBuilders
-        .ofHeadUrl(this.config.getString(Config.COIN_HEAD_URL))
-        .setName(this.lang.getString(Lang.WITHDRAW_COINS_NAME, this.replacer))
-        .setLore(this.lang.getStringList(Lang.WITHDRAW_COINS_LORE, this.replacer))
+      SkullBuilder
+        .ofTextureUrl(this.config.getString(Config.COIN_HEAD_URL))
+        .name(this.lang.getString(Lang.WITHDRAW_COINS_NAME, this.replacer))
+        .lores(this.lang.getStringList(Lang.WITHDRAW_COINS_LORE, this.replacer))
         .asMenuItem(
           (item, action) -> {
             TaskContext.BUKKIT.run(this.basePlugin, this.owner::closeInventory);
@@ -273,9 +269,9 @@ public class WalletMenu extends PageableMenu {
       this.getPage() <= 0
         ? null
         : new ItemBuilder(Material.PAPER)
-          .setItemFlags()
-          .setName(this.lang.getString(Lang.PAGE, this.replacer))
-          .setAmount(this.getPage() + 1)
+          .allItemFlags()
+          .name(this.lang.getString(Lang.PAGE, this.replacer))
+          .amount(this.getPage() + 1)
           .asMenuItem()
     );
 

@@ -12,6 +12,6 @@ public class Commands extends CommandStorage {
 
   @Override
   protected BaseCommand[] commands() {
-    return new BaseCommand[] { new SoulsCommand((MySouls) this.basePlugin) };
+    return new BaseCommand[] { new SoulsCommand(this.basePlugin) };
   }
 }

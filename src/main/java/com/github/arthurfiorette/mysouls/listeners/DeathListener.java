@@ -4,10 +4,12 @@ import com.github.arthurfiorette.mysouls.lang.Lang;
 import com.github.arthurfiorette.mysouls.lang.LangFile;
 import com.github.arthurfiorette.mysouls.model.Wallet;
 import com.github.arthurfiorette.mysouls.storage.WalletStorage;
-import com.github.arthurfiorette.sinklibrary.interfaces.BasePlugin;
+import com.github.arthurfiorette.sinklibrary.core.BasePlugin;
 import com.github.arthurfiorette.sinklibrary.listener.SinkListener;
-import com.github.arthurfiorette.sinklibrary.replacer.ReplacerFunction;
+import com.github.arthurfiorette.sinklibrary.replacer.Replacer;
+
 import java.util.UUID;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -20,8 +22,8 @@ public class DeathListener extends SinkListener {
 
   public DeathListener(final BasePlugin basePlugin) {
     super(basePlugin);
-    this.storage = basePlugin.getComponent(WalletStorage.class);
-    this.lang = basePlugin.getComponent(LangFile.class);
+    this.storage = basePlugin.get(WalletStorage.class);
+    this.lang = basePlugin.get(LangFile.class);
   }
 
   @Override
@@ -49,7 +51,7 @@ public class DeathListener extends SinkListener {
         killerMessage = Lang.KILL_MESSAGE;
       }
 
-      final ReplacerFunction replacer = r ->
+      final Replacer.Function replacer = r ->
         r.add("{victim}", victim.getName()).add("{killer}", killer.getName());
 
       victim.sendMessage(this.lang.getString(victimMessage, replacer));

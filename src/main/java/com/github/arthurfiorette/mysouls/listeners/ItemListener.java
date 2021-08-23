@@ -6,10 +6,12 @@ import com.github.arthurfiorette.mysouls.model.Wallet;
 import com.github.arthurfiorette.mysouls.nbt.NbtKey;
 import com.github.arthurfiorette.mysouls.nbt.NbtReader;
 import com.github.arthurfiorette.mysouls.storage.WalletStorage;
-import com.github.arthurfiorette.sinklibrary.interfaces.BasePlugin;
+import com.github.arthurfiorette.sinklibrary.core.BasePlugin;
 import com.github.arthurfiorette.sinklibrary.listener.SinkListener;
 import com.github.arthurfiorette.sinklibrary.uuid.FastUuid;
+
 import java.util.UUID;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -24,8 +26,8 @@ public class ItemListener extends SinkListener {
 
   public ItemListener(final BasePlugin basePlugin) {
     super(basePlugin);
-    this.storage = basePlugin.getComponent(WalletStorage.class);
-    this.lang = basePlugin.getComponent(LangFile.class);
+    this.storage = basePlugin.get(WalletStorage.class);
+    this.lang = basePlugin.get(LangFile.class);
   }
 
   @Override

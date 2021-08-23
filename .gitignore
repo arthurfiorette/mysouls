@@ -19,6 +19,5 @@ hs_ err_pid*
 
 # Eclipse
 /.settings
-
-# Old code that i'm refactoring :)
-/src/main/java/com/github/_hazork/*
+/.metadata
+/.factorypath
