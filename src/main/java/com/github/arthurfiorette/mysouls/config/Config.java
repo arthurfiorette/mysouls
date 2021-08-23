@@ -1,7 +1,6 @@
 package com.github.arthurfiorette.mysouls.config;
 
 import com.github.arthurfiorette.sinklibrary.config.addons.PathResolver;
-
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -31,5 +30,4 @@ public enum Config implements PathResolver {
   @Getter
   @NonNull
   private final String path;
-
 }

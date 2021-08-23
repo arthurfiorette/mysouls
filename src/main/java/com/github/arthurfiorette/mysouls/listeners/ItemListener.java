@@ -9,9 +9,7 @@ import com.github.arthurfiorette.mysouls.storage.WalletStorage;
 import com.github.arthurfiorette.sinklibrary.core.BasePlugin;
 import com.github.arthurfiorette.sinklibrary.listener.SinkListener;
 import com.github.arthurfiorette.sinklibrary.uuid.FastUuid;
-
 import java.util.UUID;
-
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

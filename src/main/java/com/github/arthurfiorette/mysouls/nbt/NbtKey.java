@@ -12,5 +12,4 @@ public enum NbtKey {
   NbtKey(final String name) {
     this.name = "MySouls-2.0.0-" + name;
   }
-
 }

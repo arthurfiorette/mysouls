@@ -5,16 +5,13 @@ import com.github.arthurfiorette.sinklibrary.command.wrapper.CommandInfo.Command
 import com.github.arthurfiorette.sinklibrary.component.providers.ComponentProvider;
 import com.github.arthurfiorette.sinklibrary.component.providers.ComponentProvider.State;
 import com.github.arthurfiorette.sinklibrary.core.BasePlugin;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import org.bukkit.command.CommandSender;
-
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.bukkit.command.CommandSender;
 
 @RequiredArgsConstructor
 public class ReloadCommand implements BaseCommand {

@@ -10,10 +10,8 @@ import com.github.arthurfiorette.sinklibrary.data.storage.addons.PlayerAdapter;
 import com.github.arthurfiorette.sinklibrary.uuid.UuidAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-
 import lombok.Getter;
 import lombok.NonNull;
 

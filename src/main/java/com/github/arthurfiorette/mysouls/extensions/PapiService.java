@@ -3,7 +3,6 @@ package com.github.arthurfiorette.mysouls.extensions;
 import com.github.arthurfiorette.mysouls.MySouls;
 import com.github.arthurfiorette.sinklibrary.component.Service;
 import com.github.arthurfiorette.sinklibrary.util.bukkit.ServerUtils;
-
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -19,9 +18,7 @@ public class PapiService implements Service {
   @Override
   public void enable() throws Exception {
     if (!ServerUtils.isPluginEnabled("PlaceholderAPI")) {
-      basePlugin.getBaseLogger().warn(
-          "PlaceholderAPI could not be found, ignoring this service."
-        );
+      basePlugin.getBaseLogger().warn("PlaceholderAPI could not be found, ignoring this service.");
       return;
     }
 

@@ -23,24 +23,31 @@ public class MySouls extends SinkPlugin {
 
   @Override
   public ComponentLoader[] components() {
-    return ComponentLoader.reflect(this,
-        // Configuration files
-        LangFile.class, ConfigFile.class,
-        // Wallet persistence
-        SqliteDatabase.class, WalletStorage.class,
-        // Menus and commands storage
-        MenusStorage.class, Commands.class,
-        // Listeners
-        ItemListener.class, DeathListener.class, ChatListener.class,
-        // Extensions
-        BStatsService.class, PapiService.class);
+    return ComponentLoader.reflect(
+      this,
+      // Configuration files
+      LangFile.class,
+      ConfigFile.class,
+      // Wallet persistence
+      SqliteDatabase.class,
+      WalletStorage.class,
+      // Menus and commands storage
+      MenusStorage.class,
+      Commands.class,
+      // Listeners
+      ItemListener.class,
+      DeathListener.class,
+      ChatListener.class,
+      // Extensions
+      BStatsService.class,
+      PapiService.class
+    );
   }
 
   @Override
   public Consumer options() {
-    return (builder) -> {
+    return builder -> {
       builder.baseLogger(new FilteredConsoleLogger(this, Level.ALL));
     };
   }
-
 }

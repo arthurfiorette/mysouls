@@ -17,14 +17,12 @@ import com.github.arthurfiorette.sinklibrary.menu.PageableMenu;
 import com.github.arthurfiorette.sinklibrary.menu.item.BuilderStack;
 import com.github.arthurfiorette.sinklibrary.menu.item.MenuItem;
 import com.github.arthurfiorette.sinklibrary.replacer.Replacer;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -111,25 +109,27 @@ public class WalletMenu extends PageableMenu {
 
     this.soulsHashcode = souls.hashCode();
 
-    return this.items =
-      souls
-        .entrySet()
-        .stream()
-        .map(
-          entry -> {
-            final OfflinePlayer player = Bukkit.getOfflinePlayer(entry.getKey());
-            final Replacer.Function replacer = this.replacer.add("{player}", player.getName());
+    return (
+      this.items =
+        souls
+          .entrySet()
+          .stream()
+          .map(
+            entry -> {
+              final OfflinePlayer player = Bukkit.getOfflinePlayer(entry.getKey());
+              final Replacer.Function replacer = this.replacer.add("{player}", player.getName());
 
-            final ItemBuilder builder = SkullBuilder
-              .ofPlayer(player)
-              .amount(entry.getValue())
-              .name(this.lang.getString(Lang.INVENTORY_SOUL_NAME, replacer))
-              .lores(this.lang.getStringList(Lang.INVENTORY_SOUL_LORE, replacer));
+              final ItemBuilder builder = SkullBuilder
+                .ofPlayer(player)
+                .amount(entry.getValue())
+                .name(this.lang.getString(Lang.INVENTORY_SOUL_NAME, replacer))
+                .lores(this.lang.getStringList(Lang.INVENTORY_SOUL_LORE, replacer));
 
-            return new BuilderStack(builder);
-          }
-        )
-        .collect(Collectors.toList());
+              return new BuilderStack(builder);
+            }
+          )
+          .collect(Collectors.toList())
+    );
   }
 
   @Override

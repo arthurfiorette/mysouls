@@ -4,7 +4,6 @@ import com.github.arthurfiorette.mysouls.config.Config;
 import com.github.arthurfiorette.mysouls.config.ConfigFile;
 import com.github.arthurfiorette.sinklibrary.component.Component;
 import com.github.arthurfiorette.sinklibrary.core.BasePlugin;
-
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

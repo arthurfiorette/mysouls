@@ -6,15 +6,12 @@ import com.github.arthurfiorette.mysouls.storage.SqliteDatabase;
 import com.github.arthurfiorette.mysouls.storage.WalletStorage;
 import com.github.arthurfiorette.sinklibrary.component.Service;
 import com.github.arthurfiorette.sinklibrary.component.providers.ComponentProvider.State;
-
 import java.util.Collection;
 import java.util.concurrent.Callable;
-
-import org.bstats.bukkit.Metrics;
-import org.bstats.charts.SingleLineChart;
-
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.bstats.bukkit.Metrics;
+import org.bstats.charts.SingleLineChart;
 
 @RequiredArgsConstructor
 public class BStatsService implements Service {
@@ -46,9 +43,11 @@ public class BStatsService implements Service {
   }
 
   private boolean isReady() {
-    return this.basePlugin != null &&
-    this.basePlugin.getProvider().state() == State.ENABLED &&
-    this.basePlugin.isEnabled();
+    return (
+      this.basePlugin != null &&
+      this.basePlugin.getProvider().state() == State.ENABLED &&
+      this.basePlugin.isEnabled()
+    );
   }
 
   private Callable<Integer> singleLineChartCallable() {
