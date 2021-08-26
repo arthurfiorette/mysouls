@@ -17,7 +17,6 @@ import com.github.arthurfiorette.sinklibrary.menu.PageableMenu;
 import com.github.arthurfiorette.sinklibrary.menu.item.BuilderStack;
 import com.github.arthurfiorette.sinklibrary.menu.item.MenuItem;
 import com.github.arthurfiorette.sinklibrary.replacer.Replacer;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +24,6 @@ import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -34,8 +32,11 @@ import org.bukkit.inventory.ItemStack;
 
 public class WalletMenu extends PageableMenu {
 
-  public static ItemStack empty = new ItemBuilder(Material.STAINED_GLASS_PANE).allItemFlags()
-      .name(" ").clear(ItemProperty.LORE).build();
+  public static ItemStack empty = new ItemBuilder(Material.STAINED_GLASS_PANE)
+    .allItemFlags()
+    .name(" ")
+    .clear(ItemProperty.LORE)
+    .build();
 
   private static final MenuItem mhfQuestion = SkullBuilder.ofHeadName("MHF_Question").asMenuItem();
 
@@ -75,8 +76,28 @@ public class WalletMenu extends PageableMenu {
 
   @Override
   protected byte[] pageableSlots() {
-    return new byte[] { 12, 13, 14, 15, 16, 21, 22, 23, 24, 25, 30, 31, 32, 33, 34, 39, 40, 41, 42,
-        43, };
+    return new byte[] {
+      12,
+      13,
+      14,
+      15,
+      16,
+      21,
+      22,
+      23,
+      24,
+      25,
+      30,
+      31,
+      32,
+      33,
+      34,
+      39,
+      40,
+      41,
+      42,
+      43,
+    };
   }
 
   @Override
@@ -89,16 +110,27 @@ public class WalletMenu extends PageableMenu {
 
     this.soulsHashcode = souls.hashCode();
 
-    return (this.items = souls.entrySet().stream().map(entry -> {
-      final OfflinePlayer player = Bukkit.getOfflinePlayer(entry.getKey());
-      final Replacer.Function replacer = this.replacer.add("{player}", player.getName());
+    return (
+      this.items =
+        souls
+          .entrySet()
+          .stream()
+          .map(
+            entry -> {
+              final OfflinePlayer player = Bukkit.getOfflinePlayer(entry.getKey());
+              final Replacer.Function replacer = this.replacer.add("{player}", player.getName());
 
-      final ItemBuilder builder = SkullBuilder.ofPlayer(player).amount(entry.getValue())
-          .name(this.lang.getString(Lang.INVENTORY_SOUL_NAME, replacer))
-          .lores(this.lang.getStringList(Lang.INVENTORY_SOUL_LORE, replacer));
+              final ItemBuilder builder = SkullBuilder
+                .ofPlayer(player)
+                .amount(entry.getValue())
+                .name(this.lang.getString(Lang.INVENTORY_SOUL_NAME, replacer))
+                .lores(this.lang.getStringList(Lang.INVENTORY_SOUL_LORE, replacer));
 
-      return new BuilderStack(builder);
-    }).collect(Collectors.toList()));
+              return new BuilderStack(builder);
+            }
+          )
+          .collect(Collectors.toList())
+    );
   }
 
   @Override
@@ -106,46 +138,69 @@ public class WalletMenu extends PageableMenu {
   protected Map<Byte, MenuItem> staticItems() {
     final Map<Byte, MenuItem> map = new HashMap<>();
 
-    map.put((byte) 10,
-        SkullBuilder.ofPlayer(this.getOwner())
-            .name(this.lang.getString(Lang.YOUR_WALLET_NAME, this.replacer))
-            .lores(this.lang.getStringList(Lang.YOUR_WALLET_LORE, this.replacer)).asMenuItem());
+    map.put(
+      (byte) 10,
+      SkullBuilder
+        .ofPlayer(this.getOwner())
+        .name(this.lang.getString(Lang.YOUR_WALLET_NAME, this.replacer))
+        .lores(this.lang.getStringList(Lang.YOUR_WALLET_LORE, this.replacer))
+        .asMenuItem()
+    );
 
-    map.put((byte) 19,
-        SkullBuilder.ofTextureUrl(this.config.getString(Config.TROPHY_HEAD_URL))
-            .name(this.lang.getString(Lang.RANKING_NAME, this.replacer))
-            .lores(this.lang.getStringList(Lang.RANKING_LORE, this.replacer)).asMenuItem());
+    map.put(
+      (byte) 19,
+      SkullBuilder
+        .ofTextureUrl(this.config.getString(Config.TROPHY_HEAD_URL))
+        .name(this.lang.getString(Lang.RANKING_NAME, this.replacer))
+        .lores(this.lang.getStringList(Lang.RANKING_LORE, this.replacer))
+        .asMenuItem()
+    );
 
-    map.put((byte) 26,
-        !this.hasPreviousPage() ? null
-            : new ItemBuilder(Material.STONE_BUTTON).allItemFlags()
-                .name(this.lang.getString(Lang.BACKWARD, this.replacer))
-                .asMenuItem((item, action) -> {
-                  this.previousPage(true);
-                }));
+    map.put(
+      (byte) 26,
+      !this.hasPreviousPage()
+        ? null
+        : new ItemBuilder(Material.STONE_BUTTON)
+          .allItemFlags()
+          .name(this.lang.getString(Lang.BACKWARD, this.replacer))
+          .asMenuItem(
+            (item, action) -> {
+              this.previousPage(true);
+            }
+          )
+    );
 
-    map.put((byte) 35,
-        !this.hasNextPage() ? null
-            : new ItemBuilder(Material.STONE_BUTTON)
-                .name(this.lang.getString(Lang.FORWARD, this.replacer))
-                .asMenuItem((item, action) -> {
-                  this.nextPage(true);
-                }));
+    map.put(
+      (byte) 35,
+      !this.hasNextPage()
+        ? null
+        : new ItemBuilder(Material.STONE_BUTTON)
+          .name(this.lang.getString(Lang.FORWARD, this.replacer))
+          .asMenuItem(
+            (item, action) -> {
+              this.nextPage(true);
+            }
+          )
+    );
 
     map.put((byte) 45, WalletMenu.mhfQuestion);
 
-    map.put((byte) 49,
-        SkullBuilder.ofTextureUrl(this.config.getString(Config.SOUL_HEAD_URL))
-            .name(this.lang.getString(Lang.WITHDRAW_SOULS_NAME, this.replacer))
-            .lores(this.lang.getStringList(Lang.WITHDRAW_SOULS_LORE, this.replacer))
-            .asMenuItem((item, action) -> {
-              TaskContext.BUKKIT.run(this.basePlugin, this.owner::closeInventory);
+    map.put(
+      (byte) 49,
+      SkullBuilder
+        .ofTextureUrl(this.config.getString(Config.SOUL_HEAD_URL))
+        .name(this.lang.getString(Lang.WITHDRAW_SOULS_NAME, this.replacer))
+        .lores(this.lang.getStringList(Lang.WITHDRAW_SOULS_LORE, this.replacer))
+        .asMenuItem(
+          (item, action) -> {
+            TaskContext.BUKKIT.run(this.basePlugin, this.owner::closeInventory);
 
-              // Send the question message
-              this.owner.sendMessage(this.lang.getString(Lang.SOUL_CHAT_MESSAGE));
+            // Send the question message
+            this.owner.sendMessage(this.lang.getString(Lang.SOUL_CHAT_MESSAGE));
 
-              CompletableFuture<String> waitEvent = this.chatListener.waitMessage(this.owner);
-              waitEvent.thenAccept(message -> {
+            CompletableFuture<String> waitEvent = this.chatListener.waitMessage(this.owner);
+            waitEvent.thenAccept(
+              message -> {
                 final String[] args = message.split(" ");
                 final Wallet wallet = this.getWallet();
 
@@ -168,21 +223,28 @@ public class WalletMenu extends PageableMenu {
 
                 final Lang response = WalletUtils.withdrawSoul(wallet, soul);
                 this.owner.sendMessage(this.lang.getString(response));
-              });
-            }));
+              }
+            );
+          }
+        )
+    );
 
-    map.put((byte) 51,
-        SkullBuilder.ofTextureUrl(this.config.getString(Config.COIN_HEAD_URL))
-            .name(this.lang.getString(Lang.WITHDRAW_COINS_NAME, this.replacer))
-            .lores(this.lang.getStringList(Lang.WITHDRAW_COINS_LORE, this.replacer))
-            .asMenuItem((item, action) -> {
-              TaskContext.BUKKIT.run(this.basePlugin, this.owner::closeInventory);
+    map.put(
+      (byte) 51,
+      SkullBuilder
+        .ofTextureUrl(this.config.getString(Config.COIN_HEAD_URL))
+        .name(this.lang.getString(Lang.WITHDRAW_COINS_NAME, this.replacer))
+        .lores(this.lang.getStringList(Lang.WITHDRAW_COINS_LORE, this.replacer))
+        .asMenuItem(
+          (item, action) -> {
+            TaskContext.BUKKIT.run(this.basePlugin, this.owner::closeInventory);
 
-              // Send the question message
-              this.owner.sendMessage(this.lang.getString(Lang.COIN_CHAT_MESSAGE));
+            // Send the question message
+            this.owner.sendMessage(this.lang.getString(Lang.COIN_CHAT_MESSAGE));
 
-              CompletableFuture<String> waitEvent = this.chatListener.waitMessage(this.owner);
-              waitEvent.thenAccept(message -> {
+            CompletableFuture<String> waitEvent = this.chatListener.waitMessage(this.owner);
+            waitEvent.thenAccept(
+              message -> {
                 final String[] args = message.split(" ");
                 final Wallet wallet = this.getWallet();
 
@@ -191,20 +253,29 @@ public class WalletMenu extends PageableMenu {
                   amount = Integer.parseInt(args[0]);
                 } catch (final Exception e) {
                   this.owner.sendMessage(
-                      this.lang.getString(Lang.NOT_A_NUMBER, r -> r.add("{text}", args[0])));
+                      this.lang.getString(Lang.NOT_A_NUMBER, r -> r.add("{text}", args[0]))
+                    );
                   return;
                 }
 
                 final Lang response = WalletUtils.withdrawCoins(wallet, amount);
                 this.owner.sendMessage(this.lang.getString(response));
-              });
-            }));
+              }
+            );
+          }
+        )
+    );
 
-    map.put((byte) 53,
-        this.getPage() <= 0 ? null
-            : new ItemBuilder(Material.PAPER).allItemFlags()
-                .name(this.lang.getString(Lang.PAGE, this.replacer)).amount(this.getPage() + 1)
-                .asMenuItem());
+    map.put(
+      (byte) 53,
+      this.getPage() <= 0
+        ? null
+        : new ItemBuilder(Material.PAPER)
+          .allItemFlags()
+          .name(this.lang.getString(Lang.PAGE, this.replacer))
+          .amount(this.getPage() + 1)
+          .asMenuItem()
+    );
 
     return map;
   }
@@ -215,14 +286,18 @@ public class WalletMenu extends PageableMenu {
 
   private void updateReplacer() {
     final Entry<UUID, Integer> biggestEntry = WalletUtils.biggestEntry(this.getWallet());
-    this.replacer = r -> {
-      r.add("{souls}", this.getWallet().size() + "");
-      r.add("{players}", this.getWallet().getSouls().size() + "");
-      r.add("{average}", WalletUtils.soulsRatio(this.getWallet()) + "");
-      r.add("{more-souls}",
-          biggestEntry != null ? Bukkit.getOfflinePlayer(biggestEntry.getKey()).getName()
-              : "Sem almas suficientes.");
-      return r;
-    };
+    this.replacer =
+      r -> {
+        r.add("{souls}", this.getWallet().size() + "");
+        r.add("{players}", this.getWallet().getSouls().size() + "");
+        r.add("{average}", WalletUtils.soulsRatio(this.getWallet()) + "");
+        r.add(
+          "{more-souls}",
+          biggestEntry != null
+            ? Bukkit.getOfflinePlayer(biggestEntry.getKey()).getName()
+            : "Sem almas suficientes."
+        );
+        return r;
+      };
   }
 }
