@@ -1,41 +1,25 @@
 package com.github.arthurfiorette.mysouls.listeners;
 
 import com.github.arthurfiorette.sinklibrary.core.BasePlugin;
-import com.github.arthurfiorette.sinklibrary.listener.SinkListener;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Consumer;
-import lombok.Getter;
+import com.github.arthurfiorette.sinklibrary.events.SingleEventWaiter;
+
+import java.util.concurrent.CompletableFuture;
+
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-public class ChatListener extends SinkListener {
+import lombok.NonNull;
 
-  @Getter
-  private final Map<UUID, Consumer<String>> actions = new ConcurrentHashMap<>();
+public class ChatListener extends SingleEventWaiter<AsyncPlayerChatEvent> {
 
-  public ChatListener(final BasePlugin basePlugin) {
-    super(basePlugin);
+  public ChatListener(@NonNull BasePlugin basePlugin) {
+    super(basePlugin, AsyncPlayerChatEvent.class, EventPriority.LOWEST);
   }
 
-  public void addAction(final Player player, final Consumer<String> action) {
-    this.actions.put(player.getUniqueId(), action);
-  }
-
-  @Override
-  @EventHandler(priority = EventPriority.LOWEST)
-  public void onAsyncPlayerChat(final AsyncPlayerChatEvent event) {
-    final UUID uuid = event.getPlayer().getUniqueId();
-
-    final Consumer<String> action = this.actions.remove(uuid);
-
-    // Action exists
-    if (action != null) {
-      action.accept(event.getMessage());
-      event.setCancelled(true);
-    }
+  public CompletableFuture<String> waitMessage(Player player) {
+    return this
+        .waitEvent((e) -> e.getPlayer().getUniqueId().equals(player.getUniqueId()))
+        .thenApply(event -> event.getMessage());
   }
 }

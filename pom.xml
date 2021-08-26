@@ -59,9 +59,7 @@
 		<dependency>
 			<groupId>com.github.ArthurFiorette</groupId>
 			<artifactId>sink-library</artifactId>
-			
-			<!-- Specific hash commit with newer features than v4.7.0 -->
-			<version>ebb1540</version>
+			<version>4.8.3</version>
 			<scope>compile</scope>
 		</dependency>
 
