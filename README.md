@@ -54,18 +54,24 @@ My Souls</h1>
 
 ### Installing
 
-**You can get the latest version jar in the latest [Github](https://github.com/ArthurFiorette/mysouls/releases) release.**
+**You can get the latest version jar in the latest
+[Github](https://github.com/ArthurFiorette/mysouls/releases) release.**
 
-Just download the generated jar and put it into the plugins folder,as we does not require any dependency.
+Just download the generated jar and put it into the plugins folder,as we does not require any
+dependency.
 
-> If you want the latest development build, go to [actions](https://github.com/ArthurFiorette/mysouls/actions/workflows/maven.yml?query=branch%3Amain),
-> click in the latest workflow run with a green mark. At the artifacts session, download the **build-result** zip and extract it, remember that it a development version, and may result in bugs and fails, that you can report [here](https://github.com/ArthurFiorette/mysouls/issues).
+> If you want the latest development build, go to
+> [actions](https://github.com/ArthurFiorette/mysouls/actions/workflows/maven.yml?query=branch%3Amain),
+> click in the latest workflow run with a green mark. At the artifacts session, download the
+> **build-result** zip and extract it, remember that it a development version, and may result in
+> bugs and fails, that you can report [here](https://github.com/ArthurFiorette/mysouls/issues).
 
 <br />
 
 ### Placeholder API
 
-This plugin has it's own placeholders to you use with the rest of your server. Here are the accurate list of them:
+This plugin has it's own placeholders to you use with the rest of your server. Here are the accurate
+list of them:
 
  <!-- I used java because it has a nice color scheme :) -->
 
@@ -101,7 +107,8 @@ The general configuration file, where you can change textures, numbers and etc.
 
 The translation file, where all the messages are included.
 
-> There are some [templates](/resources/lang-templates/) in many languages, you can copy-it to your plugin.
+> There are some [templates](/resources/lang-templates/) in many languages, you can copy-it to your
+> plugin.
 
 <br />
 
@@ -111,7 +118,8 @@ The translation file, where all the messages are included.
 
 ![example](/docs/assets/cp-1.png 'Title')
 
-To resolve it, make sure that the lang.yml and the server are using the same enconding. All of this files are using UTF-8, and you should too.
+To resolve it, make sure that the lang.yml and the server are using the same enconding. All of this
+files are using UTF-8, and you should too.
 
 To force the server to also use UTF8, add **`-Dfile.encoding=UTF-8`** when starting it. Example:
 
@@ -132,6 +140,7 @@ Licensed under the **MIT**. See [`LICENSE`](LICENSE) for more informations.
 
 ### Contact
 
-See my contact information on my [github profile](https://github.com/ArthurFiorette) or open a new issue.
+See my contact information on my [github profile](https://github.com/ArthurFiorette) or open a new
+issue.
 
 <br />

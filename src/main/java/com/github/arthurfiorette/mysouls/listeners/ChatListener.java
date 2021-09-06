@@ -2,14 +2,11 @@ package com.github.arthurfiorette.mysouls.listeners;
 
 import com.github.arthurfiorette.sinklibrary.core.BasePlugin;
 import com.github.arthurfiorette.sinklibrary.events.waiter.SingleEventWaiter;
-
 import java.util.concurrent.CompletableFuture;
-
+import lombok.NonNull;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-
-import lombok.NonNull;
 
 public class ChatListener extends SingleEventWaiter<AsyncPlayerChatEvent> {
 

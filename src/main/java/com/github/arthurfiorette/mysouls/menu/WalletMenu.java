@@ -17,7 +17,6 @@ import com.github.arthurfiorette.sinklibrary.menu.PageableMenu;
 import com.github.arthurfiorette.sinklibrary.menu.item.BuilderStack;
 import com.github.arthurfiorette.sinklibrary.menu.item.MenuItem;
 import com.github.arthurfiorette.sinklibrary.replacer.Replacer;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +24,6 @@ import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -98,7 +96,7 @@ public class WalletMenu extends PageableMenu {
       40,
       41,
       42,
-      43,
+      43
     };
   }
 
