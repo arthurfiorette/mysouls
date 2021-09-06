@@ -9,7 +9,7 @@ import com.github.arthurfiorette.mysouls.model.Wallet;
 import com.github.arthurfiorette.mysouls.model.WalletUtils;
 import com.github.arthurfiorette.mysouls.storage.WalletStorage;
 import com.github.arthurfiorette.sinklibrary.core.BasePlugin;
-import com.github.arthurfiorette.sinklibrary.executor.TaskContext;
+import com.github.arthurfiorette.sinklibrary.executor.TaskRunners;
 import com.github.arthurfiorette.sinklibrary.item.ItemBuilder;
 import com.github.arthurfiorette.sinklibrary.item.ItemProperty;
 import com.github.arthurfiorette.sinklibrary.item.SkullBuilder;
@@ -17,6 +17,7 @@ import com.github.arthurfiorette.sinklibrary.menu.PageableMenu;
 import com.github.arthurfiorette.sinklibrary.menu.item.BuilderStack;
 import com.github.arthurfiorette.sinklibrary.menu.item.MenuItem;
 import com.github.arthurfiorette.sinklibrary.replacer.Replacer;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +25,7 @@ import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -186,7 +188,7 @@ public class WalletMenu extends PageableMenu {
         .name(this.lang.getString(Lang.WITHDRAW_SOULS_NAME, this.replacer))
         .lores(this.lang.getStringList(Lang.WITHDRAW_SOULS_LORE, this.replacer))
         .asMenuItem((item, action) -> {
-          TaskContext.BUKKIT.run(this.basePlugin, this.owner::closeInventory);
+          TaskRunners.BUKKIT.run(this.basePlugin, this.owner::closeInventory);
 
           // Send the question message
           this.owner.sendMessage(this.lang.getString(Lang.SOUL_CHAT_MESSAGE));
@@ -226,7 +228,7 @@ public class WalletMenu extends PageableMenu {
         .name(this.lang.getString(Lang.WITHDRAW_COINS_NAME, this.replacer))
         .lores(this.lang.getStringList(Lang.WITHDRAW_COINS_LORE, this.replacer))
         .asMenuItem((item, action) -> {
-          TaskContext.BUKKIT.run(this.basePlugin, this.owner::closeInventory);
+          TaskRunners.BUKKIT.run(this.basePlugin, this.owner::closeInventory);
 
           // Send the question message
           this.owner.sendMessage(this.lang.getString(Lang.COIN_CHAT_MESSAGE));
