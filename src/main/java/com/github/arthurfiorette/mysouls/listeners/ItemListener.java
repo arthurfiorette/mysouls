@@ -17,18 +17,22 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
-public class ItemListener extends SinkListener {
+import lombok.Getter;
+
+public class ItemListener implements SinkListener {
 
   private final WalletStorage storage;
   private final LangFile lang;
 
+  @Getter
+  private final BasePlugin basePlugin;
+
   public ItemListener(final BasePlugin basePlugin) {
-    super(basePlugin);
+    this.basePlugin = basePlugin;
     this.storage = basePlugin.get(WalletStorage.class);
     this.lang = basePlugin.get(LangFile.class);
   }
 
-  @Override
   @EventHandler(priority = EventPriority.LOWEST)
   public void onPlayerInteract(final PlayerInteractEvent event) {
     final ItemStack item = event.getItem();
@@ -91,7 +95,6 @@ public class ItemListener extends SinkListener {
     player.sendMessage(this.lang.getString(Lang.SOULS_ADDED));
   }
 
-  @Override
   @EventHandler(priority = EventPriority.LOWEST)
   public void onBlockPlace(final BlockPlaceEvent event) {
     final ItemStack item = event.getItemInHand();
