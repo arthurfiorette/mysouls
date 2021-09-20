@@ -8,18 +8,17 @@ import com.github.arthurfiorette.sinklibrary.core.BasePlugin;
 import com.github.arthurfiorette.sinklibrary.events.SinkListener;
 import com.github.arthurfiorette.sinklibrary.replacer.Replacer;
 import java.util.UUID;
+import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
-import lombok.Getter;
-
 public class DeathListener implements SinkListener {
 
   private final WalletStorage storage;
   private final LangFile lang;
-  
+
   @Getter
   private final BasePlugin basePlugin;
 
@@ -60,6 +59,4 @@ public class DeathListener implements SinkListener {
       killer.sendMessage(this.lang.getString(killerMessage, replacer));
     }
   }
-
- 
 }

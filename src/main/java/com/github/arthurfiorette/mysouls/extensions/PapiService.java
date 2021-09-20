@@ -2,11 +2,9 @@ package com.github.arthurfiorette.mysouls.extensions;
 
 import com.github.arthurfiorette.mysouls.MySouls;
 import com.github.arthurfiorette.sinklibrary.component.Service;
-
-import org.bukkit.Bukkit;
-
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.bukkit.Bukkit;
 
 @RequiredArgsConstructor
 public class PapiService implements Service {

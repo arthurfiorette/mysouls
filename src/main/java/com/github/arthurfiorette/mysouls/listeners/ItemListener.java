@@ -10,14 +10,13 @@ import com.github.arthurfiorette.sinklibrary.core.BasePlugin;
 import com.github.arthurfiorette.sinklibrary.events.SinkListener;
 import com.github.arthurfiorette.sinklibrary.uuid.FastUuid;
 import java.util.UUID;
+import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-
-import lombok.Getter;
 
 public class ItemListener implements SinkListener {
 
