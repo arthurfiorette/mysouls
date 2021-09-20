@@ -13,18 +13,22 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
-public class DeathListener extends SinkListener {
+import lombok.Getter;
+
+public class DeathListener implements SinkListener {
 
   private final WalletStorage storage;
   private final LangFile lang;
+  
+  @Getter
+  private final BasePlugin basePlugin;
 
   public DeathListener(final BasePlugin basePlugin) {
-    super(basePlugin);
+    this.basePlugin = basePlugin;
     this.storage = basePlugin.get(WalletStorage.class);
     this.lang = basePlugin.get(LangFile.class);
   }
 
-  @Override
   @EventHandler(priority = EventPriority.MONITOR)
   public void onPlayerDeath(final PlayerDeathEvent event) {
     final Player victim = event.getEntity();
@@ -56,4 +60,6 @@ public class DeathListener extends SinkListener {
       killer.sendMessage(this.lang.getString(killerMessage, replacer));
     }
   }
+
+ 
 }

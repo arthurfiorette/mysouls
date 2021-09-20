@@ -38,7 +38,7 @@ public class WalletMenu extends PageableMenu {
     .clear(ItemProperty.LORE)
     .build();
 
-  private static final MenuItem mhfQuestion = SkullBuilder.ofHeadName("MHF_Question").asMenuItem();
+  private static final MenuItem mhfQuestion = SkullBuilder.from("MHF_Question").asMenuItem();
 
   /**
    * Last pageable items build
@@ -120,7 +120,7 @@ public class WalletMenu extends PageableMenu {
             final Replacer.Function replacer = this.replacer.add("{player}", player.getName());
 
             final ItemBuilder builder = SkullBuilder
-              .ofPlayer(player)
+              .from(player)
               .amount(entry.getValue())
               .name(this.lang.getString(Lang.INVENTORY_SOUL_NAME, replacer))
               .lores(this.lang.getStringList(Lang.INVENTORY_SOUL_LORE, replacer));
@@ -139,7 +139,7 @@ public class WalletMenu extends PageableMenu {
     map.put(
       (byte) 10,
       SkullBuilder
-        .ofPlayer(this.getOwner())
+        .from(this.getOwner())
         .name(this.lang.getString(Lang.YOUR_WALLET_NAME, this.replacer))
         .lores(this.lang.getStringList(Lang.YOUR_WALLET_LORE, this.replacer))
         .asMenuItem()
@@ -148,7 +148,7 @@ public class WalletMenu extends PageableMenu {
     map.put(
       (byte) 19,
       SkullBuilder
-        .ofTextureUrl(this.config.getString(Config.TROPHY_HEAD_URL))
+        .fromTexture(this.config.getString(Config.TROPHY_HEAD_URL))
         .name(this.lang.getString(Lang.RANKING_NAME, this.replacer))
         .lores(this.lang.getStringList(Lang.RANKING_LORE, this.replacer))
         .asMenuItem()
@@ -182,7 +182,7 @@ public class WalletMenu extends PageableMenu {
     map.put(
       (byte) 49,
       SkullBuilder
-        .ofTextureUrl(this.config.getString(Config.SOUL_HEAD_URL))
+        .fromTexture(this.config.getString(Config.SOUL_HEAD_URL))
         .name(this.lang.getString(Lang.WITHDRAW_SOULS_NAME, this.replacer))
         .lores(this.lang.getStringList(Lang.WITHDRAW_SOULS_LORE, this.replacer))
         .asMenuItem((item, action) -> {
@@ -222,7 +222,7 @@ public class WalletMenu extends PageableMenu {
     map.put(
       (byte) 51,
       SkullBuilder
-        .ofTextureUrl(this.config.getString(Config.COIN_HEAD_URL))
+        .fromTexture(this.config.getString(Config.COIN_HEAD_URL))
         .name(this.lang.getString(Lang.WITHDRAW_COINS_NAME, this.replacer))
         .lores(this.lang.getStringList(Lang.WITHDRAW_COINS_LORE, this.replacer))
         .asMenuItem((item, action) -> {
