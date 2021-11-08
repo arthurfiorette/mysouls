@@ -54,10 +54,13 @@ messages:
   death-message: '§4Oops! §7You died and one of your souls went to: §f{killer}§7.'
   death-message-fail: '§4Ah! §7You died but did not lose souls because you had none.'
   kill-message: '§aYay! §7You killed the player: §f{victim}§7 and won a soul.'
-  kill-message-fail: "§4Ah! §7The player you killed doesn't have enough souls to transfer you."
+  kill-message-fail:
+    "§4Ah! §7The player you killed doesn't have enough souls to transfer you."
 
-  soul-chat-message: "\n§eWrite in chat, the §fPlayer Name§e to remove or §f*§e to any soul.\n "
-  coin-chat-message: "\n§eWrite in the chat the amount of the soul to be withdrawn in coins:\n "
+  soul-chat-message:
+    "\n§eWrite in chat, the §fPlayer Name§e to remove or §f*§e to any soul.\n "
+  coin-chat-message:
+    "\n§eWrite in the chat the amount of the soul to be withdrawn in coins:\n "
 
   not-a-number: "§4Oops! §7{text} isn't a number."
   cannot-use: "§4Oops! §7You can't put the coin on the floor."

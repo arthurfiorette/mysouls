@@ -26,7 +26,8 @@ public class ReloadCommand implements BaseCommand {
 
     if (provider.state() != State.ENABLED) {
       sender.sendMessage(
-        "§cI cannot be reloaded if my status is " + provider.state().toString().toLowerCase()
+        "§cI cannot be reloaded if my status is " +
+        provider.state().toString().toLowerCase()
       );
       return;
     }
@@ -40,7 +41,10 @@ public class ReloadCommand implements BaseCommand {
   }
 
   @Override
-  public List<String> onTabComplete(final CommandSender sender, final Collection<String> args) {
+  public List<String> onTabComplete(
+    final CommandSender sender,
+    final Collection<String> args
+  ) {
     return new ArrayList<>();
   }
 

@@ -18,7 +18,9 @@ public class PapiService implements Service {
   @Override
   public void enable() throws Exception {
     if (!Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-      basePlugin.getBaseLogger().warn("PlaceholderAPI could not be found, ignoring this service.");
+      basePlugin
+        .getBaseLogger()
+        .warn("PlaceholderAPI could not be found, ignoring this service.");
       return;
     }
 

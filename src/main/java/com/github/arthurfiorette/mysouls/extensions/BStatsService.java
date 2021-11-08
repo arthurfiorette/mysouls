@@ -58,8 +58,12 @@ public class BStatsService implements Service {
       }
 
       final WalletStorage storage = this.basePlugin.get(WalletStorage.class);
-      final Collection<Wallet> wallets = storage.operationSync(d -> ((SqliteDatabase) d).getAll());
-      return wallets.parallelStream().reduce(0, (acc, wallet) -> acc + wallet.size(), Integer::sum);
+      final Collection<Wallet> wallets = storage.operationSync(d ->
+        ((SqliteDatabase) d).getAll()
+      );
+      return wallets
+        .parallelStream()
+        .reduce(0, (acc, wallet) -> acc + wallet.size(), Integer::sum);
     };
   }
 }

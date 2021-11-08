@@ -42,7 +42,10 @@ public class SqliteDatabase implements Database<UUID, String> {
     this.sqlGenerator = new SqlGenerator(plugin);
     final ConfigFile config = plugin.get(ConfigFile.class);
     this.file =
-      new File(plugin.getDataFolder().getPath(), config.getString(Config.DATABASE_FILENAME));
+      new File(
+        plugin.getDataFolder().getPath(),
+        config.getString(Config.DATABASE_FILENAME)
+      );
 
     this.dataSource = new SQLiteDataSource();
     this.dataSource.setUrl("jdbc:sqlite:" + this.file.getAbsolutePath());
@@ -52,7 +55,9 @@ public class SqliteDatabase implements Database<UUID, String> {
   public void enable() throws Exception {
     try (
       Connection connection = this.dataSource.getConnection();
-      PreparedStatement ps = connection.prepareStatement(this.sqlGenerator.createTableSql())
+      PreparedStatement ps = connection.prepareStatement(
+        this.sqlGenerator.createTableSql()
+      )
     ) {
       ps.executeUpdate();
     }
@@ -90,7 +95,12 @@ public class SqliteDatabase implements Database<UUID, String> {
         // When the component isn't registered or this manager is disabled.
       } catch (final ComponentNotFoundException e) {
         this.basePlugin.getExceptionHandler()
-          .handle(this.getClass(), e, "Could not return the key %s back to the cache.", id);
+          .handle(
+            this.getClass(),
+            e,
+            "Could not return the key %s back to the cache.",
+            id
+          );
       }
     }
   }

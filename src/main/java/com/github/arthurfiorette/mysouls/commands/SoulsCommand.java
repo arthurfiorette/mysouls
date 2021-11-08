@@ -39,7 +39,10 @@ public class SoulsCommand implements BaseCommand {
   }
 
   @Override
-  public List<String> onTabComplete(final CommandSender sender, final Collection<String> args) {
+  public List<String> onTabComplete(
+    final CommandSender sender,
+    final Collection<String> args
+  ) {
     return new ArrayList<>();
   }
 

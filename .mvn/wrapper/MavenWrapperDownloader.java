@@ -68,11 +68,15 @@ public class MavenWrapperDownloader {
     if (mavenWrapperPropertyFile.exists()) {
       FileInputStream mavenWrapperPropertyFileInputStream = null;
       try {
-        mavenWrapperPropertyFileInputStream = new FileInputStream(mavenWrapperPropertyFile);
+        mavenWrapperPropertyFileInputStream =
+          new FileInputStream(mavenWrapperPropertyFile);
         final Properties mavenWrapperProperties = new Properties();
         mavenWrapperProperties.load(mavenWrapperPropertyFileInputStream);
         url =
-          mavenWrapperProperties.getProperty(MavenWrapperDownloader.PROPERTY_NAME_WRAPPER_URL, url);
+          mavenWrapperProperties.getProperty(
+            MavenWrapperDownloader.PROPERTY_NAME_WRAPPER_URL,
+            url
+          );
       } catch (final IOException e) {
         System.out.println(
           "- ERROR loading '" + MavenWrapperDownloader.MAVEN_WRAPPER_PROPERTIES_PATH + "'"
@@ -95,7 +99,9 @@ public class MavenWrapperDownloader {
     );
     if (!outputFile.getParentFile().exists() && !outputFile.getParentFile().mkdirs()) {
       System.out.println(
-        "- ERROR creating output directory '" + outputFile.getParentFile().getAbsolutePath() + "'"
+        "- ERROR creating output directory '" +
+        outputFile.getParentFile().getAbsolutePath() +
+        "'"
       );
     }
     System.out.println("- Downloading to: " + outputFile.getAbsolutePath());
@@ -112,7 +118,9 @@ public class MavenWrapperDownloader {
 
   private static void downloadFileFromURL(final String urlString, final File destination)
     throws Exception {
-    if ((System.getenv("MVNW_USERNAME") != null) && (System.getenv("MVNW_PASSWORD") != null)) {
+    if (
+      (System.getenv("MVNW_USERNAME") != null) && (System.getenv("MVNW_PASSWORD") != null)
+    ) {
       final String username = System.getenv("MVNW_USERNAME");
       final char[] password = System.getenv("MVNW_PASSWORD").toCharArray();
       Authenticator.setDefault(

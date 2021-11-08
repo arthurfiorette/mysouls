@@ -38,7 +38,9 @@ public class WalletMenu extends PageableMenu {
     .clear(ItemProperty.LORE)
     .build();
 
-  private static final MenuItem mhfQuestion = SkullBuilder.from("MHF_Question").asMenuItem();
+  private static final MenuItem mhfQuestion = SkullBuilder
+    .from("MHF_Question")
+    .asMenuItem();
 
   /**
    * Last pageable items build
@@ -117,7 +119,8 @@ public class WalletMenu extends PageableMenu {
           .stream()
           .map(entry -> {
             final OfflinePlayer player = Bukkit.getOfflinePlayer(entry.getKey());
-            final Replacer.Function replacer = this.replacer.add("{player}", player.getName());
+            final Replacer.Function replacer =
+              this.replacer.add("{player}", player.getName());
 
             final ItemBuilder builder = SkullBuilder
               .from(player)
